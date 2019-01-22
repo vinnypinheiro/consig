@@ -1,5 +1,6 @@
 package br.com.solutis.desafio.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -35,8 +36,8 @@ public class Peca implements Serializable {
     @ManyToOne
     @JoinColumn(name = "tipomidia_id", nullable = true, foreignKey = @ForeignKey(name = "fk_peca_tipomidia"))    private TipoMidia tipomidia_id;
 
+    @JsonBackReference(value="peca-planomidia")
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "planomidia_id", nullable = true, foreignKey = @ForeignKey(name = "fk_peca_planomidia"))    private PlanoMidia planomidia_id;
 
     @ManyToOne

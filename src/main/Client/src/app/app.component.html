@@ -1,13 +1,3 @@
-<div id="wrapper" >
-  <gov-side-bar *ngIf="this.sharedService.isLogged"></gov-side-bar>
-
-
-  <div  class="gray-bg" [attr.id]="this.sharedService.isLogged ? 'page-wrapper' : 'loginwrapper'">
-
-    <gov-top-bar *ngIf="this.sharedService.isLogged"></gov-top-bar>
-    <!--<gov-header-page></gov-header-page>-->
-    <router-outlet></router-outlet>
-    <gov-footer-page *ngIf="this.sharedService.isLogged"></gov-footer-page>
-
-  </div>
-</div>
+<router-outlet>
+    <app-spinner></app-spinner>
+</router-outlet>

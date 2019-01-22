@@ -1,104 +1,290 @@
-<!--BARRA SUPERIOR--> 
-<div class="row wrapper border-bottom white-bg page-heading"> 
-     <div class="col-lg-12"> 
-         <h2> <i class="fa fa-sign-in-alt"></i> Agencia </h2> 
-
-         <ol class="breadcrumb"> 
-             <li> 
-                 <a routerLink="/">Início</a> 
-             </li> 
-
-             <li class="active"> 
-               <strong>Agencia</strong> 
-             </li>
-         </ol> 
-     </div> 
-
-</div> 
-
-<!--**************************************************************************************************************--> 
-
-<div class="row"> 
-   <gov-tool-bar (buttonActionClick)="onButtonActionClick($event)" (filterRowValueChange)="onFilterValueChange($event)"></gov-tool-bar> 
-    <gov-filter [grid]=this></gov-filter> 
-</div> 
-<div class="ibox-content l3-grid"> 
-     <div class="row"> 
-         <div class="table-responsive"> 
-             <table class="table table-striped table-bordered "> 
-                 <thead> 
-                     <tr> 
-                         <th style="width: 2%"> 
-                             <label class="l3-checkbox"> 
-                                 <input type="checkbox"> 
-                                 <span class="checkmark"></span> 
-                             </label> 
-                         </th> 
-                         <th style="width: auto">bairro</th> 
-                         <th style="width: auto">banco</th> 
-                         <th style="width: auto">bancoagencia</th> 
-                         <th style="width: auto">bancoconta</th> 
-                         <th style="width: auto">cidade</th> 
-                         <th style="width: auto">cnpj</th> 
-                         <th style="width: auto">contato</th> 
-                         <th style="width: auto">cpf</th> 
-                         <th style="width: auto">datacadastro</th> 
-                         <th style="width: auto">email</th> 
-                         <th style="width: auto">email1</th> 
-                         <th style="width: auto">email2</th> 
-                         <th style="width: auto">emailcontato</th> 
-                         <th style="width: auto">endereco</th> 
-                         <th style="width: auto">fax</th> 
-                         <th style="width: auto">inscricaoestadual</th> 
-                         <th style="width: auto">inscricaomunicipal</th> 
-                         <th style="width: auto">nomefantasia</th> 
-                         <th style="width: auto">obs</th> 
-                         <th style="width: auto">razaosocial</th> 
-                         <th style="width: auto">site</th> 
-                         <th style="width: auto">telefone</th> 
-                         <th style="width: auto">telefone2</th> 
-                         <th style="width: auto">uf_id</th> 
-                     </tr> 
-                 </thead> 
-
-                 <tbody> 
-                     <tr *ngFor="let row of dataList"> 
-                         <td> 
-                             <label class="l3-checkbox"> 
-                                 <input type="checkbox" 
-                                         [checked]="activeBean && (activeBean.id === row.id)" 
-                                         (change)="onSelectionChange($event.target.checked, row)"> 
-                                 <span class="checkmark"></span> 
-                             </label> 
-                         </td> 
-                     <td>{{row.bairro}}</td> 
-                     <td>{{row.banco}}</td> 
-                     <td>{{row.bancoagencia}}</td> 
-                     <td>{{row.bancoconta}}</td> 
-                     <td>{{row.cidade}}</td> 
-                     <td>{{row.cnpj}}</td> 
-                     <td>{{row.contato}}</td> 
-                     <td>{{row.cpf}}</td> 
-                     <td>{{row.datacadastro}}</td> 
-                     <td>{{row.email}}</td> 
-                     <td>{{row.email1}}</td> 
-                     <td>{{row.email2}}</td> 
-                     <td>{{row.emailcontato}}</td> 
-                     <td>{{row.endereco}}</td> 
-                     <td>{{row.fax}}</td> 
-                     <td>{{row.inscricaoestadual}}</td> 
-                     <td>{{row.inscricaomunicipal}}</td> 
-                     <td>{{row.nomefantasia}}</td> 
-                     <td>{{row.obs}}</td> 
-                     <td>{{row.razaosocial}}</td> 
-                     <td>{{row.site}}</td> 
-                     <td>{{row.telefone}}</td> 
-                     <td>{{row.telefone2}}</td> 
-                     <td>{{row.uf_id_nome }}</td> 
-                     </tr> 
-                 </tbody> 
-             </table> 
-
-         </div> 
-     </div> 
-</div> 
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Support Tickets</h4>
+                <div class="row m-t-20">
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="box bg-info text-center">
+                                <h1 class="font-light text-white">2,064</h1>
+                                <h6 class="text-white">Total Tickets</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="box bg-primary text-center">
+                                <h1 class="font-light text-white">1,738</h1>
+                                <h6 class="text-white">Responded</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="box bg-success text-center">
+                                <h1 class="font-light text-white">1100</h1>
+                                <h6 class="text-white">Resolve</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-md-6 col-lg-3 col-xlg-3">
+                        <div class="card card-hover">
+                            <div class="box bg-dark text-center">
+                                <h1 class="font-light text-white">964</h1>
+                                <h6 class="text-white">Pending</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+                <div class="table-responsive">
+                    <table id="zero_config" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Title</th>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Created by</th>
+                                <th>Date</th>
+                                <th>Agent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="label label-warning">In Progress</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">Elegant Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">276377</a>
+                                </td>
+                                <td>Elegant Admin</td>
+                                <td>Eric Pratt</td>
+                                <td>2018/05/01</td>
+                                <td>Fazz</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-danger">Closed</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">AdminX Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">1234251</a>
+                                </td>
+                                <td>AdminX Admin</td>
+                                <td>Nirav Joshi</td>
+                                <td>2018/05/11</td>
+                                <td>Steve</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-success">Opened</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">Admin-Pro Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">1020345</a>
+                                </td>
+                                <td>Admin-Pro</td>
+                                <td>Vishal Bhatt</td>
+                                <td>2018/04/01</td>
+                                <td>John</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-warning">In Progress</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">Elegant Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">7810203</a>
+                                </td>
+                                <td>Elegant Admin</td>
+                                <td>Eric Pratt</td>
+                                <td>2018/01/01</td>
+                                <td>Fazz</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-warning">In Progress</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">AdminX Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">2103450</a>
+                                </td>
+                                <td>AdminX Admin</td>
+                                <td>Nirav Joshi</td>
+                                <td>2018/05/01</td>
+                                <td>John</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-warning">In Progress</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">Admin-Pro Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">2140530</a>
+                                </td>
+                                <td>Admin-Pro</td>
+                                <td>Vishal Bhatt</td>
+                                <td>2018/07/01</td>
+                                <td>Steve</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-success">Opened</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">Elegant Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">4500123</a>
+                                </td>
+                                <td>Elegant Admin</td>
+                                <td>Eric Pratt</td>
+                                <td>2018/05/10</td>
+                                <td>Fazz</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-danger">Closed</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">Elegant Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">1230450</a>
+                                </td>
+                                <td>Elegant Admin</td>
+                                <td>Eric Pratt</td>
+                                <td>2018/05/14</td>
+                                <td>John</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-danger">Closed</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">AdminX Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">1240503</a>
+                                </td>
+                                <td>AdminX Admin</td>
+                                <td>Nirav Joshi</td>
+                                <td>2018/02/01</td>
+                                <td>Steve</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-success">Opened</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">Admin-Pro Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">1250304</a>
+                                </td>
+                                <td>Admin-Pro</td>
+                                <td>Vishal Bhatt</td>
+                                <td>2018/05/21</td>
+                                <td>Fazz</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-success">Opened</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">Elegant Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">1470250</a>
+                                </td>
+                                <td>Elegant Admin</td>
+                                <td>Eric Pratt</td>
+                                <td>2018/05/11</td>
+                                <td>John</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-danger">Closed</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">Admin-Pro Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">1450023</a>
+                                </td>
+                                <td>Admin-Pro</td>
+                                <td>Vishal Bhatt</td>
+                                <td>2018/05/13</td>
+                                <td>Steve</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="label label-warning">In Progress</span>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-medium link">AdminX Theme Side Menu Open OnClick</a>
+                                </td>
+                                <td>
+                                    <a href="ticket-detail.html" class="font-bold link">1420530</a>
+                                </td>
+                                <td>AdminX Admin</td>
+                                <td>Nirav Joshi</td>
+                                <td>2018/10/01</td>
+                                <td>Fazz</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Status</th>
+                                <th>Title</th>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Created by</th>
+                                <th>Date</th>
+                                <th>Agent</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <ul class="pagination float-right">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">2
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

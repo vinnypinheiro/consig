@@ -5,7 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.solutis.desafio.domain.Uf;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -14,113 +18,49 @@ public class Cliente implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private String acessos;
-    private String alcance;
-    private String apresentador;
-    private String bairro;
-    private String banco;
-    private String bancoagencia;
-    private String bancoconta;
-    private String cidade;
+
     private String cnpj;
-    private String contato;
     private String cpf;
     private Instant data_cadastro;
-    private String email;
-    private String email1;
-    private String email2;
-    private String emailcontato;
-    private String endereco;
-    private String faixahoraria;
-    private String fax;
     private String inscricaoestadual;
     private String inscricaomunicipal;
     private String nomefantasia;
     private String obs;
     private String razaosocial;
-    private String site;
-    private String telefone;
-    private String telefone2;
-    @ManyToOne
-    @JoinColumn(name = "uf_id", nullable = true, foreignKey = @ForeignKey(name = "fk_cliente_uf"))    private Uf uf_id;
-    private String atividade_principal;
+
+
+    @JsonManagedReference(value="cliente-endereco")
+    @OneToMany(mappedBy = "cliente_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Endereco> enderecoList = new ArrayList<>();
+
+    @JsonManagedReference(value="cliente-contato")
+    @OneToMany(mappedBy = "cliente_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Contato> contatoList = new ArrayList<>();
+
+    @JsonManagedReference(value="cliente-telefone")
+    @OneToMany(mappedBy = "cliente_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Telefone> telefoneList = new ArrayList<>();
+
+    @JsonManagedReference(value="cliente-email")
+    @OneToMany(mappedBy = "cliente_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Email> emailList = new ArrayList<>();
+
+    @JsonManagedReference(value="cliente-site")
+    @OneToMany(mappedBy = "cliente_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Site> siteList = new ArrayList<>();
+
+    @JsonManagedReference(value="cliente-contabancaria")
+    @OneToMany(mappedBy = "cliente_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ContaBancaria> contaBancariaList = new ArrayList<>();
 
  public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }    public String getAcessos() {
-        return acessos;
-    }
-
-    public void setAcessos(String acessos) {
-        this.acessos = acessos;
-    }
-    public String getAlcance() {
-        return alcance;
-    }
-
-    public void setAlcance(String alcance) {
-        this.alcance = alcance;
-    }
-    public String getApresentador() {
-        return apresentador;
-    }
-
-    public void setApresentador(String apresentador) {
-        this.apresentador = apresentador;
-    }
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-    public String getBanco() {
-        return banco;
-    }
-
-    public void setBanco(String banco) {
-        this.banco = banco;
-    }
-    public String getBancoagencia() {
-        return bancoagencia;
-    }
-
-    public void setBancoagencia(String bancoagencia) {
-        this.bancoagencia = bancoagencia;
-    }
-    public String getBancoconta() {
-        return bancoconta;
-    }
-
-    public void setBancoconta(String bancoconta) {
-        this.bancoconta = bancoconta;
-    }
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
     public String getCnpj() {
         return cnpj;
     }
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-    public String getContato() {
-        return contato;
-    }
-
-    public void setContato(String contato) {
-        this.contato = contato;
-    }
     public String getCpf() {
         return cpf;
     }
@@ -130,62 +70,6 @@ public class Cliente implements Serializable {
     }
     public Instant getData_cadastro() {
         return data_cadastro;
-    }
-
-    public void setData_cadastro(Instant data_cadastro) {
-        this.data_cadastro = data_cadastro;
-    }
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getEmail1() {
-        return email1;
-    }
-
-    public void setEmail1(String email1) {
-        this.email1 = email1;
-    }
-    public String getEmail2() {
-        return email2;
-    }
-
-    public void setEmail2(String email2) {
-        this.email2 = email2;
-    }
-    public String getEmailcontato() {
-        return emailcontato;
-    }
-
-    public void setEmailcontato(String emailcontato) {
-        this.emailcontato = emailcontato;
-    }
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-    public String getFaixahoraria() {
-        return faixahoraria;
-    }
-
-    public void setFaixahoraria(String faixahoraria) {
-        this.faixahoraria = faixahoraria;
-    }
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax;
-    }
-    public String getInscricaoestadual() {
-        return inscricaoestadual;
     }
 
     public void setInscricaoestadual(String inscricaoestadual) {
@@ -219,39 +103,68 @@ public class Cliente implements Serializable {
     public void setRazaosocial(String razaosocial) {
         this.razaosocial = razaosocial;
     }
-    public String getSite() {
-        return site;
+
+    public List<Endereco> getEnderecoList() {
+        return enderecoList;
     }
 
-    public void setSite(String site) {
-        this.site = site;
-    }
-    public String getTelefone() {
-        return telefone;
+    public void setEnderecoList(List<Endereco> enderecoList) {
+        this.enderecoList = enderecoList;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-    public String getTelefone2() {
-        return telefone2;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setTelefone2(String telefone2) {
-        this.telefone2 = telefone2;
-    }
-    public Uf getUf_id() {
-        return uf_id;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
-    public void setUf_id(Uf uf_id) {
-        this.uf_id = uf_id;
-    }
-    public String getAtividade_principal() {
-        return atividade_principal;
+    public void setData_cadastro(Instant data_cadastro) {
+        this.data_cadastro = data_cadastro;
     }
 
-    public void setAtividade_principal(String atividade_principal) {
-        this.atividade_principal = atividade_principal;
+    public String getInscricaoestadual() {
+        return inscricaoestadual;
+    }
+
+    public List<Contato> getContatoList() {
+        return contatoList;
+    }
+
+    public void setContatoList(List<Contato> contatoList) {
+        this.contatoList = contatoList;
+    }
+
+    public List<Telefone> getTelefoneList() {
+        return telefoneList;
+    }
+
+    public void setTelefoneList(List<Telefone> telefoneList) {
+        this.telefoneList = telefoneList;
+    }
+
+    public List<Email> getEmailList() {
+        return emailList;
+    }
+
+    public void setEmailList(List<Email> emailList) {
+        this.emailList = emailList;
+    }
+
+    public List<Site> getSiteList() {
+        return siteList;
+    }
+
+    public void setSiteList(List<Site> siteList) {
+        this.siteList = siteList;
+    }
+
+    public List<ContaBancaria> getContaBancariaList() {
+        return contaBancariaList;
+    }
+
+    public void setContaBancariaList(List<ContaBancaria> contaBancariaList) {
+        this.contaBancariaList = contaBancariaList;
     }
 }

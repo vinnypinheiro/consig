@@ -5,10 +5,6 @@ import {FilterData} from '../../../components/interfaces';
 import {CommonsService} from '../../../commons-service'; 
 import {UnidadeGestora} from '../unidadegestora'; 
 import {UnidadeGestoraService} from '../unidadegestora.service'; 
-import {TipoLogradouroService} from '../../tipologradouro/tipologradouro.service'; 
-import {CidadeService} from '../../cidade/cidade.service';
-import {LogradouroService} from "../../logradouro/logradouro.service";
-import {BairroService} from "../../bairro/bairro.service";
 
 @Component({
  selector: 'gov-unidadegestora-form', 
@@ -18,10 +14,6 @@ import {BairroService} from "../../bairro/bairro.service";
 export class UnidadeGestoraFormComponent extends CommonsForm<UnidadeGestora> implements OnInit { 
 
     constructor(apiService: UnidadeGestoraService, 
-                            private tipologradouroService: TipoLogradouroService, 
-                            private cidadeService: CidadeService,
-                            private logradouroService: LogradouroService,
-                            private bairroService: BairroService,
                 route: ActivatedRoute, 
                 router: Router ) {
          super(apiService, route, router); 
@@ -33,21 +25,7 @@ export class UnidadeGestoraFormComponent extends CommonsForm<UnidadeGestora> imp
 
      getLookupService(lookupName: string): CommonsService<any> {
          switch (lookupName) { 
-           case 'tipologradouro': {
-               return this.tipologradouroService;
-           }
-
-           case 'cidade': {
-               return this.cidadeService;
-           }
-
-           case 'logradouro': {
-             return this.logradouroService;
-           }
-
-           case 'bairro': {
-             return this.bairroService;
-           }
+         
 
            default: {
                  console.log('serviço não disponibilizado para ', lookupName) 

@@ -1,0 +1,51 @@
+package br.com.solutis.desafio.controller;
+import br.com.solutis.desafio.domain.Contato;
+import br.com.solutis.desafio.helper.filter.FilterData;
+import br.com.solutis.desafio.service.ContatoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController("ContatoController")
+@RequestMapping("/contato")
+public class ContatoController {
+
+
+    @Autowired
+    ContatoService contatoService;
+
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public ResponseEntity save(@RequestBody Contato bean) {
+        return this.buildResponse(contatoService.save(bean));
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity query(@RequestBody FilterData filterData) {
+
+        //ufService.getList(filterData.getPage());
+        //ufService.select(filterData);
+
+        return this.buildResponse( contatoService.getList(filterData.getPage()));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity findById(@PathVariable("id") Long id) {
+
+        return this.buildResponse(contatoService.getById(id));
+
+    }
+
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") String id) {
+
+        contatoService.delete(Long.valueOf(id));
+
+    }
+
+    protected <T> ResponseEntity<T> buildResponse(T value) {
+        return new ResponseEntity<T>(value, (value != null) ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+    }
+}

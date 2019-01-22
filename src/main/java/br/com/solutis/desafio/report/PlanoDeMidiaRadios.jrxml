@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 5.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4_Landscape" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="32b64e9a-326c-429b-bdab-99e20b350da9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="LOGO" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
@@ -120,12 +120,6 @@
 	<field name="d31" class="java.lang.Float">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="mes" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="ano" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<variable name="total_produto" class="java.lang.Float">
 		<variableExpression><![CDATA[$F{qtd}*$F{custo_unitario}]]></variableExpression>
 	</variable>
@@ -176,338 +170,150 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"18/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"18/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"18/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"18/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"18/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"18/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"18/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="625" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="90ee8c65-0b4d-4672-a28f-f04204536cdb"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"31/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"31/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"31/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"31/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"31/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"31/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"31/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="610" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="ee2dab7a-0000-4be9-af6e-970eaeea808f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"30/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"30/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"30/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"30/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"30/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"30/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"30/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="595" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="4b864355-7482-43f8-8d79-b49552d4c3c8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"29/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"29/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"29/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"29/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"29/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"29/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"29/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="580" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="5cf972d0-cbfc-4616-9092-8705c1e5166e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"28/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"28/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"28/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"28/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"28/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"28/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"28/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="565" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="49df3a20-7ac9-40de-a80c-843b2e6f9cd7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"27/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"27/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"27/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"27/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"27/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"27/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"27/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="550" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="a0b0c8e3-6173-4b3d-8b58-03ceacdb3c74"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"26/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"26/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"26/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"26/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"26/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"26/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"26/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="535" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="3a73791c-4f8a-4ec6-8368-4fc14cc01971"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"25/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"25/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"25/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"25/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"25/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"25/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"25/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="520" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="4580d572-c5da-423a-a086-2d253b77be32"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"24/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"24/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"24/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"24/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"24/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"24/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"24/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="505" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="c8803d34-366e-4ef2-8d54-c4bd9cb48295"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"23/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"23/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"23/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"23/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"23/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"23/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"23/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="490" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="5a2db835-330c-455d-b529-fef7d2b6ff70"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"22/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"22/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"22/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"22/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"22/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"22/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"22/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="475" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="a80b092b-ac0d-44ed-a906-87acf1f64f2e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"21/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"21/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"21/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"21/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"21/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"21/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"21/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="460" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="e4295437-fe2a-422c-905b-0ca959cd2be2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"20/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"20/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"20/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"20/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"20/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"20/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"20/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="445" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="7696380f-bc35-43a6-aefc-31b6bc719b63"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"19/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"19/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"19/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"19/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"19/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"19/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"19/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="415" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="3e10f0dd-5b7b-4eb4-a7b6-9bc6b59026cf"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"17/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"17/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"17/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"17/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"17/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"17/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"17/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="400" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="ee7aae1a-afab-4930-a159-5955ffdd1d33"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"16/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"16/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"16/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"16/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"16/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"16/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"16/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="385" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="7f4be7f7-e995-4bec-9dcd-353fdaf93ad9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"15/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"15/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"15/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"15/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"15/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"15/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"15/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="370" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="d05463a9-5afd-4162-a26c-c40e3e80a81b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"14/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"14/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"14/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"14/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"14/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"14/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"14/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="355" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="3e6155d3-b0ec-40bd-ba53-e0847780ce14"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"13/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"13/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"13/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"13/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"13/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"13/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"13/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="340" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="b5519e70-8361-4722-80e8-7e929cee8dfe"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"12/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"12/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"12/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"12/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"12/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"12/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"12/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="325" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="4e53ce4e-9fde-4c7f-ad43-2fb7a33a882b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"11/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"11/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"11/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"11/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"11/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"11/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"11/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="310" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="46dfa8b6-fb9b-49ce-853a-b83b18e7812f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"10/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"10/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"10/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"10/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"10/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"10/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"10/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="295" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="55a47a49-d3f0-4c23-8e70-a008a0b36f3a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"09/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"09/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"09/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"09/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"09/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"09/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"09/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="280" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="dd5b339a-21c6-487b-9816-9dc1a26192c1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"08/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"08/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"08/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"08/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"08/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"08/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"08/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="265" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="201539dd-fa7b-4115-95c1-913da944d1ea"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"07/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"07/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"07/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"07/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"07/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"07/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"07/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="250" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="80ff9a77-ed02-48b4-b071-e8bd0d3c2a18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"06/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"06/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"06/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"06/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"06/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"06/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"06/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="235" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="8565a479-4c6e-4bcc-8c59-09307f7bbfdf">
@@ -517,52 +323,24 @@ Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"06/"+$F{a
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"05/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"05/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"05/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"05/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"05/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"05/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"05/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="220" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="cba93b29-cc08-49af-bf42-16be53e838eb"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"04/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"04/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"04/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"04/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"04/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"04/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"04/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="205" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="c7437b1b-de89-47e0-bb40-97b1ca35bffa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"03/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"03/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"03/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"03/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"03/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"03/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"03/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="190" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="294c8250-c474-4218-bb02-958c3af9ffe9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"02/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"02/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"02/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"02/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"02/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"02/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"02/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="175" y="71" width="15" height="11" backcolor="#E2EFD9" uuid="e0819097-39c8-4abc-85df-e9a578ecb134">
@@ -571,13 +349,6 @@ Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"02/"+$F{a
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"01/"+$F{ano} ))) == 02 ?  "T" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"01/"+$F{ano} ))) == 03 ? "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"01/"+$F{ano} ))) == 04 ?  "Q" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"01/"+$F{ano} ))) == 05 ? 	"S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"01/"+$F{ano} ))) == 06 ? "S" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"01/"+$F{ano} ))) == 07 ?  "D" :
-Integer.valueOf(new SimpleDateFormat("u").format(new Date($F{mes}+"/"+"01/"+$F{ano} ))) == 01 ?  "S" : "_"]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="85" y="60" width="1" height="22" uuid="0e579058-de7d-4702-bbf4-253e3460a68a">

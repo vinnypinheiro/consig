@@ -5,7 +5,6 @@ import {FilterData} from '../../../components/interfaces';
 import {CommonsService} from '../../../commons-service'; 
 import {Agencia} from '../agencia'; 
 import {AgenciaService} from '../agencia.service'; 
-import {UfService} from '../../uf/uf.service'; 
 
 @Component({
  selector: 'gov-agencia-form', 
@@ -15,7 +14,6 @@ import {UfService} from '../../uf/uf.service';
 export class AgenciaFormComponent extends CommonsForm<Agencia> implements OnInit { 
 
     constructor(apiService: AgenciaService, 
-                            private ufService: UfService, 
                 route: ActivatedRoute, 
  router: Router ) { 
          super(apiService, route, router); 
@@ -27,10 +25,7 @@ export class AgenciaFormComponent extends CommonsForm<Agencia> implements OnInit
 
      getLookupService(lookupName: string): CommonsService<any> {
          switch (lookupName) { 
-             case 'uf': { 
-                 return this.ufService; 
-             } 
-
+           
              default: { 
                  console.log('serviço não disponibilizado para ', lookupName) 
                  return this.apiService; 

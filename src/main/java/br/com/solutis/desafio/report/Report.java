@@ -1,13 +1,13 @@
 package br.com.solutis.desafio.report;
 
-import br.com.solutis.desafio.helper.PropertiesReader;
-import ch.qos.logback.classic.db.SQLBuilder;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRLoader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -20,6 +20,7 @@ import java.util.HashMap;
 public abstract class Report {
     String sql = "";
 
+    public static JdbcTemplate jdbc;
 
     public ResponseEntity<byte[]> print(String reportName,long id){
         ResponseEntity<byte[]> myResponse = null;
@@ -33,9 +34,10 @@ public abstract class Report {
             }
             dados.beforeFirst();
             if(size > 0) {
-                InputStream template = ReportManager.class.getResourceAsStream(reportName + ".jasper");
+                InputStream jasper = ReportManager.class.getResourceAsStream(reportName + ".jasper");
                 // compile the report from the stream
-                JasperReport report = (JasperReport) JRLoader.loadObject(template);
+                //JasperReport report = (JasperReport) JRLoader.loadObject(template);
+                JasperReport report = (JasperReport) JRLoader.loadObject(jasper);
                 // fill out the report into a print object, ready for export.
 
                 print = JasperFillManager.fillReport(report, parametros, new JRResultSetDataSource(dados));
@@ -81,34 +83,16 @@ public abstract class Report {
         }catch(Exception e){
             e.printStackTrace();
         }
-        finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
         return null;
     }
 
     public static Connection getConnection(){
-        // JDBC driver name and database URL
-        String JDBC_DRIVER = PropertiesReader.get("spring.datasource.driver-class-name");
-        String DB_URL = PropertiesReader.get("spring.datasource.url");
-
-        //  Database credentials
-        String USER = PropertiesReader.get("spring.datasource.username");
-        String PASS = PropertiesReader.get("spring.datasource.password");
-
-
-        Connection conn = null;
-        Statement stmt = null;
         try {
-            return DriverManager.getConnection(DB_URL, USER, PASS);
-        }catch(Exception e){
+            return Report.jdbc.getDataSource().getConnection();
+        }catch (Exception e){
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
 

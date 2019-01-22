@@ -1,7 +1,7 @@
 package br.com.solutis.desafio.controller;
-import br.com.solutis.desafio.domain.Veiculo;
+import br.com.solutis.desafio.domain.*;
 import br.com.solutis.desafio.helper.filter.FilterData;
-import br.com.solutis.desafio.service.VeiculoService;
+import br.com.solutis.desafio.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,66 @@ public class VeiculoController {
     @Autowired
     VeiculoService veiculoService;
 
+    @Autowired
+    ProgramaService programaService;
+
+    @Autowired
+    EnderecoService enderecoService;
+
+    @Autowired
+    ContatoService contatoService;
+
+    @Autowired
+    TelefoneService telefoneService;
+
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
+    SiteService siteService;
+
+    @Autowired
+    ContaBancariaService contaBancariaService;
+
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody Veiculo bean) {
+
+        for (Programa p :bean.getProgramalist() ){
+            p.setVeiculo_id(bean);
+            programaService.save(p);
+        }
+
+        for (Endereco e :bean.getEnderecoList() ){
+            e.setVeiculo_id(bean);
+            enderecoService.save(e);
+        }
+
+        for (Contato e :bean.getContatoList() ){
+            e.setVeiculo_id(bean);
+            contatoService.save(e);
+        }
+
+        for (Telefone e :bean.getTelefoneList() ){
+            e.setVeiculo_id(bean);
+            telefoneService.save(e);
+        }
+
+        for (Email e :bean.getEmailList()){
+            e.setVeiculo_id(bean);
+            emailService.save(e);
+        }
+
+        for (Site e :bean.getSiteList()){
+            e.setVeiculo_id(bean);
+            siteService.save(e);
+        }
+
+        for(ContaBancaria e :bean.getContaBancariaList()){
+            e.setVeiculo_id(bean);
+            contaBancariaService.save(e);
+        }
+
         return this.buildResponse(veiculoService.save(bean));
     }
 

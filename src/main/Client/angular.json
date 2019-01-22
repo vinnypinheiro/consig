@@ -1,144 +1,136 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "newProjectRoot": "projects",
-  "projects": {
-    "gov-contabil-web": {
-      "root": "",
-      "sourceRoot": "src",
-      "projectType": "application",
-      "prefix": "gov",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/gov-contabil-web",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.css",
-              "src/assets/font-awesome/css/font-awesome.css",
-              "src/assets/fontawesome5/css/all.css",
-              "node_modules/animate.css/animate.css",
-              "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css",
-              "src/assets/css/style.scss",
-              "src/styles.css"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/popper.js/dist/umd/popper.js",
-              "node_modules/bootstrap/dist/js/bootstrap.js",
-              "node_modules/metismenu/dist/metisMenu.js",
-              "node_modules/jquery-slimscroll/jquery.slimscroll.js",
-              "src/assets/js/plugins/flot/jquery.flot.js",
-              "src/assets/js/plugins/flot/jquery.flot.tooltip.min.js",
-              "src/assets/js/plugins/flot/jquery.flot.resize.js",
-              "src/assets/js/plugins/flot/jquery.flot.pie.js",
-              "src/assets/js/plugins/flot/jquery.flot.time.js",
-              "src/assets/js/inspinia.js",
-              "src/assets/js/plugins/pace/pace.min.js",
-              "src/assets/js/plugins/iCheck/icheck.min.js",
-              "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
-              "node_modules/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min.js"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+        "xtreme-admin-angular": {
+            "root": "",
+            "sourceRoot": "src",
+            "projectType": "application",
+            "prefix": "app",
+            "schematics": {},
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "options": {
+                        "outputPath": "dist/xtreme-admin-angular",
+                        "index": "src/index.html",
+                        "main": "src/main.ts",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "src/tsconfig.app.json",
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ],
+                        "styles": [
+                            "src/styles.css",
+                            "node_modules/chartist/dist/chartist.css",
+                            "node_modules/c3/c3.min.css",
+                            "node_modules/ngx-toastr/toastr.css",
+                            "node_modules/quill/dist/quill.snow.css",
+                            "node_modules/quill/dist/quill.bubble.css",
+                            "node_modules/angular-calendar/css/angular-calendar.css",
+                            "node_modules/dragula/dist/dragula.css",
+                            "node_modules/@swimlane/ngx-datatable/release/index.css",
+                            "node_modules/@swimlane/ngx-datatable/release/themes/material.css",
+                            "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
+                            "src/assets/vendor/css-chart.css",
+                            "src/assets/scss/style.scss"
+                        ],
+                        "scripts": [
+                            "node_modules/jquery/dist/jquery.min.js",
+                            "src/assets/vendor/sparkline.js",
+                            "node_modules/extenso/dist/extenso.js"
+                        ]
+                    },
+                    "configurations": {
+                        "production": {
+                            "fileReplacements": [{
+                                "replace": "src/environments/environment.ts",
+                                "with": "src/environments/environment.prod.ts"
+                            }],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "extractCss": true,
+                            "namedChunks": false,
+                            "aot": true,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "browserTarget": "xtreme-admin-angular:build"
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "xtreme-admin-angular:build:production"
+                        }
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "xtreme-admin-angular:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "src/test.ts",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "src/tsconfig.spec.json",
+                        "karmaConfig": "src/karma.conf.js",
+                        "styles": [
+                            "src/styles.css"
+                        ],
+                        "scripts": [],
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ]
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "src/tsconfig.app.json",
+                            "src/tsconfig.spec.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
+                    }
                 }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
             }
-          }
         },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "gov-contabil-web:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "gov-contabil-web:build:production"
+        "xtreme-admin-angular-e2e": {
+            "root": "e2e/",
+            "projectType": "application",
+            "architect": {
+                "e2e": {
+                    "builder": "@angular-devkit/build-angular:protractor",
+                    "options": {
+                        "protractorConfig": "e2e/protractor.conf.js",
+                        "devServerTarget": "xtreme-admin-angular:serve"
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": "e2e/tsconfig.e2e.json",
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
+                    }
+                }
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "gov-contabil-web:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              "styles.css"
-            ],
-            "scripts": [],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
-      }
     },
-    "gov-contabil-web-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "gov-contabil-web:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    }
-  },
-  "defaultProject": "gov-contabil-web"
+    "defaultProject": "xtreme-admin-angular"
 }

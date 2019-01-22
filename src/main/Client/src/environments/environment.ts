@@ -3,18 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false,
-    getBaseURL: function () {
-        // console.log('getBaseURL -> production', this.production);
-        return 'http://localhost:8080';
-    }
+  production: false,
+  getBaseURL: function () {
+      // console.log('getBaseURL -> production', this.production);
+      return 'http://192.168.0.32:8080';
+  }
 
 };
 
 /*
- * In development mode, to ignore zone related error stack frames such as
- * `zone.run`, `zoneDelegate.invokeTask` for easier debugging, you can
- * import the following file, but please comment it out in production mode
- * because it will have performance impact when throw error
- */
+* In development mode, to ignore zone related error stack frames such as
+* `zone.run`, `zoneDelegate.invokeTask` for easier debugging, you can
+* import the following file, but please comment it out in production mode
+* because it will have performance impact when throw error
+*/
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.

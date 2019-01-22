@@ -1,7 +1,7 @@
 package br.com.solutis.desafio.controller;
-import br.com.solutis.desafio.domain.Cliente;
+import br.com.solutis.desafio.domain.*;
 import br.com.solutis.desafio.helper.filter.FilterData;
-import br.com.solutis.desafio.service.ClienteService;
+import br.com.solutis.desafio.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,58 @@ public class ClienteController {
     @Autowired
     ClienteService clienteService;
 
+    @Autowired
+    EnderecoService enderecoService;
+
+    @Autowired
+    ContatoService contatoService;
+
+    @Autowired
+    TelefoneService telefoneService;
+
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
+    SiteService siteService;
+
+    @Autowired
+    ContaBancariaService contaBancariaService;
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody Cliente bean) {
+
+      for (Endereco e :bean.getEnderecoList() ){
+           e.setCliente_id(bean);
+            enderecoService.save(e);
+        }
+
+        for (Contato e :bean.getContatoList() ){
+            e.setCliente_id(bean);
+            contatoService.save(e);
+        }
+
+        for (Telefone e :bean.getTelefoneList() ){
+            e.setCliente_id(bean);
+            telefoneService.save(e);
+        }
+
+        for (Email e :bean.getEmailList()){
+          e.setCliente_id(bean);
+          emailService.save(e);
+        }
+
+        for (Site e :bean.getSiteList()){
+          e.setCliente_id(bean);
+          siteService.save(e);
+        }
+
+        for(ContaBancaria e :bean.getContaBancariaList()){
+          e.setCliente_id(bean);
+          contaBancariaService.save(e);
+        }
+
+
         return this.buildResponse(clienteService.save(bean));
     }
 

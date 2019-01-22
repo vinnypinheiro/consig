@@ -1,7 +1,5 @@
 package br.com.solutis.desafio.report;
 
-import br.com.solutis.desafio.helper.PropertiesReader;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,8 +42,6 @@ public class PlanoDeMidiaSites extends Report {
     public HashMap<String,Object> getParametros(){
         HashMap<String,Object> parametros = new HashMap<String,Object>();
 
-        String LOGO = PropertiesReader.getAplicationPath()+"resources/logo.png";
-        parametros.put("LOGO", LOGO);
 
 
         return  parametros;

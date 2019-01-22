@@ -1,0 +1,15 @@
+<div>
+    <button class="btn btn-rounded btn-info" type="button" [routerLink]="'/convenio/new'"><i class="fa fa-plus"></i> Adicionar novo</button>
+</div>
+<br>
+<div class="card" style="width: 18rem;" *ngFor="let row of activeBean">
+    <div class="card-body">
+      <h5 class="card-title">{{row.nomefantasia}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{row.cnpj}}</h6>
+      <p class="card-text">{{row.datainicial}} <br>
+          {{row.email}}
+      </p>
+
+      <a href="#"  [routerLink]="'/convenio/view/'+row.id+'/'" class="card-link">Acessar</a>
+    </div>
+  </div>

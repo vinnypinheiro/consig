@@ -1,14 +1,10 @@
-import {Component} from '@angular/core';
-import {SharedService} from "./shared/shared.service";
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'gov-root',
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(public sharedService:SharedService){
-
-  }
-  title = 'gov';
+  title = 'app';
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import br.com.solutis.desafio.domain.Agencia;
 import br.com.solutis.desafio.domain.Campanha;
 import br.com.solutis.desafio.domain.Cliente;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -34,10 +35,11 @@ public class PlanoMidia implements Serializable {
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true, foreignKey = @ForeignKey(name = "fk_planomidia_cliente"))    private Cliente cliente_id;
 
+    @JsonManagedReference(value="peca-planomidia")
     @OneToMany(mappedBy = "planomidia_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Peca> pecalist = new ArrayList<>();
 
-
+    @JsonManagedReference(value="pedidoinsercaoitem-planomidia")
     @OneToMany(mappedBy = "planomidia_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PedidoInsercaoItem> pedidoDeInsercaoItemlist = new ArrayList<>();
 

@@ -1,5 +1,6 @@
 package br.com.solutis.desafio.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 
 import br.com.solutis.desafio.domain.PedidoInsercao;
 import br.com.solutis.desafio.domain.Produto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -58,14 +60,29 @@ public class PedidoInsercaoItem implements Serializable {
     private Double qtd;
     private Double valor;
     private Date vencimento;
+    private Double valorUnit;
+
+
     @ManyToOne
     @JoinColumn(name = "pedidoinsercao_id", nullable = true, foreignKey = @ForeignKey(name = "fk_pedidoinsercaoitem_pedidoinsercao"))    private PedidoInsercao pedidoinsercao_id;
+
+
     @ManyToOne
     @JoinColumn(name = "produto_id", nullable = true, foreignKey = @ForeignKey(name = "fk_pedidoinsercaoitem_produto"))    private Produto produto_id;
 
+    @JsonBackReference(value="pedidoinsercaoitem-planomidia")
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "planomidia_id", nullable = true, foreignKey = @ForeignKey(name = "fk_pedidoinsercaoitem_planomidia"))    private PlanoMidia planomidia_id;
+
+
+    @ManyToOne
+    @JoinColumn(name = "veiculo_id", nullable = true, foreignKey = @ForeignKey(name = "fk_pedidoinsercaoitem_veiculo"))    private Veiculo veiculo_id ;
+
+    @ManyToOne
+    @JoinColumn(name = "peca_id", nullable = true, foreignKey = @ForeignKey(name = "fk_pedidoinsercaoitem_peca"))    private Peca peca_id ;
+
+    @ManyToOne
+    @JoinColumn(name = "programa_id", nullable = true, foreignKey = @ForeignKey(name = "fk_pedidoinsercaoitem_programa"))    private Programa programa_id ;
 
 
 
@@ -383,6 +400,40 @@ public class PedidoInsercaoItem implements Serializable {
     public void setPlanomidia_id(PlanoMidia planomidia_id) {
         this.planomidia_id = planomidia_id;
     }
+
+    public Veiculo getVeiculo_id() {
+        return veiculo_id;
+    }
+
+    public void setVeiculo_id(Veiculo veiculo_id) {
+        this.veiculo_id = veiculo_id;
+    }
+
+
+    public Peca getPeca_id() {
+        return peca_id;
+    }
+
+    public void setPeca_id(Peca peca_id) {
+        this.peca_id = peca_id;
+    }
+
+    public Programa getPrograma_id() {
+        return programa_id;
+    }
+
+    public void setPrograma_id(Programa programa_id) {
+        this.programa_id = programa_id;
+    }
+
+    public Double getValorUnit() {
+        return valorUnit;
+    }
+
+    public void setValorUnit(Double valorUnit) {
+        this.valorUnit = valorUnit;
+    }
+
 
 
 }

@@ -4,7 +4,8 @@ import {Observable} from 'rxjs/index';
 import {Injectable} from '@angular/core';
 import {DomainBase} from './utils/utils';
 import {map} from "rxjs/operators";
-import {environment} from "../environments/environment";
+import { environment  } from "./environments/environment";
+import * as stringifyCustom from 'json-stringify-safe';
 
 export class ServerResponse<T extends DomainBase> {
   content: any;
@@ -30,7 +31,7 @@ export abstract class CommonsService<T extends DomainBase> {
 
   public save(bean: DomainBase): Observable<ServerResponse<T>> {
     console.log(bean);
-    return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/save`, JSON.stringify(bean));
+    return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/save`, JSON.parse(stringifyCustom(bean)));
   }
 
   public loadQuery(filterData: FilterData, queryId: string): Observable<ServerResponse<T>> {

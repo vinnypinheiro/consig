@@ -1,6 +1,10 @@
 package br.com.solutis.desafio.controller;
+import br.com.solutis.desafio.domain.Peca;
+import br.com.solutis.desafio.domain.PedidoInsercaoItem;
 import br.com.solutis.desafio.domain.PlanoMidia;
 import br.com.solutis.desafio.helper.filter.FilterData;
+import br.com.solutis.desafio.service.PecaService;
+import br.com.solutis.desafio.service.PedidoInsercaoItemService;
 import br.com.solutis.desafio.service.PlanoMidiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +19,27 @@ public class PlanoMidiaController {
     @Autowired
     PlanoMidiaService planomidiaService;
 
+    @Autowired
+    PecaService pecaService;
+
+    @Autowired
+    PedidoInsercaoItemService PedidoInsercaoItemService;
+
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody PlanoMidia bean) {
+
+        for (Peca p :bean.getPecalist() ){
+            p.setPlanomidia_id(bean);
+            pecaService.save(p);
+        }
+
+        for (PedidoInsercaoItem pii :bean.getPedidoDeInsercaoItemlist() ) {
+            pii.setPlanomidia_id(bean);
+            PedidoInsercaoItemService.save(pii);
+
+        }
+
         return this.buildResponse(planomidiaService.save(bean));
     }
 
