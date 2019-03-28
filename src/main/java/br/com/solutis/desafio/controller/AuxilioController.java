@@ -29,7 +29,7 @@ public class AuxilioController {
 
             Parcela p = new Parcela();
             p.setParcela(i+1);
-            p.setStatus("Em Aberto");
+            p.setStatus("EM ABERTO");
             p.setAuxilio_id(bean);
             p.setValor(bean.getVlrparcelas());
 

@@ -11,7 +11,7 @@ export class LoginService {
 
   login(user: LoginRequest){
     //user.password = new SHA256().hash(user.password);
-    return this.http.post(`http://192.168.0.32:8080/api/auth`,user);
+    return this.http.post(`http://localhost:8080/api/auth`,user);
   }
 
 }

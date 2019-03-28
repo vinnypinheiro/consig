@@ -34,6 +34,10 @@ export abstract class CommonsService<T extends DomainBase> {
     return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/save`, JSON.parse(stringifyCustom(bean)));
   }
 
+    public importcsv(): Observable<ServerResponse<T>> {
+        return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/importcsv`, "01");
+    }
+
   public loadQuery(filterData: FilterData, queryId: string): Observable<ServerResponse<T>> {
     return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/q/${queryId}`, filterData);
   }

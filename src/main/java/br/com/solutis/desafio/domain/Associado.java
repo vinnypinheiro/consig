@@ -12,13 +12,17 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(
+        name = "associado",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"cpf"})}
+)
 public class Associado implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
 
     private String nome;
-    private String cpf;
+    private Long cpf;
     private String  matricula;
     private String cidade;
     private String  bairro;
@@ -84,11 +88,11 @@ public class Associado implements Serializable {
         this.nome = nome;
     }
 
-    public String getCpf() {
+    public Long getCpf() {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
+    public void setCpf(Long cpf) {
         this.cpf = cpf;
     }
 

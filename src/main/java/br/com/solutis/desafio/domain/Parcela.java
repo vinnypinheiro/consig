@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Parcela implements Serializable {
     private String valortotal;
     private String datapagamento;
     private String status;
-    private Date data;
+    private LocalDate data;
 
     @JsonBackReference(value="auxilio-parcela")
     @ManyToOne(cascade = {CascadeType.ALL})
@@ -79,11 +80,11 @@ public class Parcela implements Serializable {
         this.status = status;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

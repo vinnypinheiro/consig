@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,17 +18,21 @@ public class Auxilio implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private Date dataContrato;
+    private LocalDate dataContrato;
+
+    private LocalDate datareserva;
 
     @Temporal(TemporalType.DATE)
     private Date data;
 
     private String numeroproposta;
-    private String vlrauxilio;
+    private Double vlrauxilio;
     private String vlrauxextenso;
     private Integer qtdparcelas;
     private Double vlrparcelas;
+    private Double vlrtotal;
     private Integer porcentagem;
+    private String tipo;
 
 
     @JsonBackReference(value="associado-auxilio")
@@ -80,11 +84,11 @@ public class Auxilio implements Serializable {
         this.numeroproposta = numeroproposta;
     }
 
-    public String getVlrauxilio() {
+    public Double getVlrauxilio() {
         return vlrauxilio;
     }
 
-    public void setVlrauxilio(String vlrauxilio) {
+    public void setVlrauxilio(Double vlrauxilio) {
         this.vlrauxilio = vlrauxilio;
     }
 
@@ -153,11 +157,11 @@ public class Auxilio implements Serializable {
         this.convenio_id = convenio_id;
     }
 
-    public Date getDataContrato() {
+    public LocalDate getDataContrato() {
         return dataContrato;
     }
 
-    public void setDataContrato(Date dataContrato) {
+    public void setDataContrato(LocalDate dataContrato) {
         this.dataContrato = dataContrato;
     }
 
@@ -175,5 +179,29 @@ public class Auxilio implements Serializable {
 
     public void setPorcentagem(Integer porcentagem) {
         this.porcentagem = porcentagem;
+    }
+
+    public LocalDate getDatareserva() {
+        return datareserva;
+    }
+
+    public void setDatareserva(LocalDate datareserva) {
+        this.datareserva = datareserva;
+    }
+
+    public Double getVlrtotal() {
+        return vlrtotal;
+    }
+
+    public void setVlrtotal(Double vlrtotal) {
+        this.vlrtotal = vlrtotal;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }
