@@ -12,7 +12,9 @@ import {AssociadoService} from '../associado.service';
   templateUrl: './associado-grid.component.html', 
   //styleUrls: ['./associado-grid.component.css'] 
 }) 
-export class AssociadoGridComponent extends CommonsGrid<Associado> implements OnInit { 
+export class AssociadoGridComponent extends CommonsGrid<Associado> implements OnInit {
+
+    dtOptions: DataTables.Settings = {};
 
      constructor(apiService: AssociadoService, router: Router) { 
          super(apiService, router); 
@@ -20,6 +22,10 @@ export class AssociadoGridComponent extends CommonsGrid<Associado> implements On
 
      ngOnInit() { 
         this.loadByFilter(this.getDefaultFilter());
+         this.dtOptions = {
+             pagingType: 'full_numbers'
+         };
+
      } 
 
      onNavigateClick(filterData: FilterData): void { 

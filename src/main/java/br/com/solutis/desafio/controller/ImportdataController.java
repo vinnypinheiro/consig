@@ -14,7 +14,8 @@ import java.io.FileReader;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+import java.util.List;
+import java.util.Optional;
 
 
 @RestController("ImportdataController")
@@ -45,6 +46,9 @@ public class ImportdataController {
 
     @Autowired
     ParcelaService parcelaService;
+
+    @Autowired
+    MensalidadeService mensalidadeService;
 
     long time = 0;
     int line = 2;
@@ -111,13 +115,42 @@ public class ImportdataController {
             String cpfString = campos[5].replaceAll("[.-]", "").trim();
 
             associado.setCpf( Long.valueOf(cpfString));
+
+            if(campos[1].isEmpty()){
+                Double vlrmensalidade =0.0;
+                associado.setVlrmensalidade(vlrmensalidade);
+            } else{
+                Double vlrmensalidade = Double.valueOf(campos[1].replace(".","").replace(",","."));
+                associado.setVlrmensalidade(vlrmensalidade);
+            }
+
+
+
+            Optional<Associado> associadofind =  associadoService.getList(1).stream().
+                    filter(p -> p.getCpf().equals(associado.getCpf())).
+                    findFirst();
+
+            Associado associadoResult = associadofind.orElse(null);
+
+            if(associadoResult == null){
+
+                associado.setNome(campos[6]);
+                associadoService.save(associado);
+
+            } else {
+
+                Associado associadoRefis = associadofind.get();
+                makeRefinanciamento(associadoRefis, campos);
+
+                return;
+
+            }
+
+
         }
 
 
-        associado.setNome(campos[6]);
 
-
-        associadoService.save(associado);
 
         String dataReserva = campos[9];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -142,7 +175,9 @@ public class ImportdataController {
         auxilio.setVlrparcelas(vlrParcela);
         auxilio.setQtdparcelas(qtdparcelas);
         auxilio.setVlrtotal(vlrtotal);
+        auxilio.setPorcentagem(4);
         auxilio.setTipo("CONTRATO");
+        auxilio.setNumeroproposta(associado.getCpf().toString() + dateTimeReserva.getYear());
 
         //Relacionamentos
         auxilio.setAssociacao_id(associacao);
@@ -165,6 +200,90 @@ public class ImportdataController {
 
             parcelaService.save(parcela);
         }
+
+        for (int i=0; i < 12 ; i++ ){
+
+            Mensalidade m = new Mensalidade();
+            m.setMensalidade(i+1);
+            m.setStatuspagamento("Em Aberto");
+            m.setAssociado_id(associado);
+            m.setVlrmensalidade(associado.getVlrmensalidade());
+
+            mensalidadeService.save(m);
+        }
+
+    }
+
+    public void makeRefinanciamento(Associado associadoRefis, String[] campos  ) throws ParseException {
+
+        Associacao associacao = associacaoService.getById( Long.valueOf(2));
+        Correspondente correspondente = correspondenteService.getById(Long.valueOf(233));
+        Convenio convenio = convenioService.getById(Long.valueOf(1));
+        VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(2));
+
+
+        //Datas
+        String dataReserva = campos[9];
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dateTimeReserva = LocalDate.parse(dataReserva, formatter);
+
+        LocalDate dataContrato = LocalDate.now();
+        String numeroproposta;
+
+        //Valores
+        Double vlrauxilio = Double.valueOf(campos[0].replace(".","").replace(",","."));
+        Double vlrParcela = Double.valueOf(campos[2].replace(".","").replace(",","."));
+        Double vlrtotal =Double.valueOf(campos[4].replace(".","").replace(",","."));
+
+        Integer qtdparcelas =  Integer.parseInt(campos[8]);
+        Integer porcentagem;
+
+        Auxilio auxilio = new Auxilio();
+        auxilio.setAssociado_id(associadoRefis);
+        auxilio.setDatareserva(dateTimeReserva);
+        auxilio.setDataContrato(dateTimeReserva);
+
+
+        if (vlrauxilio == null ){
+            auxilio.setVlrauxilio(0.0);
+        } else {
+            auxilio.setVlrauxilio(vlrauxilio);
+        }
+
+        if (vlrParcela == null ){
+            auxilio.setVlrparcelas(0.0);
+        } else {
+            auxilio.setVlrparcelas(vlrParcela);
+        }
+
+        auxilio.setQtdparcelas(qtdparcelas);
+        auxilio.setVlrtotal(vlrtotal);
+        auxilio.setPorcentagem(5);
+        auxilio.setTipo("REFINANCIAMENTO");
+        auxilio.setNumeroproposta(associadoRefis.getCpf().toString() + dateTimeReserva.getYear()+".1");
+
+        //Relacionamentos
+        auxilio.setAssociacao_id(associacao);
+        auxilio.setCorrespondente_id(correspondente);
+        auxilio.setConvenio_id(convenio);
+        auxilio.setVerbadesconto_id(verbaDesconto);
+
+        auxilioService.save(auxilio);
+
+
+        for (int i=0; i < qtdparcelas ; i++ ){
+
+            Parcela parcela = new Parcela();
+            parcela.setParcela(i+1);
+            parcela.setData(dateTimeReserva.plusMonths(i+1));
+            parcela.setStatus("EM ABERTO");
+            parcela.setAuxilio_id(auxilio);
+
+            parcela.setValor(auxilio.getVlrparcelas());
+
+            parcelaService.save(parcela);
+        }
+
 
     }
 

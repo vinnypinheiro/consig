@@ -11,6 +11,8 @@
 .springBeans
 .sts4-cache
 
+/src/main/Client/node_modules
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

@@ -6,6 +6,9 @@ import {AuthGuard} from '../../security/auth.guard';
 import {NgModule} from '@angular/core';
 import {SharedModule} from '../../shared/shared.module';
 
+//Datatables
+import { DataTablesModule } from 'angular-datatables';
+
 //DatePicker
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule} from '@angular/material/';
@@ -18,7 +21,7 @@ import { AssociadoViewComponent } from './associado-view/associado-view.componen
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
- 
+
 const ROUTES  = [ 
         { 
             path: '', 
@@ -59,9 +62,9 @@ const ROUTES  = [
                     NgbModule,
                     MatDatepickerModule,
                     MatNativeDateModule,
-                    MatFormFieldModule
+                    MatFormFieldModule,
 
-                ], 
+                    DataTablesModule                ],
                 declarations: [ 
                 AssociadoGridComponent, 
                 AssociadoFormComponent, AssociadoViewComponent, 

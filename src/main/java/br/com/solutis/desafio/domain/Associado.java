@@ -43,7 +43,7 @@ public class Associado implements Serializable {
     private String  conta;
 
     private String asscontrato;
-    private Integer vlrmensalidade;
+    private Double vlrmensalidade;
 
 
 
@@ -56,11 +56,11 @@ public class Associado implements Serializable {
     private List<Mensalidade> mensalidadeList = new ArrayList<>();
 
 
-    public Integer getVlrmensalidade() {
+    public Double getVlrmensalidade() {
         return vlrmensalidade;
     }
 
-    public void setVlrmensalidade(Integer vlrmensalidade) {
+    public void setVlrmensalidade(Double vlrmensalidade) {
         this.vlrmensalidade = vlrmensalidade;
     }
 

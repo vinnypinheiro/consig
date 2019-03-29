@@ -42,7 +42,7 @@ public class AssociadoService {
     }
 
     public Page<Associado> getList(Integer pageNumber) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, 20, Sort.Direction.ASC, "id");
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, 1000, Sort.Direction.ASC, "id");
         return associadoRepository.findAll(pageRequest);
     }
 

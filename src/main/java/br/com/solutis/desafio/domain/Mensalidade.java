@@ -26,7 +26,7 @@ public class Mensalidade implements Serializable {
     private String statuspagamento;
     private Date dataprocesamento;
     private String numeroproposta;
-    private Integer vlrmensalidade;
+    private Double vlrmensalidade;
     private String mesanoref;
     private String vlrauxextenso;
 
@@ -97,11 +97,11 @@ public class Mensalidade implements Serializable {
         this.numeroproposta = numeroproposta;
     }
 
-    public Integer getVlrmensalidade() {
+    public Double getVlrmensalidade() {
         return vlrmensalidade;
     }
 
-    public void setVlrmensalidade(Integer vlrmensalidade) {
+    public void setVlrmensalidade(Double vlrmensalidade) {
         this.vlrmensalidade = vlrmensalidade;
     }
 
