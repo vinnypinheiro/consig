@@ -52,7 +52,7 @@ public class AssociadoController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity findById(@PathVariable("id") Long id) {
 
-        return this.buildResponse(associadoService.getById(id));
+        return this.buildResponse(associadoService.getByIdCustom(id));
 
     }
 

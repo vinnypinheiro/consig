@@ -14,7 +14,6 @@ import java.io.FileReader;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -56,6 +55,8 @@ public class ImportdataController {
     int minline = 0;
     int maxline = 99999999;
 
+    String oplock = "1991";
+
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody Importdata bean) {
@@ -67,7 +68,7 @@ public class ImportdataController {
 
 
         BufferedReader br = null;
-        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\iesba.CSV");
+        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\arquivos\\Nova pasta\\convertido\\nelia-iesba-saeb.CSV");
 
 
         try {
@@ -103,11 +104,11 @@ public class ImportdataController {
 
 
         Associacao associacao = associacaoService.getById( Long.valueOf(2));
-        Correspondente correspondente = correspondenteService.getById(Long.valueOf(233));
+        Correspondente correspondente = correspondenteService.getById(Long.valueOf(239));
         Convenio convenio = convenioService.getById(Long.valueOf(1));
         VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(2));
 
-        System.out.println("##########################     "+line+" - "+(line - (inseridos +1)));
+        System.out.println("######################## Linha--> "+line+" - Inseridos --> "+(line - (inseridos +1)));
 
         Associado associado = new Associado();
 
@@ -135,6 +136,8 @@ public class ImportdataController {
             if(associadoResult == null){
 
                 associado.setNome(campos[6]);
+                associado.setOplock(oplock);
+                System.out.println(associado.getNome());
                 associadoService.save(associado);
 
             } else {
@@ -149,15 +152,10 @@ public class ImportdataController {
 
         }
 
-
-
-
         String dataReserva = campos[9];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dateTimeReserva = LocalDate.parse(dataReserva, formatter);
 
-         LocalDate dataContrato = LocalDate.now();
-         String numeroproposta;
 
          //Valores
          Double vlrauxilio = Double.valueOf(campos[0].replace(".","").replace(",","."));
@@ -178,6 +176,8 @@ public class ImportdataController {
         auxilio.setPorcentagem(4);
         auxilio.setTipo("CONTRATO");
         auxilio.setNumeroproposta(associado.getCpf().toString() + dateTimeReserva.getYear());
+        auxilio.setOplock(oplock);
+
 
         //Relacionamentos
         auxilio.setAssociacao_id(associacao);
@@ -187,7 +187,7 @@ public class ImportdataController {
 
         auxilioService.save(auxilio);
 
-
+        int interator = 0;
         for (int i=0; i < qtdparcelas ; i++ ){
 
             Parcela parcela = new Parcela();
@@ -195,10 +195,14 @@ public class ImportdataController {
             parcela.setData(dateTimeReserva.plusMonths(i+1));
             parcela.setStatus("EM ABERTO");
             parcela.setAuxilio_id(auxilio);
+            parcela.setOplock(oplock);
+
+            parcela.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
 
             parcela.setValor(auxilio.getVlrparcelas());
 
             parcelaService.save(parcela);
+
         }
 
         for (int i=0; i < 12 ; i++ ){
@@ -208,6 +212,7 @@ public class ImportdataController {
             m.setStatuspagamento("Em Aberto");
             m.setAssociado_id(associado);
             m.setVlrmensalidade(associado.getVlrmensalidade());
+            m.setOplock(oplock);
 
             mensalidadeService.save(m);
         }
@@ -217,7 +222,7 @@ public class ImportdataController {
     public void makeRefinanciamento(Associado associadoRefis, String[] campos  ) throws ParseException {
 
         Associacao associacao = associacaoService.getById( Long.valueOf(2));
-        Correspondente correspondente = correspondenteService.getById(Long.valueOf(233));
+        Correspondente correspondente = correspondenteService.getById(Long.valueOf(239));
         Convenio convenio = convenioService.getById(Long.valueOf(1));
         VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(2));
 
@@ -242,6 +247,7 @@ public class ImportdataController {
         auxilio.setAssociado_id(associadoRefis);
         auxilio.setDatareserva(dateTimeReserva);
         auxilio.setDataContrato(dateTimeReserva);
+        auxilio.setOplock(oplock);
 
 
         if (vlrauxilio == null ){
@@ -260,14 +266,13 @@ public class ImportdataController {
         auxilio.setVlrtotal(vlrtotal);
         auxilio.setPorcentagem(5);
         auxilio.setTipo("REFINANCIAMENTO");
-        auxilio.setNumeroproposta(associadoRefis.getCpf().toString() + dateTimeReserva.getYear()+".1");
+        auxilio.setNumeroproposta(associadoRefis.getCpf().toString() + dateTimeReserva.getYear() +".1");
 
         //Relacionamentos
         auxilio.setAssociacao_id(associacao);
         auxilio.setCorrespondente_id(correspondente);
         auxilio.setConvenio_id(convenio);
         auxilio.setVerbadesconto_id(verbaDesconto);
-
         auxilioService.save(auxilio);
 
 
@@ -278,6 +283,9 @@ public class ImportdataController {
             parcela.setData(dateTimeReserva.plusMonths(i+1));
             parcela.setStatus("EM ABERTO");
             parcela.setAuxilio_id(auxilio);
+            parcela.setOplock(oplock);
+
+            parcela.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
 
             parcela.setValor(auxilio.getVlrparcelas());
 

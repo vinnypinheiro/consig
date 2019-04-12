@@ -3,6 +3,7 @@ import {Emprestimo} from "../emprestimo/emprestimo";
 import {Correspondente} from "../correspondente/correspondente";
 import {Auxilio} from "../auxilio/auxilio";
 import {Mensalidade} from "../mensalidade/mensalidade";
+import {Ocorrencia} from "../ocorrencia/ocorrencia";
 
 export interface Associado extends DomainBase {
 
@@ -37,4 +38,5 @@ export interface Associado extends DomainBase {
      auxilioList: Auxilio;
      correspondente_id: Correspondente;
      mensalidadeList: Mensalidade;
+     ocorrenciaList: Ocorrencia;
 }

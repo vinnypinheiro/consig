@@ -41,20 +41,35 @@ public class Associado implements Serializable {
     private String  agencia;
     private String  tipoconta;
     private String  conta;
+    private String orgao;
 
     private String asscontrato;
     private Double vlrmensalidade;
+    private String oplock;
 
 
-
+    @Transient
     @JsonManagedReference(value="associado-auxilio")
     @OneToMany(mappedBy = "associado_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Auxilio> auxilioList = new ArrayList<>();
 
+    @Transient
     @JsonManagedReference(value="associado-mensalidade")
     @OneToMany(mappedBy = "associado_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Mensalidade> mensalidadeList = new ArrayList<>();
 
+    @Transient
+    @JsonManagedReference(value="associado-ocorrencia")
+    @OneToMany(mappedBy = "associado_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Ocorrencia> ocorrenciaList = new ArrayList<>();
+
+    public List<Ocorrencia> getOcorrenciaList() {
+        return ocorrenciaList;
+    }
+
+    public void setOcorrenciaList(List<Ocorrencia> ocorrenciaList) {
+        this.ocorrenciaList = ocorrenciaList;
+    }
 
     public Double getVlrmensalidade() {
         return vlrmensalidade;
@@ -165,6 +180,14 @@ public class Associado implements Serializable {
         return lotacao;
     }
 
+    public String getOrgao() {
+        return orgao;
+    }
+
+    public void setOrgao(String orgao) {
+        this.orgao = orgao;
+    }
+
     public void setLotacao(String lotacao) {
         this.lotacao = lotacao;
     }
@@ -255,5 +278,13 @@ public class Associado implements Serializable {
 
     public void setConta(String conta) {
         this.conta = conta;
+    }
+
+    public String getOplock() {
+        return oplock;
+    }
+
+    public void setOplock(String oplock) {
+        this.oplock = oplock;
     }
 }

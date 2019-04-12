@@ -31,14 +31,17 @@ public class Associacao implements Serializable {
     private String email;
     private String site;
 
+    @Transient
     @JsonManagedReference(value="associacao-correspondente")
     @OneToMany(mappedBy = "associacao_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Correspondente> correspondenteList = new ArrayList<>();
 
+    @Transient
     @JsonManagedReference(value="associacao-convenio")
     @OneToMany(mappedBy = "associacao_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Convenio> convenioList = new ArrayList<>();
 
+    @Transient
     @JsonManagedReference(value="associacao-auxilio")
     @OneToMany(mappedBy = "associacao_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Auxilio> auxilioList = new ArrayList<>();

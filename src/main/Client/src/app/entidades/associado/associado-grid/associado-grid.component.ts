@@ -5,7 +5,8 @@ import {FieldSearch} from '../../../utils/utils';
  import {CommonsGrid} from '../../../commons-grid'; 
 import {ReportGroup} from '../../../shared/report-group'; 
 import {Associado} from '../associado'; 
-import {AssociadoService} from '../associado.service'; 
+import {AssociadoService} from '../associado.service';
+import { Subject } from 'rxjs';
 
 @Component({ 
   selector: 'gov-associado-grid', 
@@ -15,16 +16,57 @@ import {AssociadoService} from '../associado.service';
 export class AssociadoGridComponent extends CommonsGrid<Associado> implements OnInit {
 
     dtOptions: DataTables.Settings = {};
+    dtTrigger: Subject<Associado> = new Subject();
+
+    totalAssociados: number;
+    associaodos: {} ;
 
      constructor(apiService: AssociadoService, router: Router) { 
          super(apiService, router); 
      } 
 
      ngOnInit() { 
-        this.loadByFilter(this.getDefaultFilter());
+
+         this.apiService.loadByFilter(this.getDefaultFilter()).subscribe(response => {
+             this.activeBean =  response.content;
+             if(this.activeBean != null ){
+                 this.associaodos = this.activeBean;
+                 this.dtTrigger.next();
+             }
+
+         });
+
+
          this.dtOptions = {
-             pagingType: 'full_numbers'
+             pagingType: 'full_numbers',
+             pageLength: 20,
+             language: {
+                 emptyTable: "Nenhum registro encontrado",
+                 info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                 infoEmpty: "Mostrando 0 até 0 de 0 registros",
+                 infoFiltered: "(Filtrados de _MAX_ registros)",
+                 infoPostFix: "",
+                 thousands: ".",
+                 lengthMenu: "_MENU_ resultados por página",
+                 loadingRecords: "Carregando...",
+                 processing: "Processando...",
+                 zeroRecords: "Nenhum registro encontrado",
+                 search: "Pesquisar",
+                 paginate: {
+                     next: "Próximo",
+                     previous: "Anterior",
+                     first: "Primeiro",
+                     last: "Último"
+                 },
+                 aria: {
+                     sortAscending: ": Ordenar colunas de forma ascendente",
+                     sortDescending: ": Ordenar colunas de forma descendente"
+                 }
+             }
          };
+
+
+
 
      } 
 

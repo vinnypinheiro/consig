@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,15 +25,25 @@ public class Mensalidade implements Serializable {
 
     private Integer mensalidade;
     private String statuspagamento;
-    private Date dataprocesamento;
+    private LocalDate dataprocesamento;
     private String numeroproposta;
     private Double vlrmensalidade;
+    private Double vlrdescontado;
     private String mesanoref;
     private String vlrauxextenso;
+    private String oplock;
+    private LocalDate datavencimento;
 
+    public String getOplock() {
+        return oplock;
+    }
+
+    public void setOplock(String oplock) {
+        this.oplock = oplock;
+    }
 
     @JsonBackReference(value="associado-mensalidade")
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "associado_id", nullable = true, foreignKey = @ForeignKey(name = "fk_mensalidade_associado"))    private Associado associado_id;
 
 
@@ -81,12 +92,20 @@ public class Mensalidade implements Serializable {
         this.statuspagamento = statuspagamento;
     }
 
-    public Date getDataprocesamento() {
+    public LocalDate getDataprocesamento() {
         return dataprocesamento;
     }
 
-    public void setDataprocesamento(Date dataprocesamento) {
+    public void setDataprocesamento(LocalDate dataprocesamento) {
         this.dataprocesamento = dataprocesamento;
+    }
+
+    public LocalDate getDatavencimento() {
+        return datavencimento;
+    }
+
+    public void setDatavencimento(LocalDate datavencimento) {
+        this.datavencimento = datavencimento;
     }
 
     public String getNumeroproposta() {
@@ -137,5 +156,11 @@ public class Mensalidade implements Serializable {
         this.verbadesconto_id = verbadesconto_id;
     }
 
+    public Double getVlrdescontado() {
+        return vlrdescontado;
+    }
 
+    public void setVlrdescontado(Double vlrdescontado) {
+        this.vlrdescontado = vlrdescontado;
+    }
 }

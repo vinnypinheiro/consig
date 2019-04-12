@@ -40,7 +40,7 @@ DesafioApplication
 abra o navegador no endereço: 
 
 ```
-http://localhost:4200
+http://10.1.1.238:4200
 ```
 ## Autor
 

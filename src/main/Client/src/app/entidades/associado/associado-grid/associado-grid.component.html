@@ -48,22 +48,21 @@
                     <!-- Column -->
                 </div>
                 <div class="table-responsive">
-                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="zero_config" class="table table-striped table-bordered">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped table-bordered">
                         <thead>
                         <tr>
-                            <th>Status</th>
+
                             <th>ID</th>
                             <th>Nome</th>
                             <th>CPF</th>
                             <th>Telefone</th>
                             <th>E-mail</th>
+                            <th>Status</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let associado of activeBean ">
-                            <td>
-                                <span class="label label-success">Ativo</span>
-                            </td>
+                        <tr *ngFor="let associado of associaodos ">
+
                             <td>
                                 <a href="#" [routerLink]="'/associado/view/'+associado.id+'/'" class="font-medium link">{{associado.id}}</a>
                             </td>
@@ -74,38 +73,24 @@
 
                             <td>{{associado.telefone}}</td>
                             <td>{{associado.email}}</td>
+                            <td>
+                                <span class="label label-success">Em Atividade</span>
+                            </td>
                         </tr>
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>Status</th>
+
                             <th>ID</th>
                             <th>Nome</th>
                             <th>CPF</th>
                             <th>Telefone</th>
                             <th>E-mail</th>
+                            <th>Status</th>
                         </tr>
                         </tfoot>
                     </table>
-                    <ul class="pagination float-right">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
+
                 </div>
             </div>
         </div>

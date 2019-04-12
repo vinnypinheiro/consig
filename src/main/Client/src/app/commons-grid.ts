@@ -37,6 +37,7 @@ export abstract class CommonsGrid<T extends DomainBase> implements OnInit {
       this.toolBar.updateStatus(this.filterData.totalPages, this.filterData.page);*/
       this.activeBean =  response.content;
       console.log(this.activeBean)
+
     });
   }
 

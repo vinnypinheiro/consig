@@ -33,6 +33,8 @@ public class Auxilio implements Serializable {
     private Double vlrtotal;
     private Integer porcentagem;
     private String tipo;
+    private  String status;
+    private String oplock;
 
 
     @JsonBackReference(value="associado-auxilio")
@@ -203,5 +205,21 @@ public class Auxilio implements Serializable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getOplock() {
+        return oplock;
+    }
+
+    public void setOplock(String oplock) {
+        this.oplock = oplock;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

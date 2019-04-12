@@ -25,14 +25,17 @@ public class Convenio implements Serializable {
     private String datainicial;
     private String datafinal;
 
+
     @JsonBackReference(value="associacao-convenio")
     @ManyToOne
     @JoinColumn(name = "associacao_id", nullable = true, foreignKey = @ForeignKey(name = "fk_convenio_associacao"))   private Associacao associacao_id;
 
+    @Transient
     @JsonManagedReference(value="convenio-auxilio")
     @OneToMany(mappedBy = "convenio_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Auxilio> auxilioList = new ArrayList<>();
 
+    @Transient
     @JsonManagedReference(value="convenio-verbadesconto")
     @OneToMany(mappedBy = "convenio_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<VerbaDesconto> verbadescontolist = new ArrayList<>();

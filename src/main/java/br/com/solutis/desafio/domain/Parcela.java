@@ -21,11 +21,13 @@ public class Parcela implements Serializable {
 
     private Double valor;
     private int parcela;
-    private String datavencimento;
+    private LocalDate datavencimento;
     private String valortotal;
-    private String datapagamento;
+    private LocalDate datapagamento;
+    private Double valorpago;
     private String status;
     private LocalDate data;
+    private String oplock;
 
     @JsonBackReference(value="auxilio-parcela")
     @ManyToOne(cascade = {CascadeType.ALL})
@@ -48,11 +50,11 @@ public class Parcela implements Serializable {
         this.valor = valor;
     }
 
-    public String getDatavencimento() {
+    public LocalDate getDatavencimento() {
         return datavencimento;
     }
 
-    public void setDatavencimento(String datavencimento) {
+    public void setDatavencimento(LocalDate datavencimento) {
         this.datavencimento = datavencimento;
     }
 
@@ -64,11 +66,19 @@ public class Parcela implements Serializable {
         this.valortotal = valortotal;
     }
 
-    public String getDatapagamento() {
+    public Double getValorpago() {
+        return valorpago;
+    }
+
+    public void setValorpago(Double valorpago) {
+        this.valorpago = valorpago;
+    }
+
+    public LocalDate getDatapagamento() {
         return datapagamento;
     }
 
-    public void setDatapagamento(String datapagamento) {
+    public void setDatapagamento(LocalDate datapagamento) {
         this.datapagamento = datapagamento;
     }
 
@@ -102,5 +112,13 @@ public class Parcela implements Serializable {
 
     public void setParcela(int parcela) {
         this.parcela = parcela;
+    }
+
+    public String getOplock() {
+        return oplock;
+    }
+
+    public void setOplock(String oplock) {
+        this.oplock = oplock;
     }
 }

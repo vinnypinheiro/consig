@@ -16,6 +16,7 @@ const routes: Routes = [
             { path: 'convenio', loadChildren: './entidades/convenio/convenio.module#ConvenioModule' },
             { path: 'correspondente', loadChildren: './entidades/correspondente/correspondente.module#CorrespondenteModule' },
             { path: 'importdata', loadChildren: './entidades/importdata/importdata.module#ImportdataModule' },
+            { path: 'espelhoretorno', loadChildren: './entidades/espelhoretorno/espelhoretorno.module#EspelhoretornoModule' },
             { path: 'associado', loadChildren: './entidades/associado/associado.module#AssociadoModule' },
             {path: 'login', component: LoginComponent},
             {path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]},
