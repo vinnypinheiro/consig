@@ -1,0 +1,571 @@
+<div class="row">
+    <!-- Column -->
+    <div class="col-sm-12 col-lg-4">
+        <div class="card">
+            <div class="card-body" >
+                <h4 class="card-title"><i class="fa fa-user"></i> {{entity?.nome}}</h4>
+                <h5 (click)="copyCPF()" id="cpf" class="card-subtitle">{{entity?.cpf}}</h5>
+                <h5 class="font-medium">{{entity?.telefone}}</h5>
+                <h5 class="font-medium">{{entity?.email}}</h5>
+            </div>
+            <div class="earningsbox m-t-5"></div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-sm-12 col-lg-8">
+        <div class="card">
+            <div class="card-body border-bottom">
+                <h4 class="card-title">Visão Geral</h4>
+                <h5 class="card-subtitle">Resumo</h5>
+            </div>
+            <div class="card-body">
+                <div class="row m-t-10">
+                    <!-- col -->
+                    <div class="col-md-6 col-sm-12 col-lg-4">
+                        <div class="d-flex align-items-center">
+                            <div class="m-r-10">
+                                <span class="text-orange display-5">
+                                    <i class="mdi mdi-wallet"></i>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-muted">Total Emprestado</span>
+                                <h3 class="font-medium m-b-0">{{totalAuxilio | currency:'BRL':'symbol':'4.2-2':'pt-BR' }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col -->
+                    <!-- col -->
+                    <div class="col-md-6 col-sm-12 col-lg-4">
+                        <div class="d-flex align-items-center">
+                            <div class="m-r-10">
+                                <span class="text-primary display-5">
+                                    <i class="mdi mdi-basket"></i>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-muted">Total Pago</span>
+                                <h3 class="font-medium m-b-0">R$0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col -->
+                    <!-- col -->
+                    <div class="col-md-6 col-sm-12 col-lg-4">
+                        <div class="d-flex align-items-center">
+                            <div class="m-r-10">
+                                <span class="display-5">
+                                    <i class="mdi mdi-account-box"></i>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-muted">Mensalidades Pagas</span>
+                                <h3 class="font-medium m-b-0">R$0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+  <!-- Column -->
+  <div class="col-lg-12 col-xlg-12 col-md-12">
+    <div class="card">
+      <ngb-tabset type="pills" class="custom-pills">
+        <ngb-tab title="Programas de auxílio ">
+          <ng-template ngbTabContent>
+            <div class="card-body" style="min-height: 800px;">
+
+              <div class="d-md-flex align-items-center">
+                <div>
+                  <h4 class="card-title"><i class="fa fa-user"></i> Esteira de auxílios  </h4>
+                </div>
+
+              </div>
+
+                <div>
+                    <ng-template #content let-c="close" let-d="dismiss">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Novo Auxílio</h4>
+                            <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="modal-title">Proposta: {{entity?.cpf}}.2019</h4>
+                          <form name="activeForm" [formGroup]="activeForm" (ngSubmit)="saveAuxilio()" >
+
+                            <div class="card-body" style="min-height: 800px;">
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input formControlName="dataContrato" class="form-control" placeholder="dd-mm-yyyy" name="dp"  ngbDatepicker #d="ngbDatepicker">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="control-label">Associação</label>
+                                            <select  formControlName="associacao_id" class="form-control" (change)="setConvenioList($event, associacao_id)" >
+                                                <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-form-label">Convênio</label>
+                                            <select  formControlName="convenio_id" class="form-control" (change)="setVerbaDescontoList($event, convenio_id)">
+                                                <option [ngValue]="c" *ngFor="let c of convenioList" > {{c.nomefantasia}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-form-label">Verba de Descontos (VD)</label>
+                                            <select  formControlName="verbadesconto_id" class="form-control" >
+                                                <option [ngValue]="vd" *ngFor="let vd of verbaDescontoList " > {{vd.descricao}} - {{vd.codigo}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-form-label">Correspondente</label>
+                                            <select  formControlName="correspondente_id" class="form-control" >
+                                                <option [ngValue]="c" *ngFor="let c of correspondente" > {{c.nomefantasia}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-form-label">Valor do auxílio</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">R$</span>
+                                                </div>
+                                                <input (change)="setValorExtenso()"  type="text"  formControlName="vlrauxilio"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-9">
+                                        <div class="form-group">
+                                            <label class="control-label">Valor extenso</label>
+                                            <input readonly style="text-transform: uppercase;" formControlName="vlrauxextenso"  type="text" class="form-control">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Quantidade de parcelas</label>
+                                            <select  formControlName="qtdparcelas" class="form-control" >
+                                                <option value="1" selected>1</option>
+                                                <option value="2" >2</option>
+                                                <option value="3" >3</option>
+                                                <option value="4" >4</option>
+                                                <option value="5" >5</option>
+                                                <option value="6" >6</option>
+                                                <option value="7" >7</option>
+                                                <option value="8" >8</option>
+                                                <option value="9" >9</option>
+                                                <option value="10" >10</option>
+                                                <option value="11" >11</option>
+                                                <option value="12" >12</option>
+                                                <option value="13" >13</option>
+                                                <option value="14" >14</option>
+                                                <option value="15" >15</option>
+                                                <option value="16" >16</option>
+                                                <option value="17" >17</option>
+                                                <option value="18" >18</option>
+                                                <option value="19" >19</option>
+                                                <option value="20" >20</option>
+                                                <option value="21" >21</option>
+                                                <option value="22" >22</option>
+                                                <option value="23" >23</option>
+                                                <option value="24" >24</option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Porcentagem</label>
+                                            <select (change)="calculaVlrParcela()"  formControlName="porcentagem" class="form-control" >
+
+                                                <option value="4" selected >4%</option>
+                                                <option value="5" >5%</option>
+                                                <option value="6" >6%</option>
+                                                <option value="7" >7%</option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label ">Valor das parcelas</label>
+                                            <input readonly type="text" [value]="vlrparcela | currency:'BRL':code" formControlName="vlrparcelas"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                              <button type="submit" class="btn btn-success">
+                                  <i class="fa fa-check"></i> Salvar</button>
+                              <button type="button" class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </ng-template>
+                    <button class="btn btn-rounded btn-info" type="button"  (click)="openLg(content)"><i class="fa fa-plus"></i> Adicionar auxílio</button>
+                </div>
+                <br>
+                <div *ngIf="!entity?.auxilioList[0]">Associado não possui histórico de auxilíos</div>
+              <div  *ngIf="entity?.auxilioList[0]"  class="table-responsive">
+                <table class="table v-middle">
+                  <thead>
+                  <tr class="bg-light">
+                      <th class="border-top-0">Data</th>
+                      <th class="border-top-0">Associação</th>
+                      <th class="border-top-0">Convênio</th>
+                      <th class="border-top-0">Correspondente</th>
+                    <th class="border-top-0">Contrato</th>
+                    <th class="border-top-0">Valor Auxílio</th>
+                    <th class="border-top-0">Quant. Parcelas</th>
+                    <th class="border-top-0">Valor da Parcela</th>
+                      <th class="border-top-0">Tipo</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr  *ngFor="let row of entity?.auxilioList">
+                      <td>{{row.dataContrato | date: 'dd/MM/yyyy'}}</td>
+                      <td>IESBA</td>
+                      <td>SAEB</td>
+                      <td>{{row.correspondente_id?.nomefantasia}}</td>
+                    <td>{{row.numeroproposta}}</td>
+                    <td>
+                      <h4 class="m-b-0 font-16">{{row.vlrauxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h4>
+                    </td>
+                    <td>{{row.qtdparcelas}}</td>
+                    <td>{{row.vlrparcelas | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</td>
+                    <td >
+                        <span [ngStyle]="{ 'background-color' : (row.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (row.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{row.tipo}}</span>
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Parcelas">
+          <ng-template ngbTabContent>
+            <div class="card-body" style="min-height: 800px;">
+
+              <!-- title -->
+              <div class="d-md-flex align-items-center">
+                <div>
+                  <h4 class="card-title"> Histórico de Parcelas</h4>
+                    <div *ngIf="!entity?.auxilioList[0]">Associado não possui parcelas</div>
+                </div>
+                <div class="ml-auto d-flex align-items-center">
+                  <div class="dl">
+                  </div>
+                </div>
+              </div>
+              <ngb-tabset type="pills" class="custom-pills">
+                <ngb-tab  *ngFor="let auxilio of entity?.auxilioList" title="{{auxilio.numeroproposta}}">
+                  <ng-template ngbTabContent>
+
+                              <div class="table-responsive m-t-20">
+                                  <table class="table table-bordered m-b-20" data-page-length='10'>
+                                      <thead>
+                                      <tr class="bg-light">
+
+                                          <th>Parcela</th>
+                                          <th>Data Vencimento </th>
+                                          <th>Valor </th>
+                                          <th>Data de Pagamento </th>
+                                          <th>Status</th>
+                                          <th></th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr *ngFor="let row of auxilio.parcelaList">
+                                          <td>
+                                             <p>{{row.parcela}} / {{auxilio.qtdparcelas}}</p>
+                                          </td>
+                                          <td>
+                                              <p>{{row.datavencimento  | date: 'dd/MM/yyyy'}}</p>
+                                          </td>
+                                          <td>
+                                              <p>{{row.valor  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                                          </td>
+                                          <td>
+                                              <p>{{row.datapagamento  | date: 'dd/MM/yyyy'}}</p>
+                                          </td>
+                                          <td ><span [ngStyle]="{ 'background-color' : (row.status=='EM ABERTO')? '#e43030' : '#0f8818', 'color' : (row.status=='PAGO')? '#fff' : '#fff' }" class="label label-danger"> {{row.status}}</span></td>
+
+                                          <td>
+                                              <p><button (click)="gestaoParcela(row, auxilio, parcelaModal)"  class="btn btn-success btn-circle" type="button"><i class="fa fa-link"></i></button></p>
+                                          </td>
+                                      </tr>
+
+                                      </tbody>
+                                  </table>
+                              </div>
+
+
+                  </ng-template>
+                </ngb-tab>
+
+              </ngb-tabset>
+
+              <!-- column -->
+
+                <ng-template #parcelaModal let-c="close" let-d="dismiss">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Gestão de Parcela</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="modal-title">Proposta: {{parcelaRow.auxilio_id?.numeroproposta}}</h4>
+                        <form name="activeForm" [formGroup]="parcelaForm" (ngSubmit)="atualizaParcela()" >
+
+                            <div class="card-body" style="min-height: 800px;">
+
+                                <div class="col-sm-12 col-md-6">
+                                    <h5>Numero da Parcela: {{parcelaRow.parcela}}</h5>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6">
+                                    <h5>Status:</h5>
+                                    <button class="btn btn-rounded btn-xs " [ngClass]="parcelaRow.status=='PAGO' ? 'btn-success' : 'btn-info'" type="button">{{parcelaRow.status}}</button>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6">
+                                    <h5>Valor da Parcela: {{parcelaRow.valor}}</h5>
+                                </div>
+
+                                    <div class="col-sm-12 col-md-6">
+
+                                            <h5>Data de Vencimento: {{parcelaRow.parcela  | date: 'dd/MM/yyyy'}}</h5>
+
+                                    </div>
+
+                                <div class="col-sm-12 col-md-6">
+
+                                    <h5>Data de Pagamento: {{parcelaRow.datapagamento  | date: 'dd/MM/yyyy'}}</h5>
+
+                                </div>
+
+                                <div class="atualizaParcela">
+
+                                    <h4>
+                                        Atualizar Parcela
+                                    </h4>
+
+
+                                    <div class="col-sm-3 col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-form-label">Mudar Status</label>
+                                            <select  formControlName="status" class="form-control" >
+                                                <option value="Em Aberto" > Em Aberto</option>
+                                                <option value="Paga" > Paga </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3 col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Data de Pagamento</label>
+                                                <div class="input-group">
+                                                    <input formControlName="datapagamento" class="form-control" placeholder="dd-mm-yyyy" name="dp"  ngbDatepicker #d="ngbDatepicker">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-form-label">Valor do Pagamento</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" >R$</span>
+                                                </div>
+                                                <input (change)="setValorExtenso()"  type="text"   class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-check"></i> Salvar</button>
+                            <button type="button" class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </ng-template>
+
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Mensalidades">
+          <ng-template ngbTabContent>
+            <div class="card-body" style="min-height: 600px;">
+
+                <!-- title -->
+                <div class="d-md-flex align-items-center">
+                    <div>
+                        <h4 class="card-title">Histórico de mensalidades</h4>
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                        <div class="dl">
+
+                        </div>
+                    </div>
+                </div>
+                <ngb-tabset type="pills" class="custom-pills">
+                    <ngb-tab  title="Mensalidades: 2019">
+                        <ng-template ngbTabContent>
+
+                            <div class="table-responsive m-t-20">
+                                <table class="table table-bordered m-b-20" data-page-length='10'>
+                                    <thead>
+                                    <tr class="bg-light">
+
+                                        <th>Mensalidade</th>
+                                        <th>Data Vencimento </th>
+                                        <th>Valor </th>
+                                        <th>Data de Pagamento </th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let row of entity?.mensalidadeList">
+                                        <td>
+                                            <p>{{row.mensalidade}} /999 </p>
+                                        </td>
+                                        <td>
+                                            <p>{{row.datavencimento  | date: 'dd/MM/yyyy'}}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{row.vlrmensalidade  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{row.dataprocesamento  | date: 'dd/MM/yyyy'}}</p>
+                                        </td>
+                                        <td ><span [ngStyle]="{ 'background-color' : (row.statuspagamento=='Em Aberto')? '#e43030' : '#0f8818', 'color' : (row.statuspagamento=='PAGO')? '#fff' : '#fff' }" class="label"> {{row.statuspagamento}}</span></td>
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </ng-template>
+                    </ngb-tab>
+
+                </ngb-tabset>
+
+                <!-- column -->
+
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Informações Cadstrais">
+          <ng-template ngbTabContent>
+            <div class="card-body" style="min-height: 800px;">
+              <form class="form-horizontal form-material">
+                <div class="form-group">
+                  <label class="col-md-12">Nome Completo</label>
+                  <div class="col-md-12">
+                    <input type="text" placeholder="{{entity.nome}}" class="form-control form-control-line">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="example-email" class="col-md-12">CPF</label>
+                  <div class="col-md-12">
+                    <input type="email" placeholder="{{entity.nome}}" class="form-control form-control-line" name="example-email" id="example-email">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-12">Orgão</label>
+                  <div class="col-md-12">
+                    <input type="text" placeholder="{{entity.orgao}}" class="form-control form-control-line">
+                  </div>
+                </div>
+                  <div class="form-group">
+                      <label class="col-md-12">Cargo</label>
+                      <div class="col-md-12">
+                          <input type="text" placeholder="{{entity.cargo}}" class="form-control form-control-line">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-md-12">Status</label>
+                      <div class="col-md-12">
+                          <input type="text" placeholder="{{entity.status}}" class="form-control form-control-line">
+                      </div>
+                  </div>
+                <div class="form-group">
+                  <label class="col-md-12">Observação</label>
+                  <div class="col-md-12">
+                    <textarea rows="5" class="form-control form-control-line"></textarea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-12">
+                    <button class="btn btn-success">Atualizar perfil</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+  <!-- Column -->
+</div>
