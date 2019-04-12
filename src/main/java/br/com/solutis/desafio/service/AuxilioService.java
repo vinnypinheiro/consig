@@ -1,6 +1,9 @@
 package br.com.solutis.desafio.service;
 
+import br.com.solutis.desafio.domain.Associado;
 import br.com.solutis.desafio.domain.Auxilio;
+import br.com.solutis.desafio.domain.Mensalidade;
+import br.com.solutis.desafio.domain.Parcela;
 import br.com.solutis.desafio.helper.filter.FilterData;
 import br.com.solutis.desafio.helper.filter.WhereClause;
 import br.com.solutis.desafio.repository.AuxilioRepository;
@@ -14,6 +17,11 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -35,6 +43,32 @@ public class AuxilioService {
 
     public Auxilio getById(Long id){
         return auxilioRepository.getOne(id);
+    }
+
+    public Auxilio getByIdCustom(Long id){
+
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Auxilio> criteria = builder.createQuery(Auxilio.class);
+        Root<Auxilio> root = criteria.from(Auxilio.class);
+        criteria.select(root).where(builder.equal(root.get("id"), id));
+        TypedQuery<Auxilio> query = em.createQuery(criteria);
+        Auxilio auxilio = query.getSingleResult();
+
+        StringBuffer hql = new StringBuffer();
+
+        hql.append("from Parcela p where p.auxilio_id = " + id);
+        Query query3 =  em.createQuery(hql.toString());
+        List<Parcela> parcelas = query3.getResultList();
+
+
+        auxilio.setParcelaList(parcelas);
+
+        if (auxilio == null){
+            return null;
+        }
+
+
+        return auxilio;
     }
 
     public void delete(Long id){

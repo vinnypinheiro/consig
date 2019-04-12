@@ -13,7 +13,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -54,8 +58,14 @@ public class ImportdataController {
     int inseridos = 0;
     int minline = 0;
     int maxline = 99999999;
+    //1 -FAMCRED 2-IESBA
+    int associacaoID = 1 ;
+    int correspondenteID = 239;
+    int convenioID =2;
+    int verbadescontoID = 1;
+    
 
-    String oplock = "1991";
+    String oplock = "1993";
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -68,8 +78,7 @@ public class ImportdataController {
 
 
         BufferedReader br = null;
-        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\arquivos\\Nova pasta\\convertido\\nelia-iesba-saeb.CSV");
-
+        FileReader fl =  new FileReader("C:\\Users\\vinicio\\Documents\\DAIANE\\conversao\\nelia-fam-suprev.csv");
 
         try {
             //le o csv
@@ -103,20 +112,25 @@ public class ImportdataController {
     public void makeAssociado(String[] campos ) throws ParseException {
 
 
-        Associacao associacao = associacaoService.getById( Long.valueOf(2));
-        Correspondente correspondente = correspondenteService.getById(Long.valueOf(239));
-        Convenio convenio = convenioService.getById(Long.valueOf(1));
-        VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(2));
+        Associacao associacao = associacaoService.getById( Long.valueOf(associacaoID));
+        Correspondente correspondente = correspondenteService.getById(Long.valueOf(correspondenteID));
+        Convenio convenio = convenioService.getById(Long.valueOf(convenioID));
+        VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(verbadescontoID));
 
         System.out.println("######################## Linha--> "+line+" - Inseridos --> "+(line - (inseridos +1)));
 
         Associado associado = new Associado();
 
         if(campos[5] != null && !campos[5].isEmpty()){
-            String cpfString = campos[5].replaceAll("[.-]", "").trim();
+            String cpfString = campos[5].replaceAll("[,.-]", "").trim();
+            //Seta CPF
 
+            if(Long.valueOf(cpfString) == 10 ){
+                cpfString = "0"+cpfString;
+            }
             associado.setCpf( Long.valueOf(cpfString));
 
+            //Set Mensalidade
             if(campos[1].isEmpty()){
                 Double vlrmensalidade =0.0;
                 associado.setVlrmensalidade(vlrmensalidade);
@@ -125,13 +139,9 @@ public class ImportdataController {
                 associado.setVlrmensalidade(vlrmensalidade);
             }
 
+            Associado associadoResult =  associadoService.getByCpf(Long.valueOf(cpfString));
 
 
-            Optional<Associado> associadofind =  associadoService.getList(1).stream().
-                    filter(p -> p.getCpf().equals(associado.getCpf())).
-                    findFirst();
-
-            Associado associadoResult = associadofind.orElse(null);
 
             if(associadoResult == null){
 
@@ -142,7 +152,7 @@ public class ImportdataController {
 
             } else {
 
-                Associado associadoRefis = associadofind.get();
+                Associado associadoRefis = associadoResult;
                 makeRefinanciamento(associadoRefis, campos);
 
                 return;
@@ -187,13 +197,17 @@ public class ImportdataController {
 
         auxilioService.save(auxilio);
 
-        int interator = 0;
+
         for (int i=0; i < qtdparcelas ; i++ ){
 
             Parcela parcela = new Parcela();
             parcela.setParcela(i+1);
             parcela.setData(dateTimeReserva.plusMonths(i+1));
-            parcela.setStatus("EM ABERTO");
+            if (parcela.getParcela() == 1){
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                parcela.setStatus("Enviado Folha " +  dateTimeReserva.plusMonths(1).withDayOfMonth(3).format(dtf));
+            }
+            parcela.setStatus("Em Aberto");
             parcela.setAuxilio_id(auxilio);
             parcela.setOplock(oplock);
 
@@ -205,12 +219,19 @@ public class ImportdataController {
 
         }
 
-        for (int i=0; i < 12 ; i++ ){
+        //cria as mensalidades
+        for (int i=0; i < qtdparcelas ; i++ ){
 
             Mensalidade m = new Mensalidade();
             m.setMensalidade(i+1);
-            m.setStatuspagamento("Em Aberto");
+            if (m.getMensalidade() == 1){
+                m.setStatuspagamento("Enviado Folha " + dateTimeReserva.plusMonths(1));
+            }else{
+                m.setStatuspagamento("Em Aberto");
+            }
+
             m.setAssociado_id(associado);
+            m.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
             m.setVlrmensalidade(associado.getVlrmensalidade());
             m.setOplock(oplock);
 
@@ -221,9 +242,9 @@ public class ImportdataController {
 
     public void makeRefinanciamento(Associado associadoRefis, String[] campos  ) throws ParseException {
 
-        Associacao associacao = associacaoService.getById( Long.valueOf(2));
+        Associacao associacao = associacaoService.getById( Long.valueOf(associacaoID));
         Correspondente correspondente = correspondenteService.getById(Long.valueOf(239));
-        Convenio convenio = convenioService.getById(Long.valueOf(1));
+        Convenio convenio = convenioService.getById(Long.valueOf(convenioID));
         VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(2));
 
 
@@ -233,7 +254,6 @@ public class ImportdataController {
         LocalDate dateTimeReserva = LocalDate.parse(dataReserva, formatter);
 
         LocalDate dataContrato = LocalDate.now();
-        String numeroproposta;
 
         //Valores
         Double vlrauxilio = Double.valueOf(campos[0].replace(".","").replace(",","."));
@@ -241,7 +261,6 @@ public class ImportdataController {
         Double vlrtotal =Double.valueOf(campos[4].replace(".","").replace(",","."));
 
         Integer qtdparcelas =  Integer.parseInt(campos[8]);
-        Integer porcentagem;
 
         Auxilio auxilio = new Auxilio();
         auxilio.setAssociado_id(associadoRefis);
@@ -266,30 +285,126 @@ public class ImportdataController {
         auxilio.setVlrtotal(vlrtotal);
         auxilio.setPorcentagem(5);
         auxilio.setTipo("REFINANCIAMENTO");
-        auxilio.setNumeroproposta(associadoRefis.getCpf().toString() + dateTimeReserva.getYear() +".1");
 
         //Relacionamentos
         auxilio.setAssociacao_id(associacao);
         auxilio.setCorrespondente_id(correspondente);
         auxilio.setConvenio_id(convenio);
         auxilio.setVerbadesconto_id(verbaDesconto);
+
+        List<Auxilio> AuxilioList = associadoRefis.getAuxilioList();
+
+        Auxilio auxilioAnteriorGet =  AuxilioList.get(AuxilioList.size() - 1) ;
+        Auxilio auxilioAnterior = auxilioService.getByIdCustom(auxilioAnteriorGet.getId()) ;
+
+        if(associadoRefis.getAuxilioList().size() == 1){
+            auxilio.setNumeroproposta(auxilioAnterior.getNumeroproposta() +".1");
+        }
+
+        if(associadoRefis.getAuxilioList().size() == 2){
+            auxilio.setNumeroproposta(auxilioAnterior.getNumeroproposta()  +".2");
+        }
+        if(associadoRefis.getAuxilioList().size() == 3){
+            auxilio.setNumeroproposta(auxilioAnterior.getNumeroproposta() +".3");
+        }
+        if(associadoRefis.getAuxilioList().size() == 5){
+            auxilio.setNumeroproposta(auxilioAnterior.getNumeroproposta() +".4");
+        }
+
+        //datas
+        LocalDate dateTimePrimeiroAuxilio =auxilioAnterior.getDatareserva();
+
+        Period diferencaMes = Period.between(dateTimePrimeiroAuxilio.withDayOfMonth(1), dateTimeReserva.withDayOfMonth(1));
+        System.out.println(diferencaMes);
+
+        List<Parcela> parcelaListAuxilioAnterio = new ArrayList<>(auxilioAnterior.getParcelaList());
+
+        //Atualiza parcela anterior
+        for(Parcela parcela : parcelaListAuxilioAnterio){
+
+            if (parcela.getParcela() > Integer.valueOf((int) diferencaMes.toTotalMonths()) ) {
+                parcela.setStatus("PAGO REFIS");
+                parcela.setDatapagamento(dateTimeReserva.plusMonths(1).withDayOfMonth(4));
+                parcela.setValorpago(parcela.getValor());
+                parcela.setOplock(oplock);
+            }else {
+                parcela.setStatus("PAGO");
+                parcela.setValorpago(parcela.getValor());
+                parcela.setDatapagamento(parcela.getDatavencimento());
+                parcela.setOplock(oplock);
+            }
+
+            parcelaService.save(parcela);
+
+        }
+
+        List<Mensalidade> mensalidadeList = associadoRefis.getMensalidadeList();
+
+        Comparator<Mensalidade> bymensalidade = (e1, e2) -> Integer.compare(e2.getMensalidade(), e1.getMensalidade());
+        mensalidadeList.sort(bymensalidade.reversed());
+
+        int diferencameses = Integer.valueOf((int) diferencaMes.toTotalMonths());
+
+        //Atualiza Mensalidades
+        for(Mensalidade mensalidade : mensalidadeList){
+
+            if (mensalidade.getMensalidade() <= diferencameses  ) {
+                mensalidade.setStatuspagamento("PAGO");
+                mensalidade.setDatavencimento(mensalidade.getDatavencimento());
+                mensalidade.setDataprocesamento(dateTimeReserva.plusMonths(1).withDayOfMonth(4));
+                mensalidade.setVlrdescontado(mensalidade.getVlrmensalidade());
+                mensalidade.setOplock(oplock);
+                mensalidadeService.save(mensalidade);
+            }else{
+                mensalidadeService.delete(mensalidade.getId());
+            }
+
+
+        }
+
+        // salva auxilio
         auxilioService.save(auxilio);
 
-
+        // cria as PArcelas do novo refis
         for (int i=0; i < qtdparcelas ; i++ ){
 
             Parcela parcela = new Parcela();
             parcela.setParcela(i+1);
             parcela.setData(dateTimeReserva.plusMonths(i+1));
-            parcela.setStatus("EM ABERTO");
+            if (parcela.getParcela() == 1){
+                parcela.setStatus("Enviado Folha " + dateTimeReserva.plusMonths(1));
+            }
+            parcela.setStatus("Em Aberto");
             parcela.setAuxilio_id(auxilio);
             parcela.setOplock(oplock);
+            parcela.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
 
             parcela.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
 
             parcela.setValor(auxilio.getVlrparcelas());
 
             parcelaService.save(parcela);
+
+        }
+
+
+        //cria as mensalidades do novo refis
+        for (int i=0; i < qtdparcelas ; i++ ){
+
+            Mensalidade m = new Mensalidade();
+            m.setMensalidade(diferencameses + i+1);
+            if (m.getMensalidade() == diferencameses +1){
+                m.setStatuspagamento("Enviado Folha " + dateTimeReserva.plusMonths(1));
+            }else{
+                m.setStatuspagamento("Em Aberto");
+            }
+
+            m.setAssociado_id(associadoRefis);
+            m.setVlrmensalidade(associadoRefis.getVlrmensalidade());
+            m.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
+            m.setOplock(oplock);
+
+            mensalidadeService.save(m);
         }
 
 
