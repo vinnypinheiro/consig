@@ -23,6 +23,7 @@ export interface Associado extends DomainBase {
      estado: string;
      municipio: string;
      datacadastro: Date;
+     arquivo: string;
 
      //Dados Bancários
     // TODO: Adicionar no formulário

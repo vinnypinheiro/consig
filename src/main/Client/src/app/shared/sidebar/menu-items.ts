@@ -59,7 +59,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [
             {
                 path: '/associacao',
-                title: 'Transações',
+                title: 'Resumo financeiro',
                 icon: 'fas fa-retweet',
                 class: '',
                 ddclass: '',

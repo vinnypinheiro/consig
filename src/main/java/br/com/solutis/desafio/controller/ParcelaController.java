@@ -19,9 +19,12 @@ public class ParcelaController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody Parcela bean) {
 
-        if (bean.getId() > 0){
-            bean.setId(bean.getId());
-        }
+        Parcela parcela = parcelaService.getById(bean.getId());
+
+        parcela.setDatapagamento(bean.getDatapagamento());
+        parcela.setStatus(bean.getStatus());
+        parcela.setValorpago(bean.getValorpago());
+
 
         return this.buildResponse(parcelaService.save(bean));
     }

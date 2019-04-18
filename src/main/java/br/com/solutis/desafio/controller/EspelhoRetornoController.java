@@ -58,7 +58,7 @@ public class EspelhoRetornoController {
     int minline = 0;
     int maxline = 99999999;
 
-    String oplock = "1993";
+    String oplock = "0002";
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -71,7 +71,7 @@ public class EspelhoRetornoController {
 
 
         BufferedReader br = null;
-        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\EspelhoRemessaSuprev.CSV");
+        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\remessa\\marco.CSV");
 
 
         try {
@@ -88,8 +88,8 @@ public class EspelhoRetornoController {
                     //divide a lina em campos informando o separador
                     String[] campos = linha.split(";");
 
-                    //faz alguma coisa com os campos
-                    if(!campos[1].trim().isEmpty()){
+                    //faz alguma coisa com os campos de cada linha
+                    if(!campos[2].trim().isEmpty()){
                         makeAssociado(campos);
                     }
 
@@ -108,10 +108,19 @@ public class EspelhoRetornoController {
         System.out.println("##########################"+line+" - "+(line - (inseridos +1)));
 
 
-        if(campos[1] != null && !campos[1].isEmpty()){
-            String cpfString = campos[1].replaceAll("[.-]", "").trim();
+        if(campos[2] != null && !campos[2].isEmpty()){
+            String cpfString = campos[2].replaceAll("[.-]", "").trim();
 
+            //Seta CPF
+
+            if(Long.valueOf(cpfString) == 10 ){
+                cpfString = "0"+cpfString;
+            }
+
+            //Busca o Associado para atualizar o auxilio
             Associado associado = associadoService.getByCpf(Long.valueOf(cpfString));
+
+            //gera a ocorrencia
             LocalDate dateTimeOcorrencia = LocalDate.now();
             Ocorrencia ocorrencia = new Ocorrencia();
             ocorrencia.setAssociado_id(associado);
@@ -119,11 +128,27 @@ public class EspelhoRetornoController {
             ocorrencia.setDescricao("Leitura espelho retorno oplock = "+ oplock );
 
             // Atualiza o associado
-            associado.setOrgao(campos[3]);
-            associado.setMatricula(campos[2]);
-            associado.setSituacao(campos[8]);
 
+            //matricula
+            if(campos[1] != null){
+                associado.setMatricula(campos[1]);
+            }else{
+                associado.setMatricula("");
+            }
 
+            //situação
+            if(campos[13] != null){
+                associado.setSituacao(campos[13]);
+            }else{
+                associado.setSituacao("");
+            }
+
+            //orgão
+            if(campos[9] != null){
+                associado.setOrgao(campos[9]);
+            }else{
+                associado.setOrgao("");
+            }
 
             // Atualiza a mensalidade
             if(campos[10].contains("5022")){
@@ -144,64 +169,43 @@ public class EspelhoRetornoController {
 
     public void atualizaParcela(Associado associado,String[] campos  ) throws ParseException {
 
-        List<Auxilio> auxilios = new ArrayList<>( associado.getAuxilioList());
+        try {
+            List<Auxilio> auxilios = new ArrayList<>( associado.getAuxilioList());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        Double vlrparcela = Double.valueOf(campos[7].replace(".","").replace(",","."));
-        Double vlrpago = Double.valueOf(campos[7].replace(".","").replace(",","."));
-        int parcelaNum = Integer.valueOf( campos[5].substring(0, 2));
+            Double vlrpago = Double.valueOf(campos[7].replace(".","").replace(",","."));
+            int parcelaNum = Integer.valueOf( campos[3]);
 
-        for(Auxilio auxilio : auxilios){
+            Auxilio auxilioLast = auxilios.get(auxilios.size() - 1);
 
-            int retval = Double.compare(auxilio.getVlrparcelas(), vlrparcela);
+            auxilioLast.setQtdparcelaspagas(Integer.valueOf( campos[3]));
 
-            if( retval == 0  ){
+            List<Parcela> parcelaList = new ArrayList<>(auxilioLast.getParcelaList());
 
-                List<Parcela> parcelaList = new ArrayList<>(auxilio.getParcelaList());
+            Comparator<Parcela> byParcela = (e1, e2) -> Integer.compare(e2.getParcela(), e1.getParcela());
+            parcelaList.sort(byParcela.reversed());
 
-                Comparator<Parcela> byParcela = (e1, e2) -> Integer.compare(e2.getParcela(), e1.getParcela());
-                parcelaList.sort(byParcela.reversed());
+            for(Parcela parcela : parcelaList){
 
-                for(Parcela parcela : parcelaList){
-
-                    if (parcela.getParcela() > parcelaNum ) return;
-
-                         parcela.setStatus("PAGO");
-                         parcela.setValorpago(vlrpago);
-                        parcela.setDatapagamento(parcela.getDatavencimento());
-                        parcela.setOplock(oplock);
-
-                    parcelaService.save(parcela);
-
-                }
-
-
-
-
-            } else {
-
-
-                List<Parcela> parcelaList = new ArrayList<>(auxilio.getParcelaList());
-                int i = 0;
-                for(Parcela parcela : parcelaList){
-                    i++;
-                    if(parcela.getDatavencimento() != null ){
-                        parcela.setDatapagamento(parcela.getDatavencimento());
-                    }else{
-                        parcela.setDatapagamento(auxilio.getDatareserva().plusMonths(i+1).withDayOfMonth(3));
-                    }
-                    parcela.setStatus("PAGO");
+                if (parcela.getParcela() <= parcelaNum & !campos[7].contains("-") ){
+                    parcela.setStatus("LIQUIDADA");
+                    parcela.setValorpago(vlrpago);
+                    parcela.setDatapagamento(parcela.getDatavencimento());
                     parcela.setOplock(oplock);
 
                     parcelaService.save(parcela);
+                } else if (parcela.getParcela() == parcelaNum & campos[7].contains("-")){
 
+                    parcela.setStatus("EM ABERTO");
                 }
+
 
             }
 
 
-
+        } catch(Exception e){
+            return;
         }
 
 
@@ -211,41 +215,93 @@ public class EspelhoRetornoController {
 
 
 
-
-
-
-
     public void atualizaMensalidade(Associado associado,String[] campos  ) throws ParseException {
 
+
+
         List<Mensalidade> mensalidades =   new ArrayList<>(associado.getMensalidadeList());
-        Double vlrParcela = Double.valueOf(campos[6].replace(".","").replace(",","."));
 
-        for(Mensalidade mensalidade : mensalidades){
-            mensalidadeService.delete(mensalidade.getId());
-        }
+        Double vlrParcela = Double.valueOf(campos[7].replace(".","").replace(",","."));
 
-        int qtdMensalidadesPagas = Integer.valueOf( campos[5].substring(0, 2));
+        if (vlrParcela > 0 ){
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataReferencia = LocalDate.parse("03/04/2019", formatter);
 
-        for (int i=0; i < qtdMensalidadesPagas ; i++ ){
+            for(Mensalidade mensalidade : mensalidades){
+                mensalidadeService.delete(mensalidade.getId());
+            }
 
-            LocalDate dataPagamento = dataReferencia.minusMonths(i+1).withDayOfMonth(3);
+            int qtdMensalidadesPagas = Integer.valueOf(campos[3]);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataReferencia = LocalDate.parse("03/04/2019", formatter);
+
+            for (int i=0; i < qtdMensalidadesPagas ; i++ ){
+
+                LocalDate dataPagamento = dataReferencia.minusMonths(i+1).withDayOfMonth(3);
+
+                Mensalidade mensalidade = new Mensalidade();
+                mensalidade.setMensalidade(qtdMensalidadesPagas - i);
+                mensalidade.setMesanoref(String.valueOf(dataPagamento.getYear()));
+                mensalidade.setDatavencimento(dataPagamento);
+                mensalidade.setDataprocesamento(dataPagamento);
+                mensalidade.setStatuspagamento("LIQUIDADA");
+                mensalidade.setAssociado_id(associado);
+                mensalidade.setVlrmensalidade(vlrParcela);
+                mensalidade.setOplock(oplock);
+
+                mensalidadeService.save(mensalidade);
+
+            }
+
+        } else {
+
+            for(Mensalidade mensalidade : mensalidades){
+                mensalidadeService.delete(mensalidade.getId());
+            }
+
+            int qtdMensalidadesPagas = Integer.valueOf(campos[3]);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataReferencia = LocalDate.parse("03/04/2019", formatter);
+
+            for (int i=0; i < qtdMensalidadesPagas ; i++ ){
+
+                LocalDate dataPagamento = dataReferencia.minusMonths(i+2).withDayOfMonth(3);
+
+                Mensalidade mensalidade = new Mensalidade();
+                mensalidade.setMensalidade(qtdMensalidadesPagas - i);
+                mensalidade.setMesanoref(String.valueOf(dataPagamento.getYear()));
+                mensalidade.setDatavencimento(dataPagamento);
+                mensalidade.setDataprocesamento(dataPagamento);
+                mensalidade.setStatuspagamento("LIQUIDADA");
+                mensalidade.setAssociado_id(associado);
+                mensalidade.setVlrmensalidade(vlrParcela);
+                mensalidade.setOplock(oplock);
+
+                mensalidadeService.save(mensalidade);
+
+            }
+
+            LocalDate dataNaoPagamento = dataReferencia.minusMonths(1).withDayOfMonth(3);
 
             Mensalidade mensalidade = new Mensalidade();
-            mensalidade.setMensalidade(dataPagamento.getMonthValue());
-            mensalidade.setMesanoref(String.valueOf(dataPagamento.getYear()));
-            mensalidade.setDatavencimento(dataPagamento);
-            mensalidade.setDataprocesamento(dataPagamento);
-            mensalidade.setStatuspagamento("PAGO");
+            mensalidade.setMensalidade(qtdMensalidadesPagas + 1);
+            mensalidade.setMesanoref(String.valueOf(dataNaoPagamento.getYear()));
+            mensalidade.setDatavencimento(dataNaoPagamento);
+            mensalidade.setDataprocesamento(dataNaoPagamento);
+            mensalidade.setStatuspagamento("EM ABERTO");
             mensalidade.setAssociado_id(associado);
             mensalidade.setVlrmensalidade(vlrParcela);
             mensalidade.setOplock(oplock);
 
             mensalidadeService.save(mensalidade);
 
+
+
+
         }
+
+
 
     }
 

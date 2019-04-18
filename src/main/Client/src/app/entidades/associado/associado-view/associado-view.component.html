@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body" >
                 <h4 class="card-title"><i class="fa fa-user"></i> {{entity?.nome}}</h4>
-                <h5 (click)="copyCPF()" id="cpf" class="card-subtitle">{{entity?.cpf}}</h5>
+                <h5 (click)="copyCPF()" id="cpf" class="card-subtitle">CPF: {{entity?.cpf}}</h5>
                 <h5 class="font-medium">{{entity?.telefone}}</h5>
                 <h5 class="font-medium">{{entity?.email}}</h5>
             </div>
@@ -30,7 +30,7 @@
                             </div>
                             <div>
                                 <span class="text-muted">Total Emprestado</span>
-                                <h3 class="font-medium m-b-0">{{totalAuxilio | currency:'BRL':'symbol':'4.2-2':'pt-BR' }}</h3>
+                                <h3 class="font-medium m-b-0">{{totalAuxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h3>
                             </div>
                         </div>
                     </div>
@@ -248,41 +248,50 @@
                 </div>
                 <br>
                 <div *ngIf="!entity?.auxilioList[0]">Associado não possui histórico de auxilíos</div>
-              <div  *ngIf="entity?.auxilioList[0]"  class="table-responsive">
-                <table class="table v-middle">
-                  <thead>
-                  <tr class="bg-light">
-                      <th class="border-top-0">Data</th>
-                      <th class="border-top-0">Associação</th>
-                      <th class="border-top-0">Convênio</th>
-                      <th class="border-top-0">Correspondente</th>
-                    <th class="border-top-0">Contrato</th>
-                    <th class="border-top-0">Valor Auxílio</th>
-                    <th class="border-top-0">Quant. Parcelas</th>
-                    <th class="border-top-0">Valor da Parcela</th>
-                      <th class="border-top-0">Tipo</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr  *ngFor="let row of entity?.auxilioList">
-                      <td>{{row.dataContrato | date: 'dd/MM/yyyy'}}</td>
-                      <td>IESBA</td>
-                      <td>SAEB</td>
-                      <td>{{row.correspondente_id?.nomefantasia}}</td>
-                    <td>{{row.numeroproposta}}</td>
-                    <td>
-                      <h4 class="m-b-0 font-16">{{row.vlrauxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h4>
-                    </td>
-                    <td>{{row.qtdparcelas}}</td>
-                    <td>{{row.vlrparcelas | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</td>
-                    <td >
-                        <span [ngStyle]="{ 'background-color' : (row.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (row.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{row.tipo}}</span>
-                    </td>
-                  </tr>
 
-                  </tbody>
-                </table>
-              </div>
+                <div *ngIf="entity?.auxilioList[0]" class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+
+                            <th >ID</th>
+                            <th >Data inclusão</th>
+                            <th >Consignatária</th>
+                            <th >Secretaria</th>
+                            <th >Correspondente</th>
+                            <th >Contrato</th>
+                            <th >Valor Auxílio</th>
+                            <th >Valor da Prestação</th>
+                            <th >Prazos</th>
+                            <th >Não Pagos</th>
+                            <th >Pagos</th>
+                            <th >Tipo</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  *ngFor="let row of entity?.auxilioList" >
+
+                            <td>{{row.arquivo}}</td>
+                            <td>{{row.dataContrato | date: 'dd/MM/yyyy'}}</td>
+                            <td>FAMCRED</td>
+                            <td>SAEB</td>
+                            <td>{{row.correspondente_id?.nomefantasia}}</td>
+                            <td>{{row.numeroproposta}}</td>
+                            <td>
+                                <h4 class="m-b-0 font-16">{{row.vlrauxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h4>
+                            </td>
+                            <td>{{row.vlrparcelas | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</td>
+                            <td>{{row.qtdparcelas}}</td>
+                            <td>{{row.qtdparcelaspagas}}</td>
+                            <td>{{row.qtdparcelasnaopagas}}</td>
+                            <td >
+                                <span [ngStyle]="{ 'background-color' : (row.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (row.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{row.tipo}}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
 
             </div>
           </ng-template>
@@ -314,6 +323,7 @@
                                           <th>Parcela</th>
                                           <th>Data Vencimento </th>
                                           <th>Valor </th>
+                                          <th>Valor Descontado</th>
                                           <th>Data de Pagamento </th>
                                           <th>Status</th>
                                           <th></th>
@@ -331,9 +341,12 @@
                                               <p>{{row.valor  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
                                           </td>
                                           <td>
+                                              <p>{{row.valorpago  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                                          </td>
+                                          <td>
                                               <p>{{row.datapagamento  | date: 'dd/MM/yyyy'}}</p>
                                           </td>
-                                          <td ><span [ngStyle]="{ 'background-color' : (row.status=='EM ABERTO')? '#e43030' : '#0f8818', 'color' : (row.status=='PAGO')? '#fff' : '#fff' }" class="label label-danger"> {{row.status}}</span></td>
+                                          <td ><span [ngStyle]="{ 'background-color' : (row.status=='Em Aberto')? '#e43030' : '#0f8818', 'color' : (row.status=='PAGO')? '#fff' : '#fff' }" class="label"> {{row.status}}</span></td>
 
                                           <td>
                                               <p><button (click)="gestaoParcela(row, auxilio, parcelaModal)"  class="btn btn-success btn-circle" type="button"><i class="fa fa-link"></i></button></p>
@@ -402,7 +415,7 @@
                                             <label class="control-label col-form-label">Mudar Status</label>
                                             <select  formControlName="status" class="form-control" >
                                                 <option value="Em Aberto" > Em Aberto</option>
-                                                <option value="Paga" > Paga </option>
+                                                <option value="PAGO" > Pago </option>
                                             </select>
                                         </div>
                                     </div>
@@ -428,7 +441,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" >R$</span>
                                                 </div>
-                                                <input (change)="setValorExtenso()"  type="text"   class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                                                <input (change)="setValorExtenso()" formControlName="valorpago" type="text" value="{{parcelaRow.valor }}" class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
                                             </div>
                                         </div>
                                     </div>
@@ -467,7 +480,7 @@
                     </div>
                 </div>
                 <ngb-tabset type="pills" class="custom-pills">
-                    <ngb-tab  title="Mensalidades: 2019">
+                    <ngb-tab  title="Mensalidades">
                         <ng-template ngbTabContent>
 
                             <div class="table-responsive m-t-20">
@@ -478,6 +491,7 @@
                                         <th>Mensalidade</th>
                                         <th>Data Vencimento </th>
                                         <th>Valor </th>
+                                        <th>Valor Descontado</th>
                                         <th>Data de Pagamento </th>
                                         <th>Status</th>
                                     </tr>
@@ -492,6 +506,9 @@
                                         </td>
                                         <td>
                                             <p>{{row.vlrmensalidade  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{row.valorpago  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
                                         </td>
                                         <td>
                                             <p>{{row.dataprocesamento  | date: 'dd/MM/yyyy'}}</p>
@@ -522,13 +539,13 @@
                 <div class="form-group">
                   <label class="col-md-12">Nome Completo</label>
                   <div class="col-md-12">
-                    <input type="text" placeholder="{{entity.nome}}" class="form-control form-control-line">
+                    <input type="text" placeholder="{{entity?.nome}}" class="form-control form-control-line">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="example-email" class="col-md-12">CPF</label>
                   <div class="col-md-12">
-                    <input type="email" placeholder="{{entity.nome}}" class="form-control form-control-line" name="example-email" id="example-email">
+                    <input type="email" placeholder="{{entity?.cpf}}" class="form-control form-control-line" name="example-email" id="example-email">
                   </div>
                 </div>
                 <div class="form-group">
@@ -546,7 +563,7 @@
                   <div class="form-group">
                       <label class="col-md-12">Status</label>
                       <div class="col-md-12">
-                          <input type="text" placeholder="{{entity.status}}" class="form-control form-control-line">
+                          <input type="text" placeholder="{{entity?.status}}" class="form-control form-control-line">
                       </div>
                   </div>
                 <div class="form-group">

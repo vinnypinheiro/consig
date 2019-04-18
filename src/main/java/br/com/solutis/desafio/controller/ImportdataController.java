@@ -60,12 +60,12 @@ public class ImportdataController {
     int maxline = 99999999;
     //1 -FAMCRED 2-IESBA
     int associacaoID = 1 ;
-    int correspondenteID = 239;
-    int convenioID =2;
+    int correspondenteID = 233;
+    int convenioID =1;
     int verbadescontoID = 1;
     
 
-    String oplock = "1993";
+    String oplock = "0001";
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -78,7 +78,7 @@ public class ImportdataController {
 
 
         BufferedReader br = null;
-        FileReader fl =  new FileReader("C:\\Users\\vinicio\\Documents\\DAIANE\\conversao\\nelia-fam-suprev.csv");
+        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\conversao\\aires-fam-saeb.csv");
 
         try {
             //le o csv
@@ -95,7 +95,7 @@ public class ImportdataController {
                     String[] campos = linha.split(";");
 
                     //faz alguma coisa com os campos
-                    if(!campos[5].trim().isEmpty()){
+                    if(!campos[4].trim().isEmpty()){
                         makeAssociado(campos);
                     }
 
@@ -119,60 +119,35 @@ public class ImportdataController {
 
         System.out.println("######################## Linha--> "+line+" - Inseridos --> "+(line - (inseridos +1)));
 
-        Associado associado = new Associado();
 
-        if(campos[5] != null && !campos[5].isEmpty()){
-            String cpfString = campos[5].replaceAll("[,.-]", "").trim();
+            String cpfString = campos[4].replaceAll("[,.-]", "").trim();
             //Seta CPF
 
-            if(Long.valueOf(cpfString) == 10 ){
-                cpfString = "0"+cpfString;
-            }
-            associado.setCpf( Long.valueOf(cpfString));
+            Associado associado =  associadoService.getByCpf(Long.valueOf(cpfString));
+
 
             //Set Mensalidade
             if(campos[1].isEmpty()){
-                Double vlrmensalidade =0.0;
+                Double vlrmensalidade =79.0;
                 associado.setVlrmensalidade(vlrmensalidade);
             } else{
-                Double vlrmensalidade = Double.valueOf(campos[1].replace(".","").replace(",","."));
+                Double vlrmensalidade = Double.valueOf(campos[2].replace(".","").replace(",","."));
                 associado.setVlrmensalidade(vlrmensalidade);
             }
 
-            Associado associadoResult =  associadoService.getByCpf(Long.valueOf(cpfString));
 
 
 
-            if(associadoResult == null){
-
-                associado.setNome(campos[6]);
-                associado.setOplock(oplock);
-                System.out.println(associado.getNome());
-                associadoService.save(associado);
-
-            } else {
-
-                Associado associadoRefis = associadoResult;
-                makeRefinanciamento(associadoRefis, campos);
-
-                return;
-
-            }
-
-
-        }
-
-        String dataReserva = campos[9];
+        String dataReserva = campos[7];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dateTimeReserva = LocalDate.parse(dataReserva, formatter);
 
 
          //Valores
-         Double vlrauxilio = Double.valueOf(campos[0].replace(".","").replace(",","."));
-         Double vlrParcela = Double.valueOf(campos[2].replace(".","").replace(",","."));
-         Double vlrtotal =Double.valueOf(campos[4].replace(".","").replace(",","."));
-
-         Integer qtdparcelas =  Integer.parseInt(campos[8]);
+         Double vlrauxilio = Double.valueOf(campos[1].replace(".","").replace(",","."));
+         String arquivo = campos[0];
+         Double vlrParcela = Double.valueOf(campos[3].replace(".","").replace(",","."));
+         Integer qtdparcelas =  Integer.parseInt(campos[6]);
          Integer porcentagem;
 
         Auxilio auxilio = new Auxilio();
@@ -182,9 +157,17 @@ public class ImportdataController {
         auxilio.setVlrauxilio(vlrauxilio);
         auxilio.setVlrparcelas(vlrParcela);
         auxilio.setQtdparcelas(qtdparcelas);
-        auxilio.setVlrtotal(vlrtotal);
+        auxilio.setVlrtotal(vlrauxilio*qtdparcelas);
         auxilio.setPorcentagem(4);
-        auxilio.setTipo("CONTRATO");
+
+
+        if(Integer.valueOf(campos[8])  == 1){
+            auxilio.setTipo("REFINANCIAMENTO");
+        }else {
+            auxilio.setTipo("CONTRATO");
+        }
+
+        auxilio.setArquivo(campos[0]);
         auxilio.setNumeroproposta(associado.getCpf().toString() + dateTimeReserva.getYear());
         auxilio.setOplock(oplock);
 

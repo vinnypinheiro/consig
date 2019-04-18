@@ -39,6 +39,7 @@ import {VerbaDesconto} from "../../verbadesconto/verbadesconto";
 import {Parcela} from "../../parcela/parcela";
 import {Auxilio} from "../../auxilio/auxilio";
 import {ParcelaService} from "../../parcela/parcela.service";
+import {Subject} from "rxjs";
 
 @Injectable()
 export class I18n {
@@ -77,6 +78,9 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
 export class AssociadoViewComponent extends CommonsForm<Associado>   implements OnInit  {
     model: NgbDateStruct;
 
+    dtOptions: DataTables.Settings = {};
+    dtTrigger: Subject<Auxilio> = new Subject();
+
     entity: any;
     associacao: Associacao [];
     correspondente: Correspondente [];
@@ -88,6 +92,8 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
     parcelaRow: Parcela;
 
     totalAuxilio: number;
+
+    totalAssociaods: number;
 
 
     constructor(
@@ -120,9 +126,9 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
               this.apiService.findById(this.beanId).subscribe(response => {
                   this.activeBean = (<any>response);
                   this.entity = this.activeBean;
-                  console.log(this.entity)
-
+                  console.log(this.entity);
                   this.calculaValorTotalAuxilio(this.entity);
+                  this.dtTrigger.next();
               });
           }
       });
@@ -136,6 +142,33 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
           this.correspondente = response.content;
       });
 
+      this.dtOptions = {
+          pagingType: 'full_numbers',
+          pageLength: 20,
+          language: {
+              emptyTable: "Nenhum registro encontrado",
+              info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+              infoEmpty: "Mostrando 0 até 0 de 0 registros",
+              infoFiltered: "(Filtrados de _MAX_ registros)",
+              infoPostFix: "",
+              thousands: ".",
+              lengthMenu: "_MENU_ resultados por página",
+              loadingRecords: "Carregando...",
+              processing: "Processando...",
+              zeroRecords: "Nenhum registro encontrado",
+              search: "Pesquisar",
+              paginate: {
+                  next: "Próximo",
+                  previous: "Anterior",
+                  first: "Primeiro",
+                  last: "Último"
+              },
+              aria: {
+                  sortAscending: ": Ordenar colunas de forma ascendente",
+                  sortDescending: ": Ordenar colunas de forma descendente"
+              }
+          }
+      };
   }
 
   copyCPF(){
@@ -221,6 +254,7 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         id: null,
         datapagamento:  null,
         status:  null,
+        valorpago: null
 
     });
 
@@ -299,7 +333,7 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
             {
                 associado_id: this.entity,
                 dataContrato: d,
-                numeroproposta: this.entity.cpf +'.2019'
+                numeroproposta: this.entity.cpf + "."+ d.getFullYear(),
 
             }
         );
@@ -307,6 +341,7 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         this.auxilioService.save(this.activeForm.value).subscribe(response => {
             console.log(response);
             this.closeLg('Close');
+            this.ngOnInit();
         });
     }
 

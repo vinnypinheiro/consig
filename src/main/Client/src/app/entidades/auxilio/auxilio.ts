@@ -17,6 +17,8 @@ export interface Auxilio extends DomainBase {
     vlrparcelas: number;
     porcentagem: number;
     tipo: string;
+    getQtdparcelasnaopagas: number;
+    getQtdparcelaspagas: number;
 
     convenio_id: Convenio;
     associacao_id: Associacao;

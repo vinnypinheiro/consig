@@ -29,12 +29,15 @@ public class Auxilio implements Serializable {
     private Double vlrauxilio;
     private String vlrauxextenso;
     private Integer qtdparcelas;
+    private Integer qtdparcelaspagas;
+    private Integer qtdparcelasnaopagas;
     private Double vlrparcelas;
     private Double vlrtotal;
     private Integer porcentagem;
     private String tipo;
     private  String status;
     private String oplock;
+    private String arquivo;
 
 
     @JsonBackReference(value="associado-auxilio")
@@ -61,6 +64,21 @@ public class Auxilio implements Serializable {
     @OneToMany(mappedBy = "auxilio_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Parcela> parcelaList = new ArrayList<>();
 
+    public Integer getQtdparcelasnaopagas() {
+        return qtdparcelasnaopagas;
+    }
+
+    public void setQtdparcelasnaopagas(Integer qtdparcelasnaopagas) {
+        this.qtdparcelasnaopagas = qtdparcelasnaopagas;
+    }
+
+    public Integer getQtdparcelaspagas() {
+        return qtdparcelaspagas;
+    }
+
+    public void setQtdparcelaspagas(Integer qtdparcelaspagas) {
+        this.qtdparcelaspagas = qtdparcelaspagas;
+    }
 
     public Long getId() {
         return id;
@@ -221,5 +239,13 @@ public class Auxilio implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(String arquivo) {
+        this.arquivo = arquivo;
     }
 }

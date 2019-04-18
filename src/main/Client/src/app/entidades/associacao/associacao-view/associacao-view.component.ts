@@ -21,6 +21,9 @@ interface Chart {
 })
 export class AssociacaoViewComponent implements OnInit {
 
+    TotalAuxiliosFAM: number =  692;
+    TotalEmprestato: number = 753336.03;
+
   constructor() { }
 
     lineChart: Chart = {

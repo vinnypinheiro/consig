@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 
 
 @RestController("AuxilioController")
@@ -24,13 +25,17 @@ public class AuxilioController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody Auxilio bean) {
 
+        LocalDate dataContrato = bean.getDataContrato();
+
 
         for (int i=0; i < bean.getQtdparcelas() ; i++ ){
 
             Parcela p = new Parcela();
             p.setParcela(i+1);
-            p.setStatus("EM ABERTO");
+            p.setStatus("Em Aberto");
             p.setAuxilio_id(bean);
+            p.setData(bean.getDataContrato());
+            p.setDatavencimento(dataContrato.plusMonths(i+1).withDayOfMonth(4));
             p.setValor(bean.getVlrparcelas());
 
 
