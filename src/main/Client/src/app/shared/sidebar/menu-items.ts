@@ -67,7 +67,7 @@ export const ROUTES: RouteInfo[] = [
                 submenu: []
             },
             {
-                path: '/correspondente',
+                path: '/lancamento',
                 title: 'Lançamentos',
                 icon: 'fas fa-upload',
                 class: '',

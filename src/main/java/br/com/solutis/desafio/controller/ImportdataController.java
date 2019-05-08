@@ -2,6 +2,7 @@ package br.com.solutis.desafio.controller;
 import br.com.solutis.desafio.domain.*;
 import br.com.solutis.desafio.helper.filter.FilterData;
 import br.com.solutis.desafio.service.*;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,10 +59,17 @@ public class ImportdataController {
     int inseridos = 0;
     int minline = 0;
     int maxline = 99999999;
+
     //1 -FAMCRED 2-IESBA
     int associacaoID = 1 ;
+
+    // 233- AIRES  239-NELIA  237-NILDA  235-ESCRITORIO
     int correspondenteID = 233;
+
+    //1- SAEB   2- SUPREV
     int convenioID =1;
+
+    // 1- 5041 (PARCELA)   2- 5022 (MENSALIDADE)
     int verbadescontoID = 1;
     
 
@@ -78,7 +86,7 @@ public class ImportdataController {
 
 
         BufferedReader br = null;
-        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\conversao\\aires-fam-saeb.csv");
+        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\conversao\\escr-fam-saeb.csv");
 
         try {
             //le o csv
@@ -119,23 +127,29 @@ public class ImportdataController {
 
         System.out.println("######################## Linha--> "+line+" - Inseridos --> "+(line - (inseridos +1)));
 
+        String cpfString = campos[4].replaceAll("[,.-]", "").trim();
 
-            String cpfString = campos[4].replaceAll("[,.-]", "").trim();
-            //Seta CPF
+           Associado associado =  associadoService.getByCpf(Long.valueOf(cpfString));
 
-            Associado associado =  associadoService.getByCpf(Long.valueOf(cpfString));
+           if(associado == null ){
+                associado = new Associado();
+
+               if(campos[4] != null && !campos[4].isEmpty()){
+                   associado.setNome(campos[5]);
+                   associado.setCpf( Long.valueOf(cpfString) );
+                   associadoService.save(associado);
+               }
+           }
 
 
             //Set Mensalidade
-            if(campos[1].isEmpty()){
+            if(campos[2].isEmpty()){
                 Double vlrmensalidade =79.0;
                 associado.setVlrmensalidade(vlrmensalidade);
             } else{
                 Double vlrmensalidade = Double.valueOf(campos[2].replace(".","").replace(",","."));
                 associado.setVlrmensalidade(vlrmensalidade);
             }
-
-
 
 
         String dataReserva = campos[7];
@@ -148,7 +162,6 @@ public class ImportdataController {
          String arquivo = campos[0];
          Double vlrParcela = Double.valueOf(campos[3].replace(".","").replace(",","."));
          Integer qtdparcelas =  Integer.parseInt(campos[6]);
-         Integer porcentagem;
 
         Auxilio auxilio = new Auxilio();
         auxilio.setAssociado_id(associado);
@@ -167,7 +180,7 @@ public class ImportdataController {
             auxilio.setTipo("CONTRATO");
         }
 
-        auxilio.setArquivo(campos[0]);
+        auxilio.setArquivo(arquivo);
         auxilio.setNumeroproposta(associado.getCpf().toString() + dateTimeReserva.getYear());
         auxilio.setOplock(oplock);
 
@@ -186,10 +199,6 @@ public class ImportdataController {
             Parcela parcela = new Parcela();
             parcela.setParcela(i+1);
             parcela.setData(dateTimeReserva.plusMonths(i+1));
-            if (parcela.getParcela() == 1){
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                parcela.setStatus("Enviado Folha " +  dateTimeReserva.plusMonths(1).withDayOfMonth(3).format(dtf));
-            }
             parcela.setStatus("Em Aberto");
             parcela.setAuxilio_id(auxilio);
             parcela.setOplock(oplock);

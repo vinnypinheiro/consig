@@ -18,6 +18,7 @@ const routes: Routes = [
             { path: 'importdata', loadChildren: './entidades/importdata/importdata.module#ImportdataModule' },
             { path: 'espelhoretorno', loadChildren: './entidades/espelhoretorno/espelhoretorno.module#EspelhoretornoModule' },
             { path: 'associado', loadChildren: './entidades/associado/associado.module#AssociadoModule' },
+            { path: 'lancamento', loadChildren: './entidades/lancamentos/lancamento.module#LancamentoModule' },
             {path: 'login', component: LoginComponent},
             {path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]},
             {path: 'usuario', loadChildren: './entidades/usuario/usuario.module#UsuarioModule'},

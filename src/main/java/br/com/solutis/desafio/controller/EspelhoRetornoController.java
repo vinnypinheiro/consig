@@ -120,6 +120,17 @@ public class EspelhoRetornoController {
             //Busca o Associado para atualizar o auxilio
             Associado associado = associadoService.getByCpf(Long.valueOf(cpfString));
 
+            if(associado == null ){
+                associado = new Associado();
+
+                if(campos[2] != null && !campos[2].isEmpty()){
+                    associado.setNome(campos[0]);
+                    associado.setCpf( Long.valueOf(cpfString) );
+                    associadoService.save(associado);
+
+                }
+            }
+
             //gera a ocorrencia
             LocalDate dateTimeOcorrencia = LocalDate.now();
             Ocorrencia ocorrencia = new Ocorrencia();
@@ -175,11 +186,15 @@ public class EspelhoRetornoController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
             Double vlrpago = Double.valueOf(campos[7].replace(".","").replace(",","."));
+            Double vlrprestacao = Double.valueOf(campos[6].replace(".","").replace(",","."));
             int parcelaNum = Integer.valueOf( campos[3]);
 
             Auxilio auxilioLast = auxilios.get(auxilios.size() - 1);
 
             auxilioLast.setQtdparcelaspagas(Integer.valueOf( campos[3]));
+            auxilioLast.setQtdparcelasnaopagas(Integer.valueOf( campos[5]));
+            auxilioLast.setVlrparcelas(vlrprestacao);
+            auxilioLast.setNumeroproposta(campos[12]);
 
             List<Parcela> parcelaList = new ArrayList<>(auxilioLast.getParcelaList());
 
@@ -198,6 +213,7 @@ public class EspelhoRetornoController {
                 } else if (parcela.getParcela() == parcelaNum & campos[7].contains("-")){
 
                     parcela.setStatus("EM ABERTO");
+                    parcelaService.save(parcela);
                 }
 
 
@@ -221,80 +237,87 @@ public class EspelhoRetornoController {
 
         List<Mensalidade> mensalidades =   new ArrayList<>(associado.getMensalidadeList());
 
-        Double vlrParcela = Double.valueOf(campos[7].replace(".","").replace(",","."));
+        if (!campos[7].contains("-")){
+            Double vlrParcela = Double.valueOf(campos[7].replace(".","").replace(",","."));
 
-        if (vlrParcela > 0 ){
+            if (vlrParcela > 0 ){
 
 
-            for(Mensalidade mensalidade : mensalidades){
-                mensalidadeService.delete(mensalidade.getId());
-            }
+                for(Mensalidade mensalidade : mensalidades){
+                    mensalidadeService.delete(mensalidade.getId());
+                }
 
-            int qtdMensalidadesPagas = Integer.valueOf(campos[3]);
+                int qtdMensalidadesPagas = Integer.valueOf(campos[3]);
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate dataReferencia = LocalDate.parse("03/04/2019", formatter);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate dataReferencia = LocalDate.parse("03/04/2019", formatter);
 
-            for (int i=0; i < qtdMensalidadesPagas ; i++ ){
+                for (int i=0; i < qtdMensalidadesPagas ; i++ ){
 
-                LocalDate dataPagamento = dataReferencia.minusMonths(i+1).withDayOfMonth(3);
+                    LocalDate dataPagamento = dataReferencia.minusMonths(i+1).withDayOfMonth(3);
+
+                    Mensalidade mensalidade = new Mensalidade();
+                    mensalidade.setMensalidade(qtdMensalidadesPagas - i);
+                    mensalidade.setMesanoref(String.valueOf(dataPagamento.getYear()));
+                    mensalidade.setDatavencimento(dataPagamento);
+                    mensalidade.setDataprocesamento(dataPagamento);
+                    mensalidade.setStatuspagamento("LIQUIDADA");
+                    mensalidade.setAssociado_id(associado);
+                    mensalidade.setVlrmensalidade(vlrParcela);
+                    mensalidade.setOplock(oplock);
+
+                    mensalidadeService.save(mensalidade);
+
+                }
+
+            } else {
+
+                for(Mensalidade mensalidade : mensalidades){
+                    mensalidadeService.delete(mensalidade.getId());
+                }
+
+                int qtdMensalidadesPagas = Integer.valueOf(campos[3]);
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate dataReferencia = LocalDate.parse("03/04/2019", formatter);
+
+                for (int i=0; i < qtdMensalidadesPagas ; i++ ){
+
+                    LocalDate dataPagamento = dataReferencia.minusMonths(i+2).withDayOfMonth(3);
+
+                    Mensalidade mensalidade = new Mensalidade();
+                    mensalidade.setMensalidade(qtdMensalidadesPagas - i);
+                    mensalidade.setMesanoref(String.valueOf(dataPagamento.getYear()));
+                    mensalidade.setDatavencimento(dataPagamento);
+                    mensalidade.setDataprocesamento(dataPagamento);
+                    mensalidade.setStatuspagamento("LIQUIDADA");
+                    mensalidade.setAssociado_id(associado);
+                    mensalidade.setVlrmensalidade(vlrParcela);
+                    mensalidade.setOplock(oplock);
+
+                    mensalidadeService.save(mensalidade);
+
+                }
+
+                LocalDate dataNaoPagamento = dataReferencia.minusMonths(1).withDayOfMonth(3);
 
                 Mensalidade mensalidade = new Mensalidade();
-                mensalidade.setMensalidade(qtdMensalidadesPagas - i);
-                mensalidade.setMesanoref(String.valueOf(dataPagamento.getYear()));
-                mensalidade.setDatavencimento(dataPagamento);
-                mensalidade.setDataprocesamento(dataPagamento);
-                mensalidade.setStatuspagamento("LIQUIDADA");
+                mensalidade.setMensalidade(qtdMensalidadesPagas + 1);
+                mensalidade.setMesanoref(String.valueOf(dataNaoPagamento.getYear()));
+                mensalidade.setDatavencimento(dataNaoPagamento);
+                mensalidade.setDataprocesamento(dataNaoPagamento);
+                mensalidade.setStatuspagamento("EM ABERTO");
                 mensalidade.setAssociado_id(associado);
                 mensalidade.setVlrmensalidade(vlrParcela);
                 mensalidade.setOplock(oplock);
 
                 mensalidadeService.save(mensalidade);
 
-            }
 
-        } else {
 
-            for(Mensalidade mensalidade : mensalidades){
-                mensalidadeService.delete(mensalidade.getId());
-            }
-
-            int qtdMensalidadesPagas = Integer.valueOf(campos[3]);
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate dataReferencia = LocalDate.parse("03/04/2019", formatter);
-
-            for (int i=0; i < qtdMensalidadesPagas ; i++ ){
-
-                LocalDate dataPagamento = dataReferencia.minusMonths(i+2).withDayOfMonth(3);
-
-                Mensalidade mensalidade = new Mensalidade();
-                mensalidade.setMensalidade(qtdMensalidadesPagas - i);
-                mensalidade.setMesanoref(String.valueOf(dataPagamento.getYear()));
-                mensalidade.setDatavencimento(dataPagamento);
-                mensalidade.setDataprocesamento(dataPagamento);
-                mensalidade.setStatuspagamento("LIQUIDADA");
-                mensalidade.setAssociado_id(associado);
-                mensalidade.setVlrmensalidade(vlrParcela);
-                mensalidade.setOplock(oplock);
-
-                mensalidadeService.save(mensalidade);
 
             }
-
-            LocalDate dataNaoPagamento = dataReferencia.minusMonths(1).withDayOfMonth(3);
-
-            Mensalidade mensalidade = new Mensalidade();
-            mensalidade.setMensalidade(qtdMensalidadesPagas + 1);
-            mensalidade.setMesanoref(String.valueOf(dataNaoPagamento.getYear()));
-            mensalidade.setDatavencimento(dataNaoPagamento);
-            mensalidade.setDataprocesamento(dataNaoPagamento);
-            mensalidade.setStatuspagamento("EM ABERTO");
-            mensalidade.setAssociado_id(associado);
-            mensalidade.setVlrmensalidade(vlrParcela);
-            mensalidade.setOplock(oplock);
-
-            mensalidadeService.save(mensalidade);
+                    } else if (campos[7] == "-"){
 
 
 

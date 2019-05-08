@@ -1,5 +1,5 @@
 <div>
-    <button class="btn btn-rounded btn-info" type="button" [routerLink]="'/associado/new'"><i class="fa fa-plus"></i> Adicionar novo</button>
+    <button class="btn btn-rounded btn-info" type="button" [routerLink]="'/lancamento/new'"><i class="fa fa-plus"></i> Adicionar novo</button>
 </div>
 <br>
 
@@ -13,7 +13,7 @@
                         <div class="card card-hover">
                             <div class="box bg-info text-center">
                                 <h1 class="font-light text-white">0</h1>
-                                <h6 class="text-white">Total de Associados</h6>
+                                <h6 class="text-white">Total de Lancamentos</h6>
                             </div>
                         </div>
                     </div>
@@ -61,20 +61,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let associado of associaodos ">
+                        <tr *ngFor="let lancamento of associaodos ">
 
                             <td>
-                                <a href="#" [routerLink]="'/associado/view/'+associado.id+'/'" class="font-medium link">{{associado.id}}</a>
+                                <a href="#" [routerLink]="'/lancamento/view/'+lancamento.id+'/'" class="font-medium link">{{lancamento.id}}</a>
                             </td>
                             <td>
-                                <a href="#" [routerLink]="'/associado/view/'+associado.id+'/'" class="font-bold link">{{associado.nome}}</a>
+                                <a href="#" [routerLink]="'/lancamento/view/'+lancamento.id+'/'" class="font-bold link">{{lancamento.nome}}</a>
                             </td>
-                            <td #cpfcopy (click)="copiarTexto(cpfcopy)" >{{associado.cpf}}</td>
+                            <td #cpfcopy (click)="copiarTexto(cpfcopy)" >{{lancamento.cpf}}</td>
 
-                            <td>{{associado.telefone}}</td>
-                            <td>{{associado.email}}</td>
+                            <td>{{lancamento.telefone}}</td>
+                            <td>{{lancamento.email}}</td>
                             <td>
-                                <span class="label label-success">{{associado.status}}</span>
+                                <span class="label label-success">{{lancamento.status}}</span>
                             </td>
                         </tr>
                         </tbody>

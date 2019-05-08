@@ -30,7 +30,7 @@
                             </div>
                             <div>
                                 <span class="text-muted">Total Emprestado</span>
-                                <h3 class="font-medium m-b-0">{{totalAuxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h3>
+                                <h3 class="font-medium m-b-0">{{totalAuxilio | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h3>
                             </div>
                         </div>
                     </div>
@@ -254,11 +254,10 @@
                         <thead>
                         <tr>
 
-                            <th >ID</th>
+                            <th >ARQ</th>
                             <th >Data inclusão</th>
                             <th >Consignatária</th>
                             <th >Secretaria</th>
-                            <th >Correspondente</th>
                             <th >Contrato</th>
                             <th >Valor Auxílio</th>
                             <th >Valor da Prestação</th>
@@ -273,17 +272,16 @@
 
                             <td>{{row.arquivo}}</td>
                             <td>{{row.dataContrato | date: 'dd/MM/yyyy'}}</td>
-                            <td>FAMCRED</td>
-                            <td>SAEB</td>
-                            <td>{{row.correspondente_id?.nomefantasia}}</td>
+                            <td>{{row.associacao_id?.nomefantasia}}</td>
+                            <td>{{row.convenio_id?.nomefantasia}}</td>
                             <td>{{row.numeroproposta}}</td>
                             <td>
                                 <h4 class="m-b-0 font-16">{{row.vlrauxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h4>
                             </td>
                             <td>{{row.vlrparcelas | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</td>
                             <td>{{row.qtdparcelas}}</td>
+                            <td>{{row.qtdparcelasnaopagas }}</td>
                             <td>{{row.qtdparcelaspagas}}</td>
-                            <td>{{row.qtdparcelasnaopagas}}</td>
                             <td >
                                 <span [ngStyle]="{ 'background-color' : (row.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (row.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{row.tipo}}</span>
                             </td>

@@ -41,7 +41,7 @@ This is for the horizontal layout
 
 @include media-breakpoint-up(md) {
     #main-wrapper[data-layout="horizontal"]{
-        background: $body-bg;
+        background: 1400px;
         .topbar{
             transition: 0s;
         }
