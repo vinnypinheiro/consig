@@ -61,11 +61,13 @@ public class lancamentoController {
     @Transactional
     public List<Auxilio> findAuxilos()
     {
+
         List<Auxilio> foundObjs = sqlDao.query(getCars_sql,
                 (rs) -> {
                     List<Auxilio> retVal = new ArrayList<Auxilio>();
                     if (rs != null)
                     {
+
 
                     }
 

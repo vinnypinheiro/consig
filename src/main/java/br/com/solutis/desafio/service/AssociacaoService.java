@@ -1,11 +1,14 @@
 package br.com.solutis.desafio.service;
 
 import br.com.solutis.desafio.domain.Associacao;
+import br.com.solutis.desafio.domain.AssociacaoView;
+import br.com.solutis.desafio.helper.HibernateUtility;
 import br.com.solutis.desafio.helper.filter.FilterData;
 import br.com.solutis.desafio.helper.filter.WhereClause;
 import br.com.solutis.desafio.repository.AssociacaoRepository;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +37,9 @@ public class AssociacaoService {
     }
 
     public Associacao getById(Long id){
+
         return associacaoRepository.getOne(id);
+
     }
 
     public void delete(Long id){
@@ -44,6 +49,29 @@ public class AssociacaoService {
     public Page<Associacao> getList(Integer pageNumber) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, 20, Sort.Direction.ASC, "id");
         return associacaoRepository.findAll(pageRequest);
+    }
+
+    public List<AssociacaoView> getAssociacaoView(Long id) {
+
+        Long idAssociacao = id;
+
+        Session session = em.unwrap(Session.class);
+
+        if (idAssociacao == Long.valueOf(1)) {
+
+            List<AssociacaoView> associacaoViews =  session.createSQLQuery("SELECT * from AssociacaoView").getResultList();
+
+            return associacaoViews;
+
+        } else {
+
+            List<AssociacaoView> associacaoViews =  session.createSQLQuery("SELECT * from AssociacaoView2").getResultList();
+
+            return associacaoViews;
+
+        }
+
+
     }
 
 

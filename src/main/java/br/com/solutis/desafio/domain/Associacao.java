@@ -31,6 +31,8 @@ public class Associacao implements Serializable {
     private String email;
     private String site;
 
+
+
     @Transient
     @JsonManagedReference(value="associacao-correspondente")
     @OneToMany(mappedBy = "associacao_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -45,6 +47,8 @@ public class Associacao implements Serializable {
     @JsonManagedReference(value="associacao-auxilio")
     @OneToMany(mappedBy = "associacao_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Auxilio> auxilioList = new ArrayList<>();
+
+
 
     public Long getId() {
         return id;

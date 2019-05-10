@@ -7,6 +7,7 @@ import {ReportGroup} from '../../../shared/report-group';
 import {Lancamento} from '../lancamento'; 
 import {LancamentoService} from '../lancamento.service';
 import { Subject } from 'rxjs';
+import {AuxilioService} from "../../auxilio/auxilio.service";
 
 @Component({ 
   selector: 'gov-lancamento-grid', 
@@ -19,9 +20,9 @@ export class LancamentoGridComponent extends CommonsGrid<Lancamento> implements 
     dtTrigger: Subject<Lancamento> = new Subject();
 
     totalLancamentos: number;
-    associaodos: {} ;
+    auxilios: {} ;
 
-     constructor(apiService: LancamentoService, router: Router) { 
+     constructor(apiService: LancamentoService, router: Router) {
          super(apiService, router); 
      } 
 
@@ -30,7 +31,7 @@ export class LancamentoGridComponent extends CommonsGrid<Lancamento> implements 
          this.apiService.loadByFilter(this.getDefaultFilter()).subscribe(response => {
              this.activeBean =  response.content;
              if(this.activeBean != null ){
-                 this.associaodos = this.activeBean;
+
                  this.dtTrigger.next();
              }
 

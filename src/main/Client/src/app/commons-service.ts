@@ -50,6 +50,10 @@ export abstract class CommonsService<T extends DomainBase> {
     return this.http.get<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/${id}`);
   }
 
+  public getView(id: string): Observable<ServerResponse<T>> {
+    return this.http.get<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/getview/${id}`);
+  }
+
   public delete(id: string): any {
     return this.http.delete<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/${id}`);
   }

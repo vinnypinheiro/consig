@@ -58,8 +58,35 @@ export const ROUTES: RouteInfo[] = [
         extralink: false,
         submenu: [
             {
+                path: '/balanco',
+                title: 'Balanço',
+                icon: 'fas fa-retweet',
+                class: '',
+                ddclass: '',
+                extralink: false,
+                submenu: []
+            },
+            {
                 path: '/associacao',
                 title: 'Resumo financeiro',
+                icon: 'fas fa-retweet',
+                class: '',
+                ddclass: '',
+                extralink: false,
+                submenu: []
+            },
+            {
+                path: '/associacao',
+                title: 'Comissões',
+                icon: 'fas fa-retweet',
+                class: '',
+                ddclass: '',
+                extralink: false,
+                submenu: []
+            },
+            {
+                path: '/associacao',
+                title: 'Receitas e Despesas',
                 icon: 'fas fa-retweet',
                 class: '',
                 ddclass: '',
@@ -75,6 +102,15 @@ export const ROUTES: RouteInfo[] = [
                 extralink: false,
                 submenu: []
             },
+            {
+                path: '/associacao',
+                title: 'Relatórios',
+                icon: 'fas fa-retweet',
+                class: '',
+                ddclass: '',
+                extralink: false,
+                submenu: []
+            }
 
         ]
     },

@@ -13,6 +13,7 @@ const routes: Routes = [
         children: [
             { path: '', loadChildren: './entidades/associado/associado.module#AssociadoModule'  },
             { path: 'associacao', loadChildren: './entidades/associacao/associacao.module#AssociacaoModule' },
+            { path: 'balanco', loadChildren: './entidades/balanco/balanco.module#BalancoModule' },
             { path: 'convenio', loadChildren: './entidades/convenio/convenio.module#ConvenioModule' },
             { path: 'correspondente', loadChildren: './entidades/correspondente/correspondente.module#CorrespondenteModule' },
             { path: 'importdata', loadChildren: './entidades/importdata/importdata.module#ImportdataModule' },

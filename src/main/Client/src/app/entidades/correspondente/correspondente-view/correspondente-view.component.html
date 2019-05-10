@@ -34,61 +34,21 @@
   <div class="col-lg-8 col-xlg-9 col-md-7">
     <div class="card">
       <ngb-tabset type="pills" class="custom-pills">
-        <ngb-tab title="Associados ">
-          <ng-template ngbTabContent>
-            <div class="card-body">
-
-              <div class="d-md-flex align-items-center">
-                <div>
-                    <h4 class="card-title"><i class="fa fa-user"></i> Tabela de Comissão</h4>
-                 </div>
-              </div>
-
-              <div class="table-responsive">
-                <table class="table v-middle">
-                  <thead>
-                  <tr class="bg-light">
-                    <th class="border-top-0">ID</th>
-                    <th class="border-top-0">Valor</th>
-                    <th class="border-top-0">CPF</th>
-                      <th class="border-top-0">Associado</th>
-                      <th class="border-top-0">auxilio</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr  *ngFor="let row of entity.associadoList">
-                    <td>{{row.id}}</td>
-                    <td>
-                     <h4 class="m-b-0 font-16">{{row.nome}}</h4>
-                    </td>
-                    <td>{{row.cpf}}</td>
-                      <td>{{row.telefone}}</td>
-                      <td>{{row.email}}</td>
-                  </tr>
-
-                  </tbody>
-                </table>
-              </div>
-
-            </div>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab title="Lançamentos">
+        <ngb-tab title="Comissão">
           <ng-template ngbTabContent>
             <div class="card-body">
 
                             <!-- title -->
                             <div class="d-md-flex align-items-center">
                                 <div>
-                                    <h4 class="card-title">Histórico de lançamentos</h4>
-                                    <h5 class="card-subtitle">xxxx</h5>
+                                    <h4 class="card-title">Histórico de pagamento</h4>
                                 </div>
                                 <div class="ml-auto d-flex align-items-center">
                                     <div class="dl">
                                         <select class="custom-select">
-                                            <option value="0" selected>Dezembro</option>
-                                            <option value="1">Novembro</option>
-                                            <option value="2">Outubro</option>
+                                            <option value="0" selected>Maio</option>
+                                            <option value="1">Março</option>
+                                            <option value="2">Abril</option>
                                         </select>
                                     </div>
                                 </div>
@@ -100,9 +60,9 @@
                                             <table class="table v-middle">
                                                 <thead>
                                                 <tr>
-                                                    <th class="border-top-0">Price</th>
+                                                    <th class="border-top-0">Valor</th>
                                                     <th class="border-top-0">Amount</th>
-                                                    <th class="border-top-0">Date</th>
+                                                    <th class="border-top-0">Data</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -171,83 +131,7 @@
                                         </div>
                                     </ng-template>
                                 </ngb-tab>
-                                <ngb-tab title="Mensalidade">
-                                    <ng-template ngbTabContent>
-                                        <div class="table-responsive m-t-20">
-                                            <table class="table v-middle">
-                                                <thead>
-                                                <tr>
-                                                    <th class="border-top-0">Price</th>
-                                                    <th class="border-top-0">Amount</th>
-                                                    <th class="border-top-0">Date</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <span class="text-success">$43567.98</span>
-                                                    </td>
-                                                    <td>
-                                                        <i class="cc ETH m-r-5"></i>
-                                                        <span class="font-medium">0.123</span>
-                                                    </td>
-                                                    <td>12:45:09</td>
-                                                </tr>
-                                                <tr class="table-success">
-                                                    <td>
-                                                        <span class="text-success">$12948.89</span>
-                                                    </td>
-                                                    <td>
-                                                        <i class="cc BTC m-r-5"></i>
-                                                        <span class="font-medium">0.123</span>
-                                                    </td>
-                                                    <td>12:45:09</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span class="text-success">$12948.89</span>
-                                                    </td>
-                                                    <td>
-                                                        <i class="cc BTC m-r-5"></i>
-                                                        <span class="font-medium">0.123</span>
-                                                    </td>
-                                                    <td>12:45:09</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span class="text-danger">$23135.78</span>
-                                                    </td>
-                                                    <td>
-                                                        <i class="cc XRP m-r-5"></i>
-                                                        <span class="font-medium">1.123</span>
-                                                    </td>
-                                                    <td>12:43:09</td>
-                                                </tr>
-                                                <tr class="table-danger">
-                                                    <td>
-                                                        <span class="text-danger">$23135.78</span>
-                                                    </td>
-                                                    <td>
-                                                        <i class="cc XRP m-r-5"></i>
-                                                        <span class="font-medium">1.123</span>
-                                                    </td>
-                                                    <td>12:43:09</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span class="text-success">$43567.98</span>
-                                                    </td>
-                                                    <td>
-                                                        <i class="cc ETH m-r-5"></i>
-                                                        <span class="font-medium">0.123</span>
-                                                    </td>
-                                                    <td>12:45:09</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </ng-template>
-                                </ngb-tab>
+
                             </ngb-tabset>
 
                 <!-- column -->

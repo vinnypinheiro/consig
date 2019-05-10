@@ -19,13 +19,16 @@ public class VerbaDesconto implements Serializable {
     private int codigo;
     private String descricao;
 
+
     @JsonBackReference(value="convenio-verbadesconto")
     @ManyToOne
     @JoinColumn(name = "convenio_id", nullable = true, foreignKey = @ForeignKey(name = "fk_verbadesconto_convenio"))    private Convenio convenio_id;
 
+
     @JsonManagedReference(value="verbadesconto-auxilio")
     @OneToMany(mappedBy = "verbadesconto_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Auxilio> auxilioList = new ArrayList<>();
+
 
     @JsonManagedReference(value="verbadesconto-mensalidade")
     @OneToMany(mappedBy = "verbadesconto_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
