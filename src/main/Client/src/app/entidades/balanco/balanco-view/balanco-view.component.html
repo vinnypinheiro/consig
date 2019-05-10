@@ -1,0 +1,233 @@
+<h2><i class="fas fa-university" ></i> Balanço Financeiro</h2>
+<div class="card">
+  <div class="card-body">
+    <div class="d-md-flex align-items-center">
+      <div>
+        <h4 class="card-title">Resumo Geral</h4>
+        <h5 class="card-subtitle">Financeiro</h5>
+      </div>
+      <div class="ml-auto d-flex no-block align-items-center">
+
+        <div class="dl">
+          <select class="custom-select">
+            <option value="0" selected>Escolha o mês</option>
+            <option value="1">Janeiro</option>
+            <option value="2">Fevereiro</option>
+            <option value="3">Março</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <!-- column -->
+      <div class="col-lg-4">
+        <h1 class="m-b-0 m-t-30">16.496,14</h1>
+        <h6 class="font-light text-muted">Contratos março de 2019</h6>
+        <h3 class="m-t-30 m-b-0">{{TotalAuxiliosFAM}}</h3>
+        <h6 class="font-light text-muted">Total de associados</h6>
+        <a class="btn btn-info m-t-20 p-15 p-l-25 p-r-25 m-b-20" href="javascript:void(0)">Acessar controle mensal</a>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="linearea linechart">
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- Info Box -->
+  <!-- ============================================================== -->
+  <div class="card-body border-top">
+    <div class="row m-b-0">
+      <!-- col -->
+      <div class="col-lg-3 col-md-6">
+        <div class="d-flex align-items-center">
+          <div class="m-r-10">
+                        <span class="text-orange display-5">
+                            <i class="mdi mdi-wallet"></i>
+                        </span>
+          </div>
+          <div>
+            <span>Total Emprestado</span>
+            <h3 class="font-medium m-b-0">{{view[0] | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h3>
+          </div>
+        </div>
+      </div>
+      <!-- col -->
+      <!-- col -->
+      <div class="col-lg-3 col-md-6">
+        <div class="d-flex align-items-center">
+          <div class="m-r-10">
+                        <span class="text-cyan display-5">
+                            <i class="mdi mdi-star-circle"></i>
+                        </span>
+          </div>
+          <div>
+            <span>Mensalidades pagas</span>
+            <h3 class="font-medium m-b-0">R$0</h3>
+          </div>
+        </div>
+      </div>
+      <!-- col -->
+      <!-- col -->
+      <div class="col-lg-3 col-md-6">
+        <div class="d-flex align-items-center">
+          <div class="m-r-10">
+                        <span class="text-info display-5">
+                            <i class="mdi mdi-shopping"></i>
+                        </span>
+          </div>
+          <div>
+            <span>Prestações pagas</span>
+            <h3 class="font-medium m-b-0">0</h3>
+          </div>
+        </div>
+      </div>
+      <!-- col -->
+      <!-- col -->
+      <div class="col-lg-3 col-md-6">
+        <div class="d-flex align-items-center">
+          <div class="m-r-10">
+                        <span class="text-primary display-5">
+                            <i class="mdi mdi-currency-usd"></i>
+                        </span>
+          </div>
+          <div>
+            <span>Prestações em atraso</span>
+            <h3 class="font-medium m-b-0">R$0</h3>
+          </div>
+        </div>
+      </div>
+      <!-- col -->
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <!-- title -->
+    <div class="d-md-flex align-items-center">
+      <div>
+        <h4 class="card-title">Ùltimos Lançamentos</h4>
+        <h5 class="card-subtitle">Março</h5>
+      </div>
+      <div class="ml-auto">
+        <div class="dl">
+          <select class="custom-select">
+            <option value="0" selected>Selecione o mês</option>
+            <option value="1">Diário</option>
+            <option value="2">Semanal</option>
+            <option value="3">Anual</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <!-- title -->
+  </div>
+  <div class="table-responsive">
+    <table class="table v-middle">
+      <thead>
+      <tr class="bg-light">
+        <th class="border-top-0">Lançamentos</th>
+        <th class="border-top-0">Instituição</th>
+        <th class="border-top-0">Correspondente</th>
+        <th class="border-top-0">Tipo</th>
+        <th class="border-top-0">Ticket</th>
+        <th class="border-top-0">ID Lanç.</th>
+        <th class="border-top-0">Valor</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="m-r-10">
+              <a class="btn btn-circle btn-info text-white">EP</a>
+            </div>
+            <div class="">
+              <h4 class="m-b-0 font-16">Luis Henrique da Silva</h4>
+            </div>
+          </div>
+        </td>
+        <td>ALBA</td>
+        <td>John Doe</td>
+        <td>
+          <label class="label label-danger">Pagamento</label>
+        </td>
+        <td>46</td>
+        <td>356</td>
+        <td>
+          <h5 class="m-b-0">R$2850.06</h5>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="m-r-10">
+              <a class="btn btn-circle btn-orange text-white">MA</a>
+            </div>
+            <div class="">
+              <h4 class="m-b-0 font-16">Monster Admin</h4>
+            </div>
+          </div>
+        </td>
+        <td>Single Use</td>
+        <td>Venessa Fern</td>
+        <td>
+          <label class="label label-info">Vue Js</label>
+        </td>
+        <td>46</td>
+        <td>356</td>
+        <td>
+          <h5 class="m-b-0">$2850.06</h5>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="m-r-10">
+              <a class="btn btn-circle btn-success text-white">MP</a>
+            </div>
+            <div class="">
+              <h4 class="m-b-0 font-16">Material Pro Admin</h4>
+            </div>
+          </div>
+        </td>
+        <td>Single Use</td>
+        <td>John Doe</td>
+        <td>
+          <label class="label label-success">Bootstrap</label>
+        </td>
+        <td>46</td>
+        <td>356</td>
+        <td>
+          <h5 class="m-b-0">$2850.06</h5>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="m-r-10">
+              <a class="btn btn-circle btn-purple text-white">AA</a>
+            </div>
+            <div class="">
+              <h4 class="m-b-0 font-16">Ample Admin</h4>
+            </div>
+          </div>
+        </td>
+        <td>Single Use</td>
+        <td>John Doe</td>
+        <td>
+          <label class="label label-purple">React</label>
+        </td>
+        <td>46</td>
+        <td>356</td>
+        <td>
+          <h5 class="m-b-0">$2850.06</h5>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
