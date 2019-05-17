@@ -37,6 +37,16 @@ export const ROUTES: RouteInfo[] = [
         extralink: false,
         submenu: []
       },
+
+        {
+            path: '/corretor',
+            title: 'Corretor',
+            icon: 'fas fa-briefcase',
+            class: '',
+            ddclass: '',
+            extralink: false,
+            submenu: []
+        },
        {
         path: '/associado',
         title: 'Cadastro de Associados',

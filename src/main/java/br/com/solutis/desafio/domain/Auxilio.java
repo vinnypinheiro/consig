@@ -38,6 +38,7 @@ public class Auxilio implements Serializable {
     private  String status;
     private String oplock;
     private String arquivo;
+    private String vlroperacao;
 
 
     @JsonBackReference(value="associado-auxilio")
@@ -86,6 +87,14 @@ public class Auxilio implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getVlroperacao() {
+        return vlroperacao;
+    }
+
+    public void setVlroperacao(String vlroperacao) {
+        this.vlroperacao = vlroperacao;
     }
 
     public Date getData() {

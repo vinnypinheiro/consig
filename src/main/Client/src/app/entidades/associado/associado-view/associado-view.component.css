@@ -5,3 +5,8 @@
     border-left: #2e8a2c solid 5px;
     margin-top: 45px;
 }
+
+.auxilio-modal .modal-dialog {
+ min-width: 80%;
+
+}

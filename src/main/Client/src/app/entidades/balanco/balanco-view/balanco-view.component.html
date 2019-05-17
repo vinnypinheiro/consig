@@ -1,4 +1,78 @@
 <h2><i class="fas fa-university" ></i> Balanço Financeiro</h2>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="col-sm-12 col-md-5">
+            <h4 class="card-title">Associação</h4>
+            <form>
+                <div class="input-group mb-3">
+                    <select class="custom-select">
+                        <option selected>TODOS</option>
+                        <option selected>FAMCRED</option>
+                        <option value="1">IESBA</option>
+
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+
+    <div class="col-sm-12 col-md-5">
+          <h4 class="card-title">Período personalizado</h4>
+          <form>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Período</label>
+              </div>
+              <select class="custom-select" id="inputGroupSelect01">
+                <option selected>Dia de hoje</option>
+                <option value="1">Nesta semana</option>
+                <option value="2">Ultímos 30 dias</option>
+                <option value="3">Maio/2019</option>
+                <option value="3">Abril/2019</option>
+                <option value="3">Março/2019</option>
+                <option value="3">Fevereiro/2019</option>
+                <option value="3">Janeiro/2019</option>
+
+              </select>
+            </div>
+          </form>
+    </div>
+
+    <div class="col-sm-12 col-md-3">
+      <h4 class="card-title">Período por data</h4>
+      <div class="form-group">
+        <div class="input-group">
+          <input  class="form-control" placeholder="Data início" name="dp"  ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
+              <i class="fa fa-calendar"></i>
+            </button>
+          </div>
+        </div>
+          <br>
+          <div class="input-group">
+              <input  class="form-control" placeholder="Data fim" name="dp1"  ngbDatepicker #d1="ngbDatepicker">
+              <div class="input-group-append">
+                  <button class="btn btn-outline-secondary no-shadow" (click)="d1.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                  </button>
+              </div>
+          </div>
+      </div>
+    </div>
+
+      <button class="btn btn-rounded btn-info" type="button"><i class="fa fa-sync"></i> Atualizar</button>
+
+  </div>
+</div>
+
+
 <div class="card">
   <div class="card-body">
     <div class="d-md-flex align-items-center">
@@ -21,11 +95,11 @@
     <div class="row">
       <!-- column -->
       <div class="col-lg-4">
-        <h1 class="m-b-0 m-t-30">16.496,14</h1>
-        <h6 class="font-light text-muted">Contratos março de 2019</h6>
+        <h1 class="m-b-0 m-t-30">0</h1>
+        <h6 class="font-light text-muted">Contratos Abril de 2019</h6>
         <h3 class="m-t-30 m-b-0">{{TotalAuxiliosFAM}}</h3>
         <h6 class="font-light text-muted">Total de associados</h6>
-        <a class="btn btn-info m-t-20 p-15 p-l-25 p-r-25 m-b-20" href="javascript:void(0)">Acessar controle mensal</a>
+        <a class="btn btn-info m-t-20 p-15 p-l-25 p-r-25 m-b-20" routerLink="/balanco">Acessar controle mensal</a>
       </div>
 
       <div class="col-lg-8">
@@ -50,7 +124,7 @@
           </div>
           <div>
             <span>Total Emprestado</span>
-            <h3 class="font-medium m-b-0">{{view[0] | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h3>
+            <h3 class="font-medium m-b-0">0</h3>
           </div>
         </div>
       </div>

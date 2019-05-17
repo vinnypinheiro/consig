@@ -35,7 +35,6 @@ public class Convenio implements Serializable {
     @OneToMany(mappedBy = "convenio_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Auxilio> auxilioList = new ArrayList<>();
 
-    @Transient
     @JsonManagedReference(value="convenio-verbadesconto")
     @OneToMany(mappedBy = "convenio_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<VerbaDesconto> verbadescontolist = new ArrayList<>();

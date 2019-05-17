@@ -1,4 +1,4 @@
-<h2><i class="fas fa-university" ></i> FAMCRED</h2>
+<h2><i class="fas fa-university" ></i> {{entity?.nomefantasia}}</h2>
 <div class="card">
   <div class="card-body">
     <div class="d-md-flex align-items-center">
@@ -26,11 +26,11 @@
     <div class="row">
       <!-- column -->
       <div class="col-lg-4">
-        <h1 class="m-b-0 m-t-30">16.496,14</h1>
+        <h1 class="m-b-0 m-t-30">16</h1>
         <h6 class="font-light text-muted">Contratos março de 2019</h6>
         <h3 class="m-t-30 m-b-0">{{TotalAuxiliosFAM}}</h3>
         <h6 class="font-light text-muted">Total de associados</h6>
-        <a class="btn btn-info m-t-20 p-15 p-l-25 p-r-25 m-b-20" href="javascript:void(0)">Acessar controle mensal</a>
+        <a class="btn btn-info m-t-20 p-15 p-l-25 p-r-25 m-b-20"routerLink="/balanco">Acessar controle mensal</a>
       </div>
 
       <div class="col-lg-8">
@@ -67,12 +67,14 @@
         <div class="d-flex align-items-center">
           <div class="m-r-10">
                         <span class="text-cyan display-5">
-                            <i class="mdi mdi-star-circle"></i>
+                            <i class="mdi mdi-checkbox-marked" style="
+    color:#14a735;
+"></i>
                         </span>
           </div>
           <div>
-            <span>Mensalidades pagas</span>
-            <h3 class="font-medium m-b-0">R$0</h3>
+            <span>Parcelas pagas</span>
+            <h3 class="font-medium m-b-0">{{view[4]}}</h3>
           </div>
         </div>
       </div>
@@ -82,12 +84,14 @@
         <div class="d-flex align-items-center">
           <div class="m-r-10">
                         <span class="text-info display-5">
-                            <i class="mdi mdi-shopping"></i>
+                            <i class="mdi mdi-alert-box" style="
+    color: #ff0707;
+"></i>
                         </span>
           </div>
           <div>
-            <span>Prestações pagas</span>
-            <h3 class="font-medium m-b-0">0</h3>
+            <span>Parcelas não pagas</span>
+            <h3 class="font-medium m-b-0">{{view[5]}}</h3>
           </div>
         </div>
       </div>

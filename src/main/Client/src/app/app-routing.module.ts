@@ -16,6 +16,7 @@ const routes: Routes = [
             { path: 'balanco', loadChildren: './entidades/balanco/balanco.module#BalancoModule' },
             { path: 'convenio', loadChildren: './entidades/convenio/convenio.module#ConvenioModule' },
             { path: 'correspondente', loadChildren: './entidades/correspondente/correspondente.module#CorrespondenteModule' },
+            { path: 'corretor', loadChildren: './entidades/corretor/corretor.module#CorretorModule' },
             { path: 'importdata', loadChildren: './entidades/importdata/importdata.module#ImportdataModule' },
             { path: 'espelhoretorno', loadChildren: './entidades/espelhoretorno/espelhoretorno.module#EspelhoretornoModule' },
             { path: 'associado', loadChildren: './entidades/associado/associado.module#AssociadoModule' },

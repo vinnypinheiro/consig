@@ -1,18 +1,14 @@
 package br.com.solutis.desafio.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Associacao implements Serializable {
+public class Corretor implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -30,23 +26,6 @@ public class Associacao implements Serializable {
     private String telefone;
     private String email;
     private String site;
-
-
-
-    @JsonManagedReference(value="associacao-correspondente")
-    @OneToMany(mappedBy = "associacao_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Correspondente> correspondenteList = new ArrayList<>();
-
-
-    @JsonManagedReference(value="associacao-convenio")
-    @OneToMany(mappedBy = "associacao_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Convenio> convenioList = new ArrayList<>();
-
-    @Transient
-    @JsonManagedReference(value="associacao-auxilio")
-    @OneToMany(mappedBy = "associacao_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Auxilio> auxilioList = new ArrayList<>();
-
 
 
     public Long getId() {
@@ -159,29 +138,5 @@ public class Associacao implements Serializable {
 
     public void setSite(String site) {
         this.site = site;
-    }
-
-    public List<Correspondente> getCorrespondenteList() {
-        return correspondenteList;
-    }
-
-    public void setCorrespondenteList(List<Correspondente> correspondenteList) {
-        this.correspondenteList = correspondenteList;
-    }
-
-    public List<Convenio> getConvenioList() {
-        return convenioList;
-    }
-
-    public void setConvenioList(List<Convenio> convenioList) {
-        this.convenioList = convenioList;
-    }
-
-    public List<Auxilio> getAuxilioList() {
-        return auxilioList;
-    }
-
-    public void setAuxilioList(List<Auxilio> auxilioList) {
-        this.auxilioList = auxilioList;
     }
 }

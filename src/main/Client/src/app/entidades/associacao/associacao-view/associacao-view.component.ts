@@ -8,8 +8,6 @@ import {FilterData} from "../../../components/interfaces";
 import {CommonsService} from "../../../commons-service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AssociacaoService} from "../associacao.service";
-import {NgbDatepickerI18n} from "@ng-bootstrap/ng-bootstrap";
-import {CustomDatepickerI18n} from "../../associado/associado-view/associado-view.component";
 
 declare var require: any;
 

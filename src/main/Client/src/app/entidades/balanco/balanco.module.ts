@@ -7,6 +7,9 @@ import {NgModule} from '@angular/core';
 import {BalancoService} from './balanco.service';
 import {SharedModule} from '../../shared/shared.module';
 import { BalancoViewComponent } from './balanco-view/balanco-view.component';
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 
 import { ChartistModule } from 'ng-chartist';
  
@@ -36,7 +39,8 @@ const ROUTES  = [
         @NgModule({ 
                 imports: [RouterModule.forChild(ROUTES), 
                 SharedModule,
-                    ChartistModule
+                    ChartistModule,
+                    NgbModule
                 ], 
                 declarations: [ 
                 BalancoGridComponent,

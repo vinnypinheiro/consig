@@ -4,6 +4,8 @@ import {Correspondente} from "../correspondente/correspondente";
 import {Auxilio} from "../auxilio/auxilio";
 import {Mensalidade} from "../mensalidade/mensalidade";
 import {Ocorrencia} from "../ocorrencia/ocorrencia";
+import {Associacaolink} from "../associacaolink/associacaolink";
+import {Associacao} from "../associacao/associacao";
 
 export interface Associado extends DomainBase {
 
@@ -24,6 +26,11 @@ export interface Associado extends DomainBase {
      municipio: string;
      datacadastro: Date;
      arquivo: string;
+     orgao: string;
+     associacao1: Associacao;
+     associacao2: Associacao;
+     obs: string;
+     rg: string;
 
      //Dados Bancários
     // TODO: Adicionar no formulário

@@ -3,7 +3,7 @@ import {Importdata} from '../importdata';
 import {ImportdataService} from '../importdata.service';
 
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
-const URL = 'http://192.168.0.109:8080/importdata/importcsv';
+const URL = 'http://10.1.1.239:8080/importdata/importcsv';
 
 //react form
 import { FormBuilder } from '@angular/forms';

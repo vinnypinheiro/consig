@@ -21,12 +21,17 @@ public class AuxilioController {
     @Autowired
     ParcelaService parcelaService;
 
+    @Autowired
+    MensalidadeService mensalidadeService;
+
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody Auxilio bean) {
 
         LocalDate dataContrato = bean.getDataContrato();
 
+        bean.setQtdparcelaspagas(0);
+        bean.setQtdparcelasnaopagas(bean.getQtdparcelas());
 
         for (int i=0; i < bean.getQtdparcelas() ; i++ ){
 
@@ -40,6 +45,19 @@ public class AuxilioController {
 
 
             parcelaService.save(p);
+        }
+
+        //cria as mensalidades
+        for (int i=0; i < bean.getQtdparcelas() ; i++ ){
+
+            Mensalidade m = new Mensalidade();
+            m.setMensalidade(i+1);
+            m.setStatuspagamento("Em Aberto");
+            m.setAssociado_id(bean.getAssociado_id());
+            m.setDatavencimento(dataContrato.plusMonths(i+1).withDayOfMonth(3));
+            m.setVlrmensalidade( bean.getAssociado_id().getVlrmensalidade() );
+
+            mensalidadeService.save(m);
         }
 
         return this.buildResponse(auxilioService.save(bean));

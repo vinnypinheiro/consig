@@ -42,10 +42,22 @@ public class Associado implements Serializable {
     private String  tipoconta;
     private String  conta;
     private String orgao;
+    private String rg;
 
     private String asscontrato;
     private Double vlrmensalidade;
     private String oplock;
+    private String obs;
+
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "associacao1", nullable = true, foreignKey = @ForeignKey(name = "fk_associado-associacao1"))   private Associacao associacao1;
+
+
+    @ManyToOne
+    @JoinColumn(name = "associacao2", nullable = true, foreignKey = @ForeignKey(name = "fk_associado-associacao1"))   private Associacao associacao2;
 
 
     @Transient
@@ -62,6 +74,38 @@ public class Associado implements Serializable {
     @JsonManagedReference(value="associado-ocorrencia")
     @OneToMany(mappedBy = "associado_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Ocorrencia> ocorrenciaList = new ArrayList<>();
+
+    public String getObs() {
+        return obs;
+    }
+
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+
+    public Associacao getAssociacao1() {
+        return associacao1;
+    }
+
+    public void setAssociacao1(Associacao associacao1) {
+        this.associacao1 = associacao1;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public Associacao getAssociacao2() {
+        return associacao2;
+    }
+
+    public void setAssociacao2(Associacao associacao2) {
+        this.associacao2 = associacao2;
+    }
 
     public List<Ocorrencia> getOcorrenciaList() {
         return ocorrenciaList;

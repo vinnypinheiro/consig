@@ -1,46 +1,47 @@
 package br.com.solutis.desafio.controller;
-import br.com.solutis.desafio.domain.Associado;
-import br.com.solutis.desafio.domain.Mensalidade;
+import br.com.solutis.desafio.domain.Corretor;
 import br.com.solutis.desafio.helper.filter.FilterData;
 import br.com.solutis.desafio.service.AssociadoService;
-import br.com.solutis.desafio.service.MensalidadeService;
+import br.com.solutis.desafio.service.CorretorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("AssociadoController")
-@RequestMapping("/associado")
-public class AssociadoController {
+@RestController("CorretorController")
+@RequestMapping("/corretor")
+public class CorretorController {
 
+
+    @Autowired
+    CorretorService corretorService;
 
     @Autowired
     AssociadoService associadoService;
 
-    @Autowired
-    MensalidadeService mensalidadeService;
-
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ResponseEntity save(@RequestBody Associado bean) {
+    public ResponseEntity save(@RequestBody Corretor bean) {
 
 
-        return this.buildResponse(associadoService.save(bean));
+        return this.buildResponse(corretorService.save(bean));
+
+
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity query(@RequestBody FilterData filterData) {
 
-        //associadoService.getList(filterData.getPage());
-        //associadoService.select(filterData);
+        //corretorService.getList(filterData.getPage());
+        //corretorService.select(filterData);
 
-        return this.buildResponse( associadoService.getList(filterData.getPage()));
+        return this.buildResponse( corretorService.getList(filterData.getPage()));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity findById(@PathVariable("id") Long id) {
 
-        return this.buildResponse(associadoService.getByIdCustom(id));
+        return this.buildResponse(corretorService.getById(id));
 
     }
 
@@ -48,7 +49,7 @@ public class AssociadoController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") String id) {
 
-         associadoService.delete(Long.valueOf(id));
+         corretorService.delete(Long.valueOf(id));
 
     }
 

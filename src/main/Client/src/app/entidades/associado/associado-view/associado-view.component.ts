@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import {Component, OnInit, Injectable, ViewEncapsulation} from '@angular/core';
 
 //Commons Imports
 import {ActivatedRoute, Router} from "@angular/router";
@@ -40,6 +40,9 @@ import {Parcela} from "../../parcela/parcela";
 import {Auxilio} from "../../auxilio/auxilio";
 import {ParcelaService} from "../../parcela/parcela.service";
 import {Subject} from "rxjs";
+import {Associacaolink} from "../../associacaolink/associacaolink";
+import {AssociacaolinkService} from "../../associacaolink/associacaolink.service";
+import {ConsultaCepService} from "../../../shared/consulta-cep.service";
 
 @Injectable()
 export class I18n {
@@ -73,6 +76,7 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
   selector: 'app-associado-view',
   templateUrl: './associado-view.component.html',
   styleUrls: ['./associado-view.component.css'],
+    encapsulation : ViewEncapsulation.None,
     providers: [I18n, {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}]
 })
 export class AssociadoViewComponent extends CommonsForm<Associado>   implements OnInit  {
@@ -99,6 +103,8 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
     constructor(
         private parcelaService: ParcelaService,
         private auxilioService: AuxilioService,
+        private cepService: ConsultaCepService,
+        private associacaoLinkService: AssociacaolinkService,
         calendar: NgbCalendar,
         private fb: FormBuilder,
         private correspondenteService: CorrespondenteService,
@@ -129,9 +135,45 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
                   console.log(this.entity);
                   this.calculaValorTotalAuxilio(this.entity);
                   this.dtTrigger.next();
+
+                  this.associadoForm.patchValue({
+                      id: this.activeBean.id,
+
+                      nome:  this.activeBean.nome,
+                      cpf:   this.activeBean.cpf,
+                      cep:   this.activeBean.cep,
+                      bairro:   this.activeBean.bairro,
+                      cidade:   this.activeBean.cidade,
+                      uf:   this.activeBean.uf,
+                      matricula:    this.activeBean.matricula,
+                      situacao:   this.activeBean.situacao,
+                      lotacao:    this.activeBean.lotacao,
+                      cargo:    this.activeBean.cargo,
+                      orgao:    this.activeBean.orgao,
+                      telefone:   this.activeBean.telefone,
+                      email:  this.activeBean.email,
+                      endereco:   this.activeBean.endereco,
+                      municipio:   this.activeBean.municipio,
+                      datacadastro:   this.activeBean.datacadastro,
+                      banco:   this.activeBean.banco,
+                      agencia:    this.activeBean.agencia,
+                      tipoconta:  this.activeBean.tipoconta,
+                      conta:   this.activeBean.conta,
+                      vlrmensalidade:   this.activeBean.vlrmensalidade,
+                      correspondente_id:  this.activeBean.correspondente_id,
+                      associacao1: this.activeBean.associacao1,
+                      associacao2: this.activeBean.associacao2,
+                      rg: this.activeBean.rg,
+                      obs: this.activeBean.obs
+
+                  });
+
+
               });
           }
       });
+
+
 
       this.associacaoservice.loadByFilter(this.getDefaultFilter()).subscribe(response => {
           this.associacao = response.content;
@@ -144,7 +186,7 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
 
       this.dtOptions = {
           pagingType: 'full_numbers',
-          pageLength: 20,
+          pageLength: 5,
           language: {
               emptyTable: "Nenhum registro encontrado",
               info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -171,11 +213,59 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
       };
   }
 
+    //Associado reactive form
+    associadoForm = this.fb.group({
+
+        id:   null,
+        nome:   null,
+        cpf:   null,
+        matricula:    null,
+        cidade:  null,
+        bairro:   null,
+        uf:   null,
+        cep:  null,
+        situacao:    null,
+        lotacao:     null,
+        cargo:    null,
+        telefone:   null,
+        email:    null,
+        endereco:   null,
+        estado:    null,
+        municipio:    null,
+        datacadastro:   null,
+        banco:    null,
+        agencia:    null,
+        tipoconta:   null,
+        conta:   null,
+        correspondente_id:  null,
+        verbadesconto: null,
+        vlrmensalidade: null,
+        orgao: null,
+        associacaoLink:null,
+        associacao1: null,
+        associacao2: null,
+        rg:null,
+        obs: null
+
+
+    });
+
+
+    saveAssociado() {
+        // TODO: Use EventEmitter with form value
+        console.warn(this.activeForm.value);
+        this.activeBean = this.associadoForm.value;
+        this.save();
+        //this.apiService.save(this.clienteForm.value);
+    }
+
+
   copyCPF(){
 
 
 
   }
+
 
   auxilioActive: Auxilio;
   gestaoParcela(row,auxilio, parcelaModal){
@@ -183,6 +273,13 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         this.parcelaRow = row;
       this.openLg(parcelaModal);
   }
+
+
+    gestaoAuxilio(auxilio, auxilioModal){
+        this.auxilioActive = auxilio;
+        console.log(this.auxilioActive);
+        this.openModalAuxilio(auxilioModal);
+    }
 
     qtdparcela: number;
     vlrauxilio: number;
@@ -276,7 +373,8 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         associado_id:  null,
         correspondente_id: null,
         dataContrato: null,
-        verbadesconto_id: null
+        verbadesconto_id: null,
+        arquivo: null
 
 
     });
@@ -285,12 +383,17 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         this.convenioList = this.activeForm.controls.associacao_id.value.convenioList;
     }
 
+
     setVerbaDescontoList(event, a){
         this.verbaDescontoList = this.activeForm.controls.convenio_id.value.verbadescontolist;
     }
 
     openLg(content) {
         this.modalService.open(content, { size: 'lg' });
+    }
+
+    openModalAuxilio(content) {
+        this.modalService.open(content, { size: 'lg',  windowClass: 'auxilio-modal' });
     }
 
     closeLg(result: any){
