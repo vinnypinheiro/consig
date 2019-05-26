@@ -33,12 +33,14 @@ public class Auxilio implements Serializable {
     private Integer qtdparcelasnaopagas;
     private Double vlrparcelas;
     private Double vlrtotal;
+    private Double totalaberto;
+    private Double totalpago;
     private Integer porcentagem;
     private String tipo;
     private  String status;
     private String oplock;
     private String arquivo;
-    private String vlroperacao;
+    private Double vlroperacao;
 
 
     @JsonBackReference(value="associado-auxilio")
@@ -89,12 +91,28 @@ public class Auxilio implements Serializable {
         this.id = id;
     }
 
-    public String getVlroperacao() {
+    public Double getTotalaberto() {
+        return totalaberto;
+    }
+
+    public void setTotalaberto(Double totalaberto) {
+        this.totalaberto = totalaberto;
+    }
+
+    public Double getVlroperacao() {
         return vlroperacao;
     }
 
-    public void setVlroperacao(String vlroperacao) {
+    public void setVlroperacao(Double vlroperacao) {
         this.vlroperacao = vlroperacao;
+    }
+
+    public Double getTotalpago() {
+        return totalpago;
+    }
+
+    public void setTotalpago(Double totalpago) {
+        this.totalpago = totalpago;
     }
 
     public Date getData() {

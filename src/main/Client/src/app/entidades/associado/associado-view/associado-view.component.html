@@ -100,12 +100,22 @@
                         </div>
                         <div class="modal-body">
                             <h4 class="modal-title">Proposta: {{entity?.cpf}}.2019</h4>
+
                           <form name="activeForm" [formGroup]="activeForm" (ngSubmit)="saveAuxilio()" >
 
                             <div class="card-body" style="min-height: 800px;">
 
                                 <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Número da proposta</label>
+                                            <input  style="text-transform: uppercase;" formControlName="numeroproposta"  type="text" class="form-control">
+
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
+                                        <label class="control-label">Data do Contrato</label>
                                         <div class="input-group">
                                             <input formControlName="dataContrato" class="form-control" placeholder="dd-mm-yyyy" name="dp"  ngbDatepicker #d="ngbDatepicker">
                                             <div class="input-group-append">
@@ -303,12 +313,143 @@
 
             <ng-template  #auxilioModal let-c="close" let-d="dismiss">
                 <div class="modal-header">
-                    <h4 class="modal-title">Gestão de Auxílio</h4>
+                    <h4 class="modal-title">Gestão de Auxílio   |   Associado: {{entity?.nome}} |   CPF: {{entity?.cpf}}</h4>
                     <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
+
+
+                    <div class="row">
+                        <!-- column -->
+                        <div class="col-sm-12 col-md-5 col-lg-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Proposta: {{auxilioActive.numeroproposta}}</h4>
+                                    <h5 class="card-subtitle">Arquivo: {{auxilioActive.arquivo}} </h5>
+
+                                    <div class="totalizadores">
+                                        <span class="text-muted">Valor auxílio</span>
+                                        <h2 class="text-info font-bold m-b-5">{{auxilioActive.vlrauxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
+                                    </div>
+
+                                    <div class="totalizadores">
+                                        <span class="text-muted">Total Pago</span>
+                                        <h2 class="text-success font-bold m-b-5">{{auxilioActive.totalpago | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
+                                    </div>
+
+                                    <div class="totalizadores">
+                                        <span class="text-muted">Em Aberto</span>
+                                        <h2 class="text-danger font-bold m-b-5">{{totalaberto | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
+                                    </div>
+
+                                    <hr>
+                                    <button class="btn btn-lg btn-info waves-effect waves-light m-t-25 m-b-20">REFINANCIAR</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- column -->
+                        <div class="col-sm-12 col-md-7 col-lg-9">
+
+                            <h4 class="card-title">Refinanciar</h4>
+                            <hr>
+
+                            <form name="refisForm" [formGroup]="refisForm" (ngSubmit)="saveAuxilio()" >
+
+                                <div class="row">
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label ">Novo Valor das parcelas</label>
+                                            <input   type="text" [value]="vlrparcela" formControlName="vlrparcelas"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Porcentagem</label>
+                                            <select  formControlName="porcentagem" class="form-control" >
+                                                <option value="5" >5%</option>
+                                                <option value="6" >6%</option>
+                                                <option value="7" >7%</option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Nova Quantidade de parcelas</label>
+                                            <select (change)="calculaVlrParcelaRefis()"  formControlName="qtdparcelas" class="form-control" >
+                                                <option value="1" selected>1</option>
+                                                <option value="2" >2</option>
+                                                <option value="3" >3</option>
+                                                <option value="4" >4</option>
+                                                <option value="5" >5</option>
+                                                <option value="6" >6</option>
+                                                <option value="7" >7</option>
+                                                <option value="8" >8</option>
+                                                <option value="9" >9</option>
+                                                <option value="10" >10</option>
+                                                <option value="11" >11</option>
+                                                <option value="12" >12</option>
+                                                <option value="13" >13</option>
+                                                <option value="14" >14</option>
+                                                <option value="15" >15</option>
+                                                <option value="16" >16</option>
+                                                <option value="17" >17</option>
+                                                <option value="18" >18</option>
+                                                <option value="19" >19</option>
+                                                <option value="20" >20</option>
+                                                <option value="21" >21</option>
+                                                <option value="22" >22</option>
+                                                <option value="23" >23</option>
+                                                <option value="24" >24</option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-form-label">Novo Valor do auxílio</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="">R$</span>
+                                                </div>
+                                                <input (change)="setValorExtensoRefis()"  type="text"  formControlName="vlrauxilio"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-7">
+                                        <div class="form-group">
+                                            <label class="control-label">Valor extenso</label>
+                                            <input readonly style="text-transform: uppercase;" formControlName="vlrauxextenso"  type="text" class="form-control">
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </form>
+
+
+                        </div>
+
+                        </div>
+                    </div>
+
                     <h5>Proposta: {{auxilioActive.numeroproposta}}</h5>
 
 
@@ -379,7 +520,7 @@
                             <td>
                                 <p>{{rowDetalhe.datapagamento  | date: 'dd/MM/yyyy'}}</p>
                             </td>
-                            <td ><span [ngStyle]="{ 'background-color' : (rowDetalhe.status=='Em Aberto')? '#e43030' : '#0f8818', 'color' : (rowDetalhe.status=='PAGO')? '#fff' : '#fff' }" class="label"> {{rowDetalhe.status}}</span></td>
+                            <td ><span [ngStyle]="{ 'background-color' : (rowDetalhe.status=='EM ABERTO')? '#e43030' : '#0f8818', 'color' : (rowDetalhe.status=='LIQUIDADA')? '#fff' : '#fff' }" class="label"> {{rowDetalhe.status}}</span></td>
 
 
                         </tr>
@@ -396,9 +537,6 @@
                         </tr>
                         </tfoot>
                     </table>
-
-                </div>
-
 
 
 
@@ -458,7 +596,7 @@
                                           <td>
                                               <p>{{row.datapagamento  | date: 'dd/MM/yyyy'}}</p>
                                           </td>
-                                          <td ><span [ngStyle]="{ 'background-color' : (row.status=='Em Aberto')? '#e43030' : '#0f8818', 'color' : (row.status=='PAGO')? '#fff' : '#fff' }" class="label"> {{row.status}}</span></td>
+                                          <td ><span [ngStyle]="{ 'background-color' : (row.status=='EM ABERTO')? '#e43030' : '#0f8818', 'color' : (row.status=='LIQUIDADA')? '#fff' : '#fff' }" class="label"> {{row.status}}</span></td>
 
                                           <td>
                                               <p><button (click)="gestaoParcela(row, auxilio, parcelaModal)"  class="btn btn-success btn-circle" type="button"><i class="fa fa-link"></i></button></p>
@@ -884,6 +1022,244 @@
                 </form>            </div>
           </ng-template>
         </ngb-tab>
+          <ngb-tab title="Ocorrências">
+              <ng-template ngbTabContent>
+                  <div class="card-body" style="min-height: 800px;">
+                      <form name="activeForm" [formGroup]="associadoForm" (ngSubmit)="saveAssociado()" >
+                          <div class="card-body">
+                              <h4 class="card-title"><i class="fas fa-user"></i> Informações pessoais</h4>
+                          </div>
+                          <hr>
+
+                          <div class="row">
+                              <div class="col-6">
+                                  <div class="form-group">
+                                      <label class="control-label">Associação 1</label>
+                                      <select   formControlName="associacao1" class="form-control" >
+                                          <option  [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+                              <div class="col-6">
+                                  <div class="form-group">
+                                      <label class="control-label">Associação 2</label>
+                                      <select  formControlName="associacao2" class="form-control"  >
+                                          <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="form-body">
+                              <div class="card-body">
+                                  <div class="row p-t-20">
+
+                                      <div class="col-md-12">
+                                          <div class="form-group">
+                                              <label class="control-label">Nome</label>
+                                              <input formControlName="nome"  type="text" class="form-control">
+
+                                          </div>
+                                      </div>
+                                      <!--/span-->
+                                      <div class="col-md-2">
+                                          <div class="form-group has-danger">
+                                              <label class="control-label">CPF</label>
+                                              <input formControlName="cpf"   type="text"  class="form-control form-control-danger" >
+
+                                          </div>
+                                      </div>
+
+                                      <div class="col-md-2">
+                                          <div class="form-group has-danger">
+                                              <label class="control-label">RG</label>
+                                              <input formControlName="rg"   type="text"  class="form-control form-control-danger" >
+
+                                          </div>
+                                      </div>
+                                      <!--/span-->
+
+                                      <div class="col-md-2">
+                                          <div class="form-group has-danger">
+                                              <label class="control-label">Matrícula</label>
+                                              <input formControlName="matricula"  type="text"  class="form-control form-control-danger" >
+
+                                          </div>
+                                      </div>
+
+                                      <div class=" col-md-2">
+                                          <label class="control-label">Situação</label>
+                                          <select formControlName="situacao" class="custom-select" id="inputGroupSelect01">
+                                              <option value="Ativo - Em Atividade">Ativo - Em Atividade</option>
+                                              <option value="Inativo -  Aposentado">Inativo -  Aposentado</option>
+                                          </select>
+                                      </div>
+
+                                      <div class="col-md-3">
+                                          <div class="form-group has-danger">
+                                              <label class="control-label">Cargo</label>
+                                              <input formControlName="cargo"  type="text"  class="form-control form-control-danger" >
+
+                                          </div>
+                                      </div>
+
+                                      <div class="col-md-3">
+                                          <div class="form-group has-danger">
+                                              <label class="control-label">Orgão</label>
+                                              <input formControlName="orgao"  type="text"  class="form-control form-control-danger" >
+
+                                          </div>
+                                      </div>
+
+                                      <div class="col-md-12">
+                                          <div class="form-group has-danger">
+                                              <label class="control-label">Observações</label>
+                                              <textarea formControlName="obs"  type="text"  class="form-control form-control-danger" >
+                                        </textarea>
+
+                                          </div>
+                                      </div>
+
+
+                                  </div>
+                                  <!--/row-->
+                                  <div class="row">
+
+
+
+                                  </div>
+                                  <!--/row-->
+
+                                  <!--/row-->
+
+                                  <h4 class="card-title m-t-40"> <i class="fas fa-address-book"></i> Endereço</h4>
+                              </div>
+                              <hr>
+                              <div class="card-body">
+
+                                  <div class="col-md-3">
+                                      <div class="form-group">
+                                          <label>CEP</label>
+                                          <input formControlName="cep"  type="text" class="form-control">
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-12 ">
+                                          <div class="form-group">
+                                              <label>Endereço</label>
+                                              <input formControlName="endereco"  type="text" class="form-control">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-3">
+                                          <div class="form-group">
+                                              <label>Bairro </label>
+                                              <input formControlName="bairro"  type="text" class="form-control">
+                                          </div>
+                                      </div>
+                                      <!--/span-->
+                                      <div class="col-md-3">
+                                          <div class="form-group">
+                                              <label>Cidade</label>
+                                              <input formControlName="cidade"  type="text" class="form-control">
+                                          </div>
+                                      </div>
+                                      <!--/span-->
+                                      <div class="col-md-3">
+                                          <div class="form-group">
+                                              <label>Estado</label>
+                                              <input formControlName="uf"  type="text" class="form-control">
+                                          </div>
+                                      </div>
+
+
+                                  </div>
+                                  <!--/row-->
+                                  <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Contato</h4>
+                              </div>
+                              <hr>
+                              <div class="card-body">
+                                  <div class="row">
+                                      <div class="col-md-3 ">
+                                          <div class="form-group">
+                                              <label>Telefone</label>
+                                              <input formControlName="telefone"  type="text" class="form-control">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-4">
+                                          <div class="form-group">
+                                              <label>E-mail: </label>
+                                              <input formControlName="email"  type="text" class="form-control">
+                                          </div>
+                                      </div>
+                                      <!--/span-->
+
+                                  </div>
+                                  <!--/row-->
+                                  <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Associação </h4>
+                              </div>
+                              <hr>
+                              <div class="card-body">
+                                  <div class="row">
+
+                                      <div class="col-sm-12 col-md-6">
+                                          <div class="form-group">
+                                              <label class="control-label col-form-label">Verba de Descontos (VD)</label>
+                                              <input readonly formControlName="verbadesconto" placeholder="5022 - MENSALIDADE ASSOCIAÇÃO "  type="text" class="form-control">
+                                          </div>
+                                      </div>
+
+                                      <div class="col-sm-6 col-md-6">
+                                          <div class="form-group">
+
+                                          </div>
+                                      </div>
+
+                                      <div class="col-sm-3 col-md-3">
+                                          <div class="form-group">
+                                              <label>Valor da mensalidade</label>
+                                              <div class="input-group mb-3">
+                                                  <span class="input-group-text">R$</span>
+                                                  <input formControlName="vlrmensalidade"  type="text" class="form-control">
+                                              </div>
+
+                                          </div>
+                                      </div>
+
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-4">
+                                          <div class="form-group">
+                                              <div class="custom-control custom-radio">
+                                                  <input checked="" class="custom-control-input" id="customRadio2" name="customRadio" type="radio">
+                                                  <label class="custom-control-label" for="customRadio2">ATIVO</label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <!--/span-->
+
+                                  </div>
+                                  <!--/row-->
+
+                              </div>
+
+                              <div class="form-actions">
+                                  <div class="card-body">
+                                      <button type="submit" class="btn btn-success">
+                                          <i class="fa fa-check"></i> Salvar</button>
+                                      <button type="button" [routerLink]="'/associado'" class="btn btn-dark">Cancelar</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>            </div>
+              </ng-template>
+          </ngb-tab>
       </ngb-tabset>
     </div>
   </div>

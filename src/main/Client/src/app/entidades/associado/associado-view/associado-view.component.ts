@@ -120,7 +120,7 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
 
   ngOnInit() {
 
-        this.vlrparcela = 0;
+        this.vlrparcela = 0.0;
 
       this.beanSubscribe = this.route.params.subscribe(params => {
           this.beanId = params['id'];
@@ -167,7 +167,6 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
                       obs: this.activeBean.obs
 
                   });
-
 
               });
           }
@@ -250,6 +249,16 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
 
     });
 
+    //Associado reactive form
+    ocorrenciaForm = this.fb.group({
+
+        id:   null,
+        data:   Date,
+        descricao:   null,
+        observacao:   null,
+
+    });
+
 
     saveAssociado() {
         // TODO: Use EventEmitter with form value
@@ -277,7 +286,10 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
 
     gestaoAuxilio(auxilio, auxilioModal){
         this.auxilioActive = auxilio;
-        console.log(this.auxilioActive);
+        console.log("Auxilio Ativo: " + this.auxilioActive);
+
+        this.calculaDesagio(auxilio.vlrparcelas, auxilio.qtdparcelasnaopagas, auxilio.porcentagem);
+
         this.openModalAuxilio(auxilioModal);
     }
 
@@ -285,6 +297,8 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
     vlrauxilio: number;
     vlrparcela: number;
     porcentagem: number;
+    totalaberto: number;
+    getQtdparcelasnaopagas: number;
 
 
 
@@ -310,7 +324,60 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
 
     }
 
+    calculaDesagio(vlrparcela, qtdparcelasnaopagas, porcentagem){
+
+        //var pmt = numericVal(document.calcform.pmt.value);
+
+
+       // var n   = numericVal(document.calcform.n.value);
+
+
+        //var i  = numericVal(document.calcform.i.value)/100;
+
+        porcentagem = porcentagem/100
+
+        //engarcos contratuais
+       // var pen  = numericVal(document.calcform.pen.value);
+
+        this.totalaberto =  vlrparcela * ((1- Math.pow((1 + porcentagem),- qtdparcelasnaopagas)) / porcentagem );
+
+
+    }
+
+    calculaVlrParcelaRefis(){
+
+        this.vlrparcela = this.refisForm.controls.vlrparcelas.value;
+        this.qtdparcela = this.refisForm.controls.qtdparcelas.value;
+        this.porcentagem =  this.refisForm.controls.porcentagem.value;
+
+
+        this.porcentagem = this.porcentagem/100;
+
+
+        this.vlrauxilio = (this.vlrparcela*(1 - Math.pow(1/(1+this.porcentagem),this.qtdparcela))/this.porcentagem)
+        this.vlrauxilio = Math.round(this.vlrauxilio*100)/100
+
+
+       // this.vlrparcela = ( this.vlrauxilio* this.porcentagem)/(1 - Math.pow(1/(1+ this.porcentagem),this.qtdparcela))
+       // this.vlrparcela = Math.round( this.vlrparcela*100)/100
+
+        var vlraux;
+
+        vlraux = this.vlrauxilio.toString().replace('.', ',');
+
+
+        this.refisForm.patchValue(
+
+            {
+                vlrauxilio: this.vlrauxilio,
+                vlrauxextenso: extenso(vlraux, {real: true})
+
+            });
+
+    }
+
     setValorExtenso(){
+
 
         this.vlrauxilio = this.activeForm.controls.vlrauxilio.value;
         this.activeForm.patchValue(
@@ -323,6 +390,7 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
             this.calculaVlrParcela();
         }
     }
+
 
     calculaValorTotalAuxilio(entity){
 
@@ -375,6 +443,31 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         dataContrato: null,
         verbadesconto_id: null,
         arquivo: null
+
+
+    });
+
+    //REFIS reactive form
+    refisForm = this.fb.group({
+
+
+        data: null,
+        qtdparcelasnaopagas: null,
+        numeroproposta:  null,
+        vlrauxilio:  null,
+        porcentagem: null,
+        vlrauxextenso:  null,
+        qtdparcelas:  null,
+        vlrparcelas:  null,
+        convenio_id:  null,
+        associacao_id:  null,
+        parcela_id:  null,
+        associado_id:  null,
+        correspondente_id: null,
+        dataContrato: null,
+        verbadesconto_id: null,
+        arquivo: null,
+        totalaberto: null
 
 
     });

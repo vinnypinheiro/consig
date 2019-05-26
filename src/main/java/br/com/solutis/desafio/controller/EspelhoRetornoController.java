@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -52,13 +53,19 @@ public class EspelhoRetornoController {
     @Autowired
     MensalidadeService mensalidadeService;
 
+    @Autowired
+    EspelhoRetornoService espelhoRetornoService;
+
+    @Autowired
+    AuxilioController auxilioController;
+
     long time = 0;
     int line = 2;
     int inseridos = 0;
     int minline = 0;
     int maxline = 99999999;
 
-    String oplock = "0002";
+    String oplock = "7777";
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -71,7 +78,7 @@ public class EspelhoRetornoController {
 
 
         BufferedReader br = null;
-        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\remessa\\marco.CSV");
+        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\remessa\\MapaFinanceiroSUPREVFamcred.CSV");
 
 
         try {
@@ -89,7 +96,7 @@ public class EspelhoRetornoController {
                     String[] campos = linha.split(";");
 
                     //faz alguma coisa com os campos de cada linha
-                    if(!campos[2].trim().isEmpty()){
+                    if(!campos[0].trim().isEmpty()){
                         makeAssociado(campos);
                     }
 
@@ -106,13 +113,31 @@ public class EspelhoRetornoController {
     public void makeAssociado(String[] campos ) throws ParseException {
 
         System.out.println("##########################"+line+" - "+(line - (inseridos +1)));
+        
+        String cpf = campos[2];
+        String matricula = campos[3];
+        String parcela = campos[6];
+        Double vlrParcela = Double.valueOf(campos[10].replace(".","").replace(",","."));
+        Double vlrDescontado = Double.valueOf(campos[11].replace(".","").replace(",","."));
+        String contrato = campos[13];
+        String situacao = campos[1];
+        String orgao = campos[4];
+        
 
+        EspelhoRetorno espelhoRetorno = new EspelhoRetorno();
+        espelhoRetorno.setMesreferencia(4);
+        espelhoRetorno.setVlrParcela(vlrParcela);
+        espelhoRetorno.setVlrDescontado(vlrDescontado);
+        espelhoRetorno.setParcela(parcela);
+        espelhoRetorno.setCpf(cpf);
 
-        if(campos[2] != null && !campos[2].isEmpty()){
-            String cpfString = campos[2].replaceAll("[.-]", "").trim();
+        //Verificação de CPF
+        if(cpf != null && !cpf.isEmpty()){
 
             //Seta CPF
+            String cpfString = cpf.replaceAll("[.-]", "").trim();
 
+            //adiciona 0 ao incio do CPF de 10 posições
             if(Long.valueOf(cpfString) == 10 ){
                 cpfString = "0"+cpfString;
             }
@@ -123,13 +148,17 @@ public class EspelhoRetornoController {
             if(associado == null ){
                 associado = new Associado();
 
-                if(campos[2] != null && !campos[2].isEmpty()){
+                if(cpf != null && !cpf.isEmpty()){
                     associado.setNome(campos[0]);
                     associado.setCpf( Long.valueOf(cpfString) );
+                    associado.setOplock(oplock);
                     associadoService.save(associado);
 
                 }
             }
+
+            espelhoRetorno.setAssociado_id(associado);
+
 
             //gera a ocorrencia
             LocalDate dateTimeOcorrencia = LocalDate.now();
@@ -141,34 +170,38 @@ public class EspelhoRetornoController {
             // Atualiza o associado
 
             //matricula
-            if(campos[1] != null){
-                associado.setMatricula(campos[1]);
-            }else{
-                associado.setMatricula("");
-            }
+           // if(matricula != null){
+          //      associado.setMatricula(matricula);
+         //   }else{
+          //      associado.setMatricula("");
+          //  }
 
             //situação
-            if(campos[13] != null){
-                associado.setSituacao(campos[13]);
-            }else{
-                associado.setSituacao("");
-            }
+         //   if(situacao != null){
+         //       associado.setSituacao(situacao);
+         //   }else{
+          //      associado.setSituacao("");
+        //    }
 
             //orgão
-            if(campos[9] != null){
-                associado.setOrgao(campos[9]);
-            }else{
-                associado.setOrgao("");
-            }
+         //   if(orgao != null){
+         //       associado.setOrgao(orgao);
+          //  }else{
+         //       associado.setOrgao("");
+         //   }
 
             // Atualiza a mensalidade
-            if(campos[10].contains("5022")){
-                atualizaMensalidade(associado, campos);
-            }
+            // if(campos[10].contains("5022")){
+            //    atualizaMensalidade(associado, campos);
+           // }
 
-            // Atualiza a Parcela
-            if(campos[10].contains("5041")){
-                atualizaParcela(associado, campos);
+            // Atualiza o Auxilio
+            if(associado != null){
+                atualizaAuxilio(associado, campos, espelhoRetorno);
+            } else {
+
+                espelhoRetornoService.save(espelhoRetorno);
+
             }
 
 
@@ -178,46 +211,78 @@ public class EspelhoRetornoController {
     }
 
 
-    public void atualizaParcela(Associado associado,String[] campos  ) throws ParseException {
+    public void atualizaAuxilio(Associado associado,String[] campos, EspelhoRetorno espelhoRetorno  ) throws ParseException {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        String situacao = campos[1];
+        String cpf = campos[2];
+        String matricula = campos[3];
+        String orgao = campos[4];
+        String situacaoBordero = campos[5];
+        int parcelaNum = Integer.valueOf( campos[7]);
+        int pagas = Integer.valueOf(campos[7]);
+        int prazo = Integer.valueOf(campos[8]);
+        int naopagas = Integer.valueOf(campos[9]);
+        Double vlrParcela = Double.valueOf(campos[10].replace(".","").replace(",","."));
+        Double vlrDescontado = Double.valueOf(campos[11].replace(".","").replace(",","."));
+        String contrato = campos[13];
+
 
         try {
-            List<Auxilio> auxilios = new ArrayList<>( associado.getAuxilioList());
+            
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+           /* Auxilio auxilio = new Auxilio();
 
-            Double vlrpago = Double.valueOf(campos[7].replace(".","").replace(",","."));
-            Double vlrprestacao = Double.valueOf(campos[6].replace(".","").replace(",","."));
-            int parcelaNum = Integer.valueOf( campos[3]);
+            auxilio.setAssociado_id(associado);
 
-            Auxilio auxilioLast = auxilios.get(auxilios.size() - 1);
+            auxilio.setNumeroproposta(contrato);
+            auxilio.setQtdparcelas(prazo);
+            auxilio.setQtdparcelaspagas(pagas);
+            auxilio.setQtdparcelasnaopagas(naopagas);
+            auxilio.setVlrparcelas(vlrParcela);
+            auxilio.setPorcentagem(4);
+            auxilio.setOplock(oplock);
 
-            auxilioLast.setQtdparcelaspagas(Integer.valueOf( campos[3]));
-            auxilioLast.setQtdparcelasnaopagas(Integer.valueOf( campos[5]));
-            auxilioLast.setVlrparcelas(vlrprestacao);
-            auxilioLast.setNumeroproposta(campos[12]);
+            auxilioController.saveFromEspelho(auxilio);*/
 
-            List<Parcela> parcelaList = new ArrayList<>(auxilioLast.getParcelaList());
+            List<Auxilio> auxilioList = associado.getAuxilioList();
 
-            Comparator<Parcela> byParcela = (e1, e2) -> Integer.compare(e2.getParcela(), e1.getParcela());
-            parcelaList.sort(byParcela.reversed());
+            for(Auxilio aux : auxilioList){
 
-            for(Parcela parcela : parcelaList){
+                aux.setQtdparcelaspagas(pagas);
+                aux.setQtdparcelasnaopagas(naopagas);
 
-                if (parcela.getParcela() <= parcelaNum & !campos[7].contains("-") ){
-                    parcela.setStatus("LIQUIDADA");
-                    parcela.setValorpago(vlrpago);
-                    parcela.setDatapagamento(parcela.getDatavencimento());
-                    parcela.setOplock(oplock);
+                if ( aux.getOplock() != null ){
 
-                    parcelaService.save(parcela);
-                } else if (parcela.getParcela() == parcelaNum & campos[7].contains("-")){
+                    List<Parcela> parcelaList = new ArrayList<>(aux.getParcelaList());
 
-                    parcela.setStatus("EM ABERTO");
-                    parcelaService.save(parcela);
+                    Comparator<Parcela> byParcela = (e1, e2) -> Integer.compare(e2.getParcela(), e1.getParcela());
+                    parcelaList.sort(byParcela.reversed());
+
+                    for(Parcela parcela : parcelaList){
+
+                        if (parcela.getParcela() <= parcelaNum & vlrDescontado > 0 ){
+                            parcela.setStatus("LIQUIDADA");
+                            parcela.setValorpago(vlrDescontado);
+                            parcela.setDatapagamento(parcela.getDatavencimento());
+                            parcela.setOplock(oplock);
+
+                            parcelaService.save(parcela);
+                        }
+
+                    }
+
+
+
                 }
 
-
             }
+
+
+
+            espelhoRetornoService.save(espelhoRetorno);
+
 
 
         } catch(Exception e){

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 @RestController("AuxilioController")
@@ -63,6 +64,46 @@ public class AuxilioController {
         return this.buildResponse(auxilioService.save(bean));
     }
 
+    public ResponseEntity saveFromEspelho(@RequestBody Auxilio bean) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataEspelho = LocalDate.parse("03/04/2019", formatter);
+        LocalDate dataContrato = dataEspelho.minusMonths(bean.getQtdparcelaspagas());
+
+        bean.setQtdparcelaspagas(0);
+        bean.setQtdparcelasnaopagas(bean.getQtdparcelas());
+
+        for (int i=0; i < bean.getQtdparcelas() ; i++ ){
+
+            Parcela p = new Parcela();
+            p.setParcela(i+1);
+            p.setStatus("EM ABERTO");
+            p.setAuxilio_id(bean);
+            p.setData(dataContrato);
+            p.setDatavencimento(dataContrato.plusMonths(i+1).withDayOfMonth(4));
+            p.setValor(bean.getVlrparcelas());
+            p.setOplock("7777");
+
+
+            parcelaService.save(p);
+        }
+
+//        //cria as mensalidades
+//        for (int i=0; i < bean.getQtdparcelas() ; i++ ){
+//
+//            Mensalidade m = new Mensalidade();
+//            m.setMensalidade(i+1);
+//            m.setStatuspagamento("EM ABERTO");
+//            m.setAssociado_id(bean.getAssociado_id());
+//            m.setDatavencimento(dataContrato);
+//            m.setVlrmensalidade( bean.getAssociado_id().getVlrmensalidade() );
+//
+//            mensalidadeService.save(m);
+//        }
+
+        return this.buildResponse(auxilioService.save(bean));
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity query(@RequestBody FilterData filterData) {
 
@@ -74,6 +115,13 @@ public class AuxilioController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity findById(@PathVariable("id") Long id) {
+
+        return this.buildResponse(auxilioService.getById(id));
+
+    }
+
+    public ResponseEntity findByIdEspelho(@PathVariable("id") Long id) {
+
 
         return this.buildResponse(auxilioService.getById(id));
 
