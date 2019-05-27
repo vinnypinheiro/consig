@@ -2,6 +2,7 @@ export class DomainBase {
   id;
 }
 
+
 export enum Operation {
   READ = 'READ',
   CREATE = 'CREATE',

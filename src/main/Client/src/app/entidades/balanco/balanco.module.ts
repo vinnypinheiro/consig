@@ -8,8 +8,10 @@ import {BalancoService} from './balanco.service';
 import {SharedModule} from '../../shared/shared.module';
 import { BalancoViewComponent } from './balanco-view/balanco-view.component';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
+//Datatables
+import { DataTablesModule } from 'angular-datatables';
 
 import { ChartistModule } from 'ng-chartist';
  
@@ -40,7 +42,10 @@ const ROUTES  = [
                 imports: [RouterModule.forChild(ROUTES), 
                 SharedModule,
                     ChartistModule,
-                    NgbModule
+                    NgbModule,
+                    DataTablesModule,
+                    FormsModule,
+                    ReactiveFormsModule
                 ], 
                 declarations: [ 
                 BalancoGridComponent,

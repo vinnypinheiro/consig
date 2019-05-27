@@ -1,5 +1,6 @@
 package br.com.solutis.desafio.controller;
 import br.com.solutis.desafio.domain.Balanco;
+import br.com.solutis.desafio.helper.filter.BalancoFilter;
 import br.com.solutis.desafio.helper.filter.FilterData;
 import br.com.solutis.desafio.service.BalancoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class BalancoController {
         return this.buildResponse(balancoService.save(bean));
     }
 
+    @RequestMapping(value = "/getbalanco", method = RequestMethod.POST)
+    public ResponseEntity getBalanco(@RequestBody BalancoFilter filter) {
+        return this.buildResponse(balancoService.getBalanco(filter));
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity query(@RequestBody FilterData filterData) {
 
@@ -36,9 +42,11 @@ public class BalancoController {
     }
 
     @RequestMapping(value = "getview/{id}", method = RequestMethod.GET)
-    public ResponseEntity getview(@PathVariable("id") Long id) {
+    public ResponseEntity getview(@PathVariable("id") String id) {
 
-        return this.buildResponse(balancoService.getBalancoView(id));
+        Long idLong = Long.valueOf(id);
+
+        return this.buildResponse(balancoService.getBalancoView(idLong));
 
     }
 

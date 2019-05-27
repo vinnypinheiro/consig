@@ -19,7 +19,7 @@ export class AssociadoGridComponent extends CommonsGrid<Associado> implements On
     dtTrigger: Subject<Associado> = new Subject();
 
     totalAssociados: number;
-    associaodos: {} ;
+    associaodos: any ;
 
      constructor(apiService: AssociadoService, router: Router) { 
          super(apiService, router); 
@@ -31,6 +31,7 @@ export class AssociadoGridComponent extends CommonsGrid<Associado> implements On
              this.activeBean =  response.content;
              if(this.activeBean != null ){
                  this.associaodos = this.activeBean;
+                 console.log("teste")
                  this.dtTrigger.next();
              }
 
@@ -65,10 +66,12 @@ export class AssociadoGridComponent extends CommonsGrid<Associado> implements On
              }
          };
 
+     }
 
 
 
-     } 
+
+
 
      onNavigateClick(filterData: FilterData): void { 
          this.loadByFilter(filterData); 
@@ -126,5 +129,7 @@ export class AssociadoGridComponent extends CommonsGrid<Associado> implements On
      } 
 getReportList():ReportGroup[]{ 
     return []; 
-} 
+}
+
+
 }

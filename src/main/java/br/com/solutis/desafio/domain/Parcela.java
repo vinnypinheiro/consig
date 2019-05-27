@@ -22,6 +22,7 @@ public class Parcela implements Serializable {
     private Double valor;
     private int parcela;
     private LocalDate datavencimento;
+    private LocalDate datavencimento1;
     private String valortotal;
     private LocalDate datapagamento;
     private Double valorpago;
@@ -33,6 +34,13 @@ public class Parcela implements Serializable {
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "auxilio_id", nullable = true, foreignKey = @ForeignKey(name = "fk_convenio_associacao"))    private Auxilio auxilio_id;
 
+    public LocalDate getDatavencimento1() {
+        return datavencimento1;
+    }
+
+    public void setDatavencimento1(LocalDate datavencimento1) {
+        this.datavencimento1 = datavencimento1;
+    }
 
     public Long getId() {
         return id;

@@ -1,7 +1,6 @@
 import {Component, Injectable, OnInit} from '@angular/core';
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from 'ng-chartist/dist/chartist.component';
-import {Operation} from "../../../utils/utils";
 import {CommonsForm} from "../../../commons-form";
 import {Balanco} from "../balanco";
 import {FilterData} from "../../../components/interfaces";
@@ -10,6 +9,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {BalancoService} from "../balanco.service";
 
 import { NgbDateStruct, NgbCalendar, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
+import {FormBuilder} from "@angular/forms";
+import {Subject} from "rxjs";
+import {Associado} from "../../associado/associado";
 
 const I18N_VALUES = {
     'pt': {
@@ -67,11 +69,18 @@ interface Chart {
 })
 export class BalancoViewComponent extends CommonsForm<Balanco>   implements OnInit {
 
+    dtOptions: DataTables.Settings = {};
+    dtTrigger: Subject<Associado> = new Subject();
+
     fromDate: NgbDateStruct;
     TotalAuxiliosFAM: number =  692;
     TotalEmprestato: number = 753336.03;
+    balancoActive: any;
 
-  constructor( apiService: BalancoService,route: ActivatedRoute,calendar: NgbCalendar,
+  constructor( apiService: BalancoService,
+               route: ActivatedRoute,
+               private fb: FormBuilder,
+               calendar: NgbCalendar,
                router: Router) {
       super(apiService, route, router);
       this.fromDate = calendar.getToday();
@@ -83,33 +92,53 @@ export class BalancoViewComponent extends CommonsForm<Balanco>   implements OnIn
 
   ngOnInit() {
 
-      this.beanSubscribe = this.route.params.subscribe(params => {
-          this.beanId = params['id'];
-          if (this.beanId === "novo") {
-              this.beanId = "";
-              this.operation = Operation.CREATE;
-          } else {
-              this.operation = Operation.SELECT;
-              this.apiService.findById(this.beanId).subscribe(response => {
-                  this.activeBean = (<any>response);
-                  this.entity = this.activeBean;
-                  console.log(this.entity);
-
-              });
-
-              this.apiService.getView(this.beanId).subscribe(response => {
-                  this.views = (<any>response);
-                  this.view =  this.views[0];
-                  console.log(this.view);
-
-              });
+      this.dtOptions = {
+          pagingType: 'full_numbers',
+          pageLength: 20,
+          language: {
+              emptyTable: "Nenhum registro encontrado",
+              info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+              infoEmpty: "Mostrando 0 até 0 de 0 registros",
+              infoFiltered: "(Filtrados de _MAX_ registros)",
+              infoPostFix: "",
+              thousands: ".",
+              lengthMenu: "_MENU_ resultados por página",
+              loadingRecords: "Carregando...",
+              processing: "Processando...",
+              zeroRecords: "Nenhum registro encontrado",
+              search: "Pesquisar",
+              paginate: {
+                  next: "Próximo",
+                  previous: "Anterior",
+                  first: "Primeiro",
+                  last: "Último"
+              },
+              aria: {
+                  sortAscending: ": Ordenar colunas de forma ascendente",
+                  sortDescending: ": Ordenar colunas de forma descendente"
+              }
           }
-      });
-
-
-
+      };
 
   }
+
+    //Cliente reactive form
+    associacaoForm = this.fb.group({
+        associacaoId:  null,
+
+    });
+
+    getByAssociacao(){
+
+        this.apiService.getbyassociacao(this.associacaoForm.value).subscribe(response => {
+            this.balancoActive = response;
+            console.log("Balanco:   " + this.balancoActive);
+            this.dtTrigger.next();
+
+
+        });
+
+    }
 
     getDeLookupFilter(lookupValue: any): FilterData {
         switch (lookupValue.name) {
