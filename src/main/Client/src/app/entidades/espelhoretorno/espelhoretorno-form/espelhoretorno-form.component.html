@@ -86,7 +86,7 @@
                                 <p>Queue progress:
                                     <ngb-progressbar type="primary" [value]="uploader.progress"></ngb-progressbar>
                                 </p>
-                                <button type="button" class="btn btn-raised btn-success" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                                <button type="button" class="btn btn-raised btn-success" (click)="importRetornoAlba()">
                                     <span class="fa fa-upload"></span> Importar todos
                                 </button>
                                 <button type="button" class="btn btn-raised btn-warning" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">

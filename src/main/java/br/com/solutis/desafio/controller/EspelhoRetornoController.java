@@ -485,7 +485,11 @@ public class EspelhoRetornoController {
 
 
         BufferedReader br = null;
-        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\IMPORTACAO\\ALBA_201801.txt");
+        FileReader fl =  new FileReader("C:\\Users\\vinicio\\Documents\\DAIANE\\ALBA\\2019\\ALBA_201905.txt");
+
+        RelatorioAlba relatorioAlba = new RelatorioAlba();
+
+        relatorioAlbaService.save(relatorioAlba);
 
         try {
 
@@ -503,7 +507,17 @@ public class EspelhoRetornoController {
                     String[] campos = linha.split("\n");
 
 
-                    RelatorioAlba relatorioAlba = new RelatorioAlba();
+                    if(campos[0].contains("   FAMCRED CELLPAGO ")){
+                        String mes = campos[0].substring(80,91).trim().toLowerCase() ;
+                        String ano = campos[0].substring(93,98).trim() ;
+
+                        relatorioAlba.setMes(mes);
+                        relatorioAlba.setAno(ano);
+
+                        relatorioAlbaService.save(relatorioAlba);
+
+                    }
+
 
                     if(campos[0].contains("Folha-D")){
                         String dataProcessamentoR = campos[0].substring(64,74);
@@ -512,6 +526,8 @@ public class EspelhoRetornoController {
                         LocalDate dataProcessamento = LocalDate.parse(dataProcessamentoR, formatter);
 
                         relatorioAlba.setDataProcessamento(dataProcessamento);
+
+                        relatorioAlbaService.save(relatorioAlba);
 
 
                     }
@@ -523,16 +539,15 @@ public class EspelhoRetornoController {
                         relatorioAlba.setTotalFuncionarios(totalFuncionarios);
                         relatorioAlba.setTotalAverbado(totalAverbado);
 
+                        relatorioAlbaService.save(relatorioAlba);
+
                     }
 
 
 
-
-                    relatorioAlbaService.save(relatorioAlba);
-
                     //faz alguma coisa com os campos
                     if(!campos[0].trim().isEmpty()){
-                        leituraRetornoAlba(campos, relatorioAlba);
+                        leituraRetornoAlba(campos, relatorioAlba.getMes() , relatorioAlba.getAno(), relatorioAlba);
                     }
 
                 }
@@ -545,7 +560,7 @@ public class EspelhoRetornoController {
         return ResponseEntity.ok("200");
     }
 
-    public void leituraRetornoAlba(String[] campos, RelatorioAlba relatorioAlba) throws ParseException {
+    public void leituraRetornoAlba(String[] campos, String mes, String ano, RelatorioAlba relatorioAlba) throws ParseException {
 
         System.out.println("##########################"+line+" - "+(line - (inseridos +1)));
 
@@ -557,6 +572,9 @@ public class EspelhoRetornoController {
                 || campos[0].contains("CELLPAGO")
                 || campos[0].contains("Unidade:")
                 || campos[0].contains("Tecnologia")
+                || campos[0].contains("Total")
+                || campos[0].contains("RH SOFT")
+                || campos[0].contains("Tecnologia")
 
         )   {
 
@@ -567,17 +585,11 @@ public class EspelhoRetornoController {
 
 
 
-        String matricula = campos[0].substring(1,7);
-        String nomeAssociado = campos[0].substring(11,34);
-        Double vlrParcela = Double.valueOf(campos[0].substring(34,40).replace(".","").replace(",","."));
+        Integer matricula = Integer.valueOf(campos[0].substring(1,7).trim()) ;
+      //  String nomeAssociado = campos[0].substring(10,34);
+//        Double vlrParcela = Double.valueOf(campos[0].substring(34,40).replace(".","").replace(",","."));
         Double vlrPago = Double.valueOf(campos[0].substring(42,48).replace(".","").replace(",","."));
-        String mes = "janeiro";
-        String ano ="2018";
 
-        relatorioAlba.setAno(ano);
-        relatorioAlba.setMes(mes);
-
-        relatorioAlbaService.save(relatorioAlba);
 
 
         Session session = em.unwrap(Session.class);
@@ -586,11 +598,10 @@ public class EspelhoRetornoController {
                 .addEntity(ParcelaAlba.class)
                 .getResultList();
 
-          relatorioAlba.setTotalFuncionariosRetorno(parcelas.size());
 
         for(ParcelaAlba parcela : parcelas){
 
-            if(matricula == parcela.getMatricula() && parcela.getNome().contains(nomeAssociado) ){
+            if( parcela.getQtdglosa().toString().equals(matricula.toString()) ){
 
                 parcela.setStatus("PAGO");
                 parcela.setValorTotalPago(vlrPago);
@@ -602,6 +613,9 @@ public class EspelhoRetornoController {
 
 
         }
+
+        relatorioAlba.setTotalFuncionariosRetorno(parcelas.size());
+        relatorioAlbaService.save(relatorioAlba);
 
 
     }

@@ -29,10 +29,6 @@ public class ParcelaAlba implements Serializable {
     private Integer qtdglosa;
 
 
-//    @ManyToOne(cascade = {CascadeType.ALL})
-//    @JoinColumn(name = "auxilio_id", nullable = true, foreignKey = @ForeignKey(name = "fk_convenio_associacao"))    private Auxilio auxilio_id;
-
-
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "relatorio_id", nullable = true, foreignKey = @ForeignKey(name = "fk_parcelalaba_relatorio"))    private RelatorioAlba relatorio_id;
 
