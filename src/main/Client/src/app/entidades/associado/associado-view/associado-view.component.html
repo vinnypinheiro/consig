@@ -47,7 +47,7 @@
                             </div>
                             <div>
                                 <span class="text-muted">Total Pago</span>
-                                <h3 class="font-medium m-b-0">{{entity?.auxilioList[0].totalpago | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h3>
+                                <h3 class="font-medium m-b-0">{{entity?.auxilioList[0]?.totalpago | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h3>
                             </div>
                         </div>
                     </div>
@@ -223,6 +223,18 @@
                                                 <option value="22" >22</option>
                                                 <option value="23" >23</option>
                                                 <option value="24" >24</option>
+                                                <option value="25" >25</option>
+                                                <option value="26" >26</option>
+                                                <option value="27" >27</option>
+                                                <option value="28" >28</option>
+                                                <option value="29" >29</option>
+                                                <option value="30" >30</option>
+                                                <option value="31" >31</option>
+                                                <option value="32" >32</option>
+                                                <option value="33" >23</option>
+                                                <option value="34" >34</option>
+                                                <option value="35" >35</option>
+                                                <option value="36" >36</option>
 
                                             </select>
 
@@ -238,6 +250,8 @@
                                                 <option value="5" >5%</option>
                                                 <option value="6" >6%</option>
                                                 <option value="7" >7%</option>
+                                                <option value="8" >8%</option>
+                                                <option value="9" >9%</option>
 
                                             </select>
 
@@ -373,6 +387,8 @@
                                                 <option value="5" >5%</option>
                                                 <option value="6" >6%</option>
                                                 <option value="7" >7%</option>
+                                                <option value="8" >8%</option>
+                                                <option value="9" >9%</option>
 
                                             </select>
 
@@ -407,6 +423,18 @@
                                                 <option value="22" >22</option>
                                                 <option value="23" >23</option>
                                                 <option value="24" >24</option>
+                                                <option value="25" >25</option>
+                                                <option value="26" >26</option>
+                                                <option value="27" >27</option>
+                                                <option value="28" >28</option>
+                                                <option value="29" >29</option>
+                                                <option value="30" >30</option>
+                                                <option value="31" >31</option>
+                                                <option value="32" >32</option>
+                                                <option value="33" >23</option>
+                                                <option value="34" >34</option>
+                                                <option value="35" >35</option>
+                                                <option value="36" >36</option>
 
                                             </select>
 
@@ -450,94 +478,102 @@
                         </div>
                     </div>
 
-                    <h5>Proposta: {{auxilioActive.numeroproposta}}</h5>
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <h5>Proposta: {{auxilioActive.numeroproposta}}</h5>
 
 
+                                <table  class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
 
-                    <table  class="table table-striped table-bordered">
-                        <thead>
-                        <tr>
+                                        <th >ARQ</th>
+                                        <th >Data inclusão</th>
+                                        <th >Contrato</th>
+                                        <th >Valor Auxílio</th>
+                                        <th >Valor da Prestação</th>
+                                        <th >Prazos</th>
+                                        <th >Não Pagos</th>
+                                        <th >Pagos</th>
+                                        <th >Tipo</th>
 
-                            <th >ARQ</th>
-                            <th >Data inclusão</th>
-                            <th >Contrato</th>
-                            <th >Valor Auxílio</th>
-                            <th >Valor da Prestação</th>
-                            <th >Prazos</th>
-                            <th >Não Pagos</th>
-                            <th >Pagos</th>
-                            <th >Tipo</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr  >
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr  >
+                                        <td>{{auxilioActive.arquivo}}</td>
+                                        <td>{{auxilioActive.dataContrato | date: 'dd/MM/yyyy'}}</td>
+                                        <td>{{auxilioActive.numeroproposta}}</td>
+                                        <td>
+                                            <h4 class="m-b-0 font-16">{{auxilioActive.vlrauxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h4>
+                                        </td>
+                                        <td>{{auxilioActive.vlrparcelas | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</td>
+                                        <td>{{auxilioActive.qtdparcelas}}</td>
+                                        <td>{{auxilioActive.qtdparcelasnaopagas }}</td>
+                                        <td>{{auxilioActive.qtdparcelaspagas}}</td>
+                                        <td >
+                                            <span [ngStyle]="{ 'background-color' : (auxilioActive.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (auxilioActive.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{auxilioActive.tipo}}</span>
+                                        </td>
 
-                            <td>{{auxilioActive.arquivo}}</td>
-                            <td>{{auxilioActive.dataContrato | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{auxilioActive.numeroproposta}}</td>
-                            <td>
-                                <h4 class="m-b-0 font-16">{{auxilioActive.vlrauxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h4>
-                            </td>
-                            <td>{{auxilioActive.vlrparcelas | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</td>
-                            <td>{{auxilioActive.qtdparcelas}}</td>
-                            <td>{{auxilioActive.qtdparcelasnaopagas }}</td>
-                            <td>{{auxilioActive.qtdparcelaspagas}}</td>
-                            <td >
-                                <span [ngStyle]="{ 'background-color' : (auxilioActive.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (auxilioActive.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{auxilioActive.tipo}}</span>
-                            </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
 
-                        </tr>
-                        </tbody>
-                    </table>
-
-                    <h3 >Parcelas:</h3>
-                    <table datatable [dtOptions]="dtOptions"  class="table table-striped table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Parcela</th>
-                            <th>Data Vencimento </th>
-                            <th>Valor </th>
-                            <th>Valor Descontado</th>
-                            <th>Data de Pagamento </th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let rowDetalhe of auxilioActive.parcelaList">
-                            <td>
-                                <p>{{rowDetalhe.parcela}} / {{rowDetalhe.qtdparcelas}}</p>
-                            </td>
-                            <td>
-                                <p>{{rowDetalhe.datavencimento  | date: 'dd/MM/yyyy'}}</p>
-                            </td>
-                            <td>
-                                <p>{{rowDetalhe.valor  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
-                            </td>
-                            <td>
-                                <p>{{rowDetalhe.valorpago  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
-                            </td>
-                            <td>
-                                <p>{{rowDetalhe.datapagamento  | date: 'dd/MM/yyyy'}}</p>
-                            </td>
-                            <td ><span [ngStyle]="{ 'background-color' : (rowDetalhe.status=='EM ABERTO')? '#e43030' : '#0f8818', 'color' : (rowDetalhe.status=='LIQUIDADA')? '#fff' : '#fff' }" class="label"> {{rowDetalhe.status}}</span></td>
+                                <h3 >Parcelas:</h3>
+                                <table datatable [dtOptions]="dtOptions"  class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Parcela</th>
+                                        <th>Data Vencimento </th>
+                                        <th>Valor </th>
+                                        <th>Valor Descontado</th>
+                                        <th>Data de Pagamento </th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let rowDetalhe of auxilioActive.parcelaList">
+                                        <td>
+                                            <p>{{rowDetalhe.parcela}} / {{rowDetalhe.qtdparcelas}}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{rowDetalhe.datavencimento  | date: 'dd/MM/yyyy'}}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{rowDetalhe.valor  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{rowDetalhe.valorpago  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                                        </td>
+                                        <td>
+                                            <p>{{rowDetalhe.datapagamento  | date: 'dd/MM/yyyy'}}</p>
+                                        </td>
+                                        <td ><span [ngStyle]="{ 'background-color' : (rowDetalhe.status=='EM ABERTO')? '#e43030' : '#0f8818', 'color' : (rowDetalhe.status=='LIQUIDADA')? '#fff' : '#fff' }" class="label"> {{rowDetalhe.status}}</span></td>
 
 
-                        </tr>
-                        </tbody>
-                        <tfoot>
-                        <tr>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
 
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>CPF</th>
-                            <th>Telefone</th>
-                            <th>E-mail</th>
-                            <th>Status</th>
-                        </tr>
-                        </tfoot>
-                    </table>
-
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>CPF</th>
+                                        <th>Telefone</th>
+                                        <th>E-mail</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 <div class="modal-footer">

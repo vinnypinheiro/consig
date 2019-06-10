@@ -59,7 +59,7 @@ public class BalancoService {
 
         Session session = em.unwrap(Session.class);
 
-        if (filter.getAssociacaoId() > 0 && filter.getConvenioid() <= 0 ){
+        if (filter.getAssociacaoId() > 0 && filter.getConvenioid() <= 0 && filter.getDataFim() == null){
             List<Balanco> balancoViews =  session.createSQLQuery("SELECT * from getbyassociacao(:associacao);")
                     .addEntity(Balanco.class)
                     .setParameter("associacao",associacao)
@@ -69,15 +69,22 @@ public class BalancoService {
 
         }
 
-        if (filter.getAssociacaoId() <= 0 && filter.getConvenioid() > 0 ){
-            List<Balanco> balancoViews =  session.createSQLQuery("SELECT * from getbyassociacao(:convenio);")
+
+
+        if (filter.getAssociacaoId() > 0 && filter.getDataFim() != null ){
+
+            List<Balanco> balancoViews =  session.createSQLQuery("SELECT * from getbyperiodo(:associacao, :datainicio, :datafim);")
                     .addEntity(Balanco.class)
-                    .setParameter("convenio",convenio)
+                    .setParameter("associacao",associacao)
+                    .setParameter("datainicio",dataInicio)
+                    .setParameter("datafim",dataFim)
                     .list();
 
             return balancoViews;
 
         }
+
+
 
         List<Balanco> balancoViews =  session.createSQLQuery("SELECT * from getbyassociacao(:associacao);")
                 .addEntity(Balanco.class)

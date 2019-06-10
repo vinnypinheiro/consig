@@ -326,6 +326,22 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
 
     calculaDesagio(vlrparcela, qtdparcelasnaopagas, porcentagem){
 
+        if ( porcentagem == 4 ){
+            porcentagem = 2.8
+        }
+
+        if (porcentagem == 5){
+            porcentagem = 3.5
+        }
+
+        if(porcentagem == 6 ){
+            porcentagem = 4.2
+        }
+
+        if ( porcentagem == 7) {
+            4.9
+        }
+
         //var pmt = numericVal(document.calcform.pmt.value);
 
 
@@ -335,9 +351,10 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         //var i  = numericVal(document.calcform.i.value)/100;
 
         porcentagem = porcentagem/100
-
         //engarcos contratuais
        // var pen  = numericVal(document.calcform.pen.value);
+
+
 
         this.totalaberto =  vlrparcela * ((1- Math.pow((1 + porcentagem),- qtdparcelasnaopagas)) / porcentagem );
 
@@ -528,6 +545,7 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         this.activeForm.patchValue(
             {
                 associado_id: this.entity,
+                totalpago: 0,
                 dataContrato: d,
                 numeroproposta: this.entity.cpf + "."+ d.getFullYear(),
 

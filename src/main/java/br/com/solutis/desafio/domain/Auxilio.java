@@ -55,6 +55,10 @@ public class Auxilio implements Serializable {
     @ManyToOne
     @JoinColumn(name = "correspondente_id", nullable = true, foreignKey = @ForeignKey(name = "fk_auxilio_correspondente"))    private Correspondente correspondente_id;
 
+
+    @ManyToOne
+    @JoinColumn(name = "corretor_id", nullable = true, foreignKey = @ForeignKey(name = "fk_auxilio_corretor"))    private Corretor corretor_id;
+
     @JsonBackReference(value="convenio-auxilio")
     @ManyToOne
     @JoinColumn(name = "convenio_id", nullable = true, foreignKey = @ForeignKey(name = "fk_auxilio_convenio"))    private Convenio convenio_id;
@@ -97,6 +101,14 @@ public class Auxilio implements Serializable {
 
     public void setTotalaberto(Double totalaberto) {
         this.totalaberto = totalaberto;
+    }
+
+    public Corretor getCorretor_id() {
+        return corretor_id;
+    }
+
+    public void setCorretor_id(Corretor corretor_id) {
+        this.corretor_id = corretor_id;
     }
 
     public Double getVlroperacao() {

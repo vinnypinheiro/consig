@@ -3,7 +3,7 @@ import {Espelhoretorno} from '../espelhoretorno';
 import {EspelhoRetornoService} from '../espelhoretorno.service';
 
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
-const URL = 'http://localhost:8080/espelhoretorno/importcsv';
+const URL = 'http://10.1.1.239:8080/espelhoretorno/importcsv';
 
 //react form
 import { FormBuilder } from '@angular/forms';
@@ -52,7 +52,6 @@ export class EspelhoretornoFormComponent extends CommonsForm<Espelhoretorno> imp
         this.hasAnotherDropZoneOver = e;
     }
 
-
      getLookupService(lookupName: string): CommonsService<any> {
          switch (lookupName) { 
            
@@ -84,6 +83,14 @@ export class EspelhoretornoFormComponent extends CommonsForm<Espelhoretorno> imp
         // TODO: Use EventEmitter with form value
         //this.save();
         this.apiService.espelhoretorno().subscribe(respose => {
+            console.log("teste ok", respose);
+        });
+    }
+
+    importRetornoAlba() {
+        // TODO: Use EventEmitter with form value
+        //this.save();
+        this.apiService.importretornoalba().subscribe(respose => {
             console.log("teste ok", respose);
         });
     }

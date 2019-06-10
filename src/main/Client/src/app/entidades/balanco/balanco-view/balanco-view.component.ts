@@ -8,7 +8,13 @@ import {CommonsService} from "../../../commons-service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BalancoService} from "../balanco.service";
 
-import { NgbDateStruct, NgbCalendar, NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
+import {
+    NgbDateStruct,
+    NgbCalendar,
+    NgbDatepickerI18n,
+    NgbDateAdapter,
+    NgbDateNativeAdapter
+} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder} from "@angular/forms";
 import {Subject} from "rxjs";
 import {Associado} from "../../associado/associado";
@@ -64,18 +70,21 @@ interface Chart {
   selector: 'app-balanco-view',
   templateUrl: './balanco-view.component.html',
   styleUrls: ['./balanco-view.component.scss'],
-    providers: [I18n, {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}]
+    providers: [I18n, {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}, {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
 
 })
 export class BalancoViewComponent extends CommonsForm<Balanco>   implements OnInit {
 
     dtOptions: DataTables.Settings = {};
     dtTrigger: Subject<Associado> = new Subject();
+    dtInstance: DataTables.Api;
 
     fromDate: NgbDateStruct;
     TotalAuxiliosFAM: number =  692;
     TotalEmprestato: number = 753336.03;
     balancoActive: any;
+    totalparcelas: number;
+    valortotalparcelas: number;
 
   constructor( apiService: BalancoService,
                route: ActivatedRoute,
@@ -125,6 +134,9 @@ export class BalancoViewComponent extends CommonsForm<Balanco>   implements OnIn
     //Cliente reactive form
     associacaoForm = this.fb.group({
         associacaoId:  null,
+      convenioid:  null,
+      dataInicio:  null,
+      dataFim:  null,
 
     });
 
@@ -133,6 +145,55 @@ export class BalancoViewComponent extends CommonsForm<Balanco>   implements OnIn
         this.apiService.getbyassociacao(this.associacaoForm.value).subscribe(response => {
             this.balancoActive = response;
             console.log("Balanco:   " + this.balancoActive);
+            this.totalparcelas = this.balancoActive.length;
+            this.dtInstance.destroy();
+            this.dtTrigger.next();
+            this.calculaValorTotalParcelas(this.balancoActive);
+
+
+        });
+
+    }
+
+    getByPeriodo(){
+
+        this.apiService.getbyassociacao(this.associacaoForm.value).subscribe(response => {
+            this.balancoActive = response;
+            this.totalparcelas = this.balancoActive.length;
+            this.dtTrigger.next();
+            this.calculaValorTotalParcelas(this.balancoActive);
+
+
+        });
+
+    }
+
+    calculaValorTotalParcelas(totalparcelas){
+
+        let valorTotal = [0];
+        let valorInicial = 0;
+        let valor;
+
+        for (let entry of totalparcelas) {
+
+            valorTotal.push(entry.vlrParcela);
+
+        }
+
+        var total = valorTotal.reduce(function(anterior, atual) {
+            return Number(anterior) + Number(atual);
+        });
+
+        console.log(total)
+
+        this.valortotalparcelas = total;
+    }
+
+    getByPeriodoDefault(){
+
+        this.apiService.getbyassociacao(this.associacaoForm.value).subscribe(response => {
+            this.balancoActive = response;
+            this.dtInstance.destroy();
             this.dtTrigger.next();
 
 

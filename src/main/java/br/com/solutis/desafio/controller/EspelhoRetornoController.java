@@ -3,11 +3,14 @@ package br.com.solutis.desafio.controller;
 import br.com.solutis.desafio.domain.*;
 import br.com.solutis.desafio.helper.filter.FilterData;
 import br.com.solutis.desafio.service.*;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -24,6 +27,12 @@ import java.util.Optional;
 @RestController("EspelhoRetronoController")
 @RequestMapping("/espelhoretorno")
 public class EspelhoRetornoController {
+
+
+
+    @PersistenceContext
+    private EntityManager em;
+
 
 
     @Autowired
@@ -59,6 +68,15 @@ public class EspelhoRetornoController {
     @Autowired
     AuxilioController auxilioController;
 
+    @Autowired
+            RetornoAlbaController retornoAlbaController;
+
+    @Autowired
+    RelatorioAlbaService relatorioAlbaService;
+
+    @Autowired
+    ParcelaAlbaService parcelaAlbaService;
+
     long time = 0;
     int line = 2;
     int inseridos = 0;
@@ -66,6 +84,7 @@ public class EspelhoRetornoController {
     int maxline = 99999999;
 
     String oplock = "7777";
+    String retorno = "SIM";
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -125,7 +144,7 @@ public class EspelhoRetornoController {
         
 
         EspelhoRetorno espelhoRetorno = new EspelhoRetorno();
-        espelhoRetorno.setMesreferencia(4);
+        espelhoRetorno.setMesreferencia(5);
         espelhoRetorno.setVlrParcela(vlrParcela);
         espelhoRetorno.setVlrDescontado(vlrDescontado);
         espelhoRetorno.setParcela(parcela);
@@ -170,33 +189,33 @@ public class EspelhoRetornoController {
             // Atualiza o associado
 
             //matricula
-           // if(matricula != null){
-          //      associado.setMatricula(matricula);
-         //   }else{
-          //      associado.setMatricula("");
-          //  }
+           if(matricula != null){
+               associado.setMatricula(matricula);
+           }else{
+                associado.setMatricula("");
+            }
 
             //situação
-         //   if(situacao != null){
-         //       associado.setSituacao(situacao);
-         //   }else{
-          //      associado.setSituacao("");
-        //    }
+           if(situacao != null){
+               associado.setSituacao(situacao);
+           }else{
+               associado.setSituacao("");
+          }
 
             //orgão
-         //   if(orgao != null){
-         //       associado.setOrgao(orgao);
-          //  }else{
-         //       associado.setOrgao("");
-         //   }
+           if(orgao != null){
+               associado.setOrgao(orgao);
+            }else{
+               associado.setOrgao("");
+           }
 
-            // Atualiza a mensalidade
-            // if(campos[10].contains("5022")){
-            //    atualizaMensalidade(associado, campos);
-           // }
+          //   Atualiza a mensalidade
+             if(associado != null && campos[10].contains("5022")){
+                atualizaMensalidade(associado, campos);
+            }
 
             // Atualiza o Auxilio
-            if(associado != null){
+            if(associado != null && campos[10].contains("5041")){
                 atualizaAuxilio(associado, campos, espelhoRetorno);
             } else {
 
@@ -232,7 +251,7 @@ public class EspelhoRetornoController {
         try {
             
 
-           /* Auxilio auxilio = new Auxilio();
+            Auxilio auxilio = new Auxilio();
 
             auxilio.setAssociado_id(associado);
 
@@ -244,7 +263,7 @@ public class EspelhoRetornoController {
             auxilio.setPorcentagem(4);
             auxilio.setOplock(oplock);
 
-            auxilioController.saveFromEspelho(auxilio);*/
+            auxilioController.saveFromEspelho(auxilio);
 
             List<Auxilio> auxilioList = associado.getAuxilioList();
 
@@ -295,6 +314,71 @@ public class EspelhoRetornoController {
     }
 
 
+    public void atualizaParcelas(Associado associado,String[] campos, EspelhoRetorno espelhoRetorno  ) throws ParseException {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        int parcelaNum = Integer.valueOf( campos[7]);
+        int pagas = Integer.valueOf(campos[7]);
+        int prazo = Integer.valueOf(campos[8]);
+        int naopagas = Integer.valueOf(campos[9]);
+        Double vlrParcela = Double.valueOf(campos[10].replace(".","").replace(",","."));
+        Double vlrDescontado = Double.valueOf(campos[11].replace(".","").replace(",","."));
+        String contrato = campos[13];
+
+
+        try {
+
+
+
+            List<Auxilio> auxilioList = associado.getAuxilioList();
+
+            for(Auxilio aux : auxilioList){
+
+                aux.setQtdparcelaspagas(pagas);
+                aux.setQtdparcelasnaopagas(naopagas);
+
+                if ( aux.getOplock() != null ){
+
+                    List<Parcela> parcelaList = new ArrayList<>(aux.getParcelaList());
+
+                    Comparator<Parcela> byParcela = (e1, e2) -> Integer.compare(e2.getParcela(), e1.getParcela());
+                    parcelaList.sort(byParcela.reversed());
+
+                    for(Parcela parcela : parcelaList){
+
+                        if (parcela.getParcela() <= parcelaNum & vlrDescontado > 0 ){
+                            parcela.setStatus("LIQUIDADA");
+                            parcela.setValorpago(vlrDescontado);
+                            parcela.setDatapagamento(parcela.getDatavencimento());
+                            parcela.setOplock(oplock);
+
+                            parcelaService.save(parcela);
+                        }
+
+                    }
+
+
+
+                }
+
+            }
+
+
+
+            espelhoRetornoService.save(espelhoRetorno);
+
+
+
+        } catch(Exception e){
+            return;
+        }
+
+
+        return;
+
+    }
+
 
     public void atualizaMensalidade(Associado associado,String[] campos  ) throws ParseException {
 
@@ -302,8 +386,8 @@ public class EspelhoRetornoController {
 
         List<Mensalidade> mensalidades =   new ArrayList<>(associado.getMensalidadeList());
 
-        if (!campos[7].contains("-")){
-            Double vlrParcela = Double.valueOf(campos[7].replace(".","").replace(",","."));
+        if (!campos[5].contains("Liquidada")){
+            Double vlrParcela = Double.valueOf(campos[10].replace(".","").replace(",","."));
 
             if (vlrParcela > 0 ){
 
@@ -312,10 +396,10 @@ public class EspelhoRetornoController {
                     mensalidadeService.delete(mensalidade.getId());
                 }
 
-                int qtdMensalidadesPagas = Integer.valueOf(campos[3]);
+                int qtdMensalidadesPagas = Integer.valueOf(campos[7]);
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate dataReferencia = LocalDate.parse("03/04/2019", formatter);
+                LocalDate dataReferencia = LocalDate.parse("03/05/2019", formatter);
 
                 for (int i=0; i < qtdMensalidadesPagas ; i++ ){
 
@@ -335,53 +419,55 @@ public class EspelhoRetornoController {
 
                 }
 
-            } else {
-
-                for(Mensalidade mensalidade : mensalidades){
-                    mensalidadeService.delete(mensalidade.getId());
-                }
-
-                int qtdMensalidadesPagas = Integer.valueOf(campos[3]);
-
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate dataReferencia = LocalDate.parse("03/04/2019", formatter);
-
-                for (int i=0; i < qtdMensalidadesPagas ; i++ ){
-
-                    LocalDate dataPagamento = dataReferencia.minusMonths(i+2).withDayOfMonth(3);
-
-                    Mensalidade mensalidade = new Mensalidade();
-                    mensalidade.setMensalidade(qtdMensalidadesPagas - i);
-                    mensalidade.setMesanoref(String.valueOf(dataPagamento.getYear()));
-                    mensalidade.setDatavencimento(dataPagamento);
-                    mensalidade.setDataprocesamento(dataPagamento);
-                    mensalidade.setStatuspagamento("LIQUIDADA");
-                    mensalidade.setAssociado_id(associado);
-                    mensalidade.setVlrmensalidade(vlrParcela);
-                    mensalidade.setOplock(oplock);
-
-                    mensalidadeService.save(mensalidade);
-
-                }
-
-                LocalDate dataNaoPagamento = dataReferencia.minusMonths(1).withDayOfMonth(3);
-
-                Mensalidade mensalidade = new Mensalidade();
-                mensalidade.setMensalidade(qtdMensalidadesPagas + 1);
-                mensalidade.setMesanoref(String.valueOf(dataNaoPagamento.getYear()));
-                mensalidade.setDatavencimento(dataNaoPagamento);
-                mensalidade.setDataprocesamento(dataNaoPagamento);
-                mensalidade.setStatuspagamento("EM ABERTO");
-                mensalidade.setAssociado_id(associado);
-                mensalidade.setVlrmensalidade(vlrParcela);
-                mensalidade.setOplock(oplock);
-
-                mensalidadeService.save(mensalidade);
-
-
-
-
             }
+
+//            else {
+//
+//                for(Mensalidade mensalidade : mensalidades){
+//                    mensalidadeService.delete(mensalidade.getId());
+//                }
+//
+//                int qtdMensalidadesPagas = Integer.valueOf(campos[7]);
+//
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//                LocalDate dataReferencia = LocalDate.parse("03/05/2019", formatter);
+//
+//                for (int i=0; i < qtdMensalidadesPagas ; i++ ){
+//
+//                    LocalDate dataPagamento = dataReferencia.minusMonths(i+2).withDayOfMonth(3);
+//
+//                    Mensalidade mensalidade = new Mensalidade();
+//                    mensalidade.setMensalidade(qtdMensalidadesPagas - i);
+//                    mensalidade.setMesanoref(String.valueOf(dataPagamento.getYear()));
+//                    mensalidade.setDatavencimento(dataPagamento);
+//                    mensalidade.setDataprocesamento(dataPagamento);
+//                    mensalidade.setStatuspagamento("LIQUIDADA");
+//                    mensalidade.setAssociado_id(associado);
+//                    mensalidade.setVlrmensalidade(vlrParcela);
+//                    mensalidade.setOplock(oplock);
+//
+//                    mensalidadeService.save(mensalidade);
+//
+//                }
+//
+//                LocalDate dataNaoPagamento = dataReferencia.minusMonths(1).withDayOfMonth(3);
+//
+//                Mensalidade mensalidade = new Mensalidade();
+//                mensalidade.setMensalidade(qtdMensalidadesPagas + 1);
+//                mensalidade.setMesanoref(String.valueOf(dataNaoPagamento.getYear()));
+//                mensalidade.setDatavencimento(dataNaoPagamento);
+//                mensalidade.setDataprocesamento(dataNaoPagamento);
+//                mensalidade.setStatuspagamento("EM ABERTO");
+//                mensalidade.setAssociado_id(associado);
+//                mensalidade.setVlrmensalidade(vlrParcela);
+//                mensalidade.setOplock(oplock);
+//
+//                mensalidadeService.save(mensalidade);
+//
+//
+//
+//
+//            }
                     } else if (campos[7] == "-"){
 
 
@@ -389,6 +475,133 @@ public class EspelhoRetornoController {
 
         }
 
+
+
+    }
+
+
+    @RequestMapping(value = "/importretornoalba", method = RequestMethod.POST)
+    public ResponseEntity importretornoalba() throws FileNotFoundException {
+
+
+        BufferedReader br = null;
+        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\IMPORTACAO\\ALBA_201801.txt");
+
+        try {
+
+            //ler o csv
+            br = new BufferedReader(fl);
+
+            String linha;
+            linha = br.readLine();
+
+
+            //pra cada linha
+            while ((linha = br.readLine()) != null && line <= maxline ) {
+                if(line >= minline){
+                    // divide a lina em campos informando o separador
+                    String[] campos = linha.split("\n");
+
+
+                    RelatorioAlba relatorioAlba = new RelatorioAlba();
+
+                    if(campos[0].contains("Folha-D")){
+                        String dataProcessamentoR = campos[0].substring(64,74);
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        LocalDate dataProcessamento = LocalDate.parse(dataProcessamentoR, formatter);
+
+                        relatorioAlba.setDataProcessamento(dataProcessamento);
+
+
+                    }
+
+                    if(campos[0].contains("Total geral")){
+                        String totalFuncionarios = campos[0].substring(15,30);
+                        Double totalAverbado = Double.valueOf(campos[0].substring(40,48).replace(".","").replace(",","."));
+
+                        relatorioAlba.setTotalFuncionarios(totalFuncionarios);
+                        relatorioAlba.setTotalAverbado(totalAverbado);
+
+                    }
+
+
+
+
+                    relatorioAlbaService.save(relatorioAlba);
+
+                    //faz alguma coisa com os campos
+                    if(!campos[0].trim().isEmpty()){
+                        leituraRetornoAlba(campos, relatorioAlba);
+                    }
+
+                }
+                line++;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.ok("200");
+    }
+
+    public void leituraRetornoAlba(String[] campos, RelatorioAlba relatorioAlba) throws ParseException {
+
+        System.out.println("##########################"+line+" - "+(line - (inseridos +1)));
+
+
+
+
+        if ( campos[0].contains("ASSEMBLEIA")
+                || campos[0].contains("FAMCRED")
+                || campos[0].contains("CELLPAGO")
+                || campos[0].contains("Unidade:")
+                || campos[0].contains("Tecnologia")
+
+        )   {
+
+                return;
+
+        }
+
+
+
+
+        String matricula = campos[0].substring(1,7);
+        String nomeAssociado = campos[0].substring(11,34);
+        Double vlrParcela = Double.valueOf(campos[0].substring(34,40).replace(".","").replace(",","."));
+        Double vlrPago = Double.valueOf(campos[0].substring(42,48).replace(".","").replace(",","."));
+        String mes = "janeiro";
+        String ano ="2018";
+
+        relatorioAlba.setAno(ano);
+        relatorioAlba.setMes(mes);
+
+        relatorioAlbaService.save(relatorioAlba);
+
+
+        Session session = em.unwrap(Session.class);
+        List<ParcelaAlba> parcelas =  session.createNativeQuery("SELECT * from parcela_alba where" +
+                " mes ='"+mes+"'"+"and ano ='"+ano+"'")
+                .addEntity(ParcelaAlba.class)
+                .getResultList();
+
+          relatorioAlba.setTotalFuncionariosRetorno(parcelas.size());
+
+        for(ParcelaAlba parcela : parcelas){
+
+            if(matricula == parcela.getMatricula() && parcela.getNome().contains(nomeAssociado) ){
+
+                parcela.setStatus("PAGO");
+                parcela.setValorTotalPago(vlrPago);
+                parcela.setRelatorio_id(relatorioAlba);
+
+                parcelaAlbaService.save(parcela);
+
+            }
+
+
+        }
 
 
     }

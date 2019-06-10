@@ -8,8 +8,17 @@ public class BalancoFilter {
 
     private int associacaoId;
     private int convenioid;
+    private String situacao;
     private LocalDate dataInicio;
     private LocalDate dataFim;
+
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
 
     public int getAssociacaoId() {
         return associacaoId;

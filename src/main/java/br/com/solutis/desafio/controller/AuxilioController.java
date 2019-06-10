@@ -67,7 +67,7 @@ public class AuxilioController {
     public ResponseEntity saveFromEspelho(@RequestBody Auxilio bean) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataEspelho = LocalDate.parse("03/04/2019", formatter);
+        LocalDate dataEspelho = LocalDate.parse("03/05/2019", formatter);
         LocalDate dataContrato = dataEspelho.minusMonths(bean.getQtdparcelaspagas());
 
         bean.setQtdparcelaspagas(0);

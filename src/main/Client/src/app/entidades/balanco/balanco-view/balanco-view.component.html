@@ -24,20 +24,14 @@
 
     <div class="col-sm-12 col-md-5">
           <h4 class="card-title">Período personalizado</h4>
-          <form>
+          <form  >
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">Período</label>
+                <label class="input-group-text" for="inputGroupSelect01">SITUAÇÂO</label>
               </div>
               <select class="custom-select" id="inputGroupSelect01">
-                <option selected>Dia de hoje</option>
-                <option value="1">Nesta semana</option>
-                <option value="2">Ultímos 30 dias</option>
-                <option value="3">Maio/2019</option>
-                <option value="3">Abril/2019</option>
-                <option value="3">Março/2019</option>
-                <option value="3">Fevereiro/2019</option>
-                <option value="3">Janeiro/2019</option>
+                <option value="EM ABERTO">EM ABERTO</option>
+                <option value="LIQUIDADA">LIQUIDADA</option>
 
               </select>
             </div>
@@ -45,29 +39,37 @@
     </div>
 
     <div class="col-sm-12 col-md-3">
-      <h4 class="card-title">Período por data</h4>
-      <div class="form-group">
-        <div class="input-group">
-          <input  class="form-control" placeholder="Data início" name="dp"  ngbDatepicker #d="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
-              <i class="fa fa-calendar"></i>
-            </button>
+      <form  [formGroup]="associacaoForm" >
+        <h4 class="card-title">Período por data</h4>
+        <div class="form-group">
+          <div class="input-group">
+            <input formControlName="dataInicio" class="form-control" placeholder="Data início" name="dp"  ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
+                <i class="fa fa-calendar"></i>
+              </button>
+            </div>
           </div>
-        </div>
           <br>
           <div class="input-group">
-              <input  class="form-control" placeholder="Data fim" name="dp1"  ngbDatepicker #d1="ngbDatepicker">
-              <div class="input-group-append">
-                  <button class="btn btn-outline-secondary no-shadow" (click)="d1.toggle()" type="button">
-                      <i class="fa fa-calendar"></i>
-                  </button>
-              </div>
+            <input  formControlName="dataFim" class="form-control" placeholder="Data fim" name="dp1"  ngbDatepicker #d1="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary no-shadow" (click)="d1.toggle()" type="button">
+                <i class="fa fa-calendar"></i>
+              </button>
+            </div>
           </div>
-      </div>
+        </div>
+
+
+      </form>
+
+        <button (click)="getByPeriodo()" class="btn btn-rounded btn-info" type="button"><i class="fa fa-sync"></i> Atualizar</button>
+
+
     </div>
 
-      <button class="btn btn-rounded btn-info" type="button"><i class="fa fa-sync"></i> Atualizar</button>
+
 
   </div>
 </div>
@@ -95,8 +97,8 @@
     <div class="row">
       <!-- column -->
       <div class="col-lg-4">
-        <h1 class="m-b-0 m-t-30">0</h1>
-        <h6 class="font-light text-muted">Parcelas</h6>
+        <h1 class="m-b-0 m-t-30">{{totalparcelas}}</h1>
+        <h6 class="font-light text-muted">Quantidade Parcelas</h6>
         <h3 class="m-t-30 m-b-0">00</h3>
         <h6 class="font-light text-muted">Total de associados</h6>
         <a class="btn btn-info m-t-20 p-15 p-l-25 p-r-25 m-b-20" routerLink="/balanco">Acessar controle mensal</a>
@@ -123,8 +125,8 @@
                         </span>
           </div>
           <div>
-            <span>Total Emprestado</span>
-            <h3 class="font-medium m-b-0">0</h3>
+            <span>Total</span>
+            <h3 class="font-medium m-b-0">{{valortotalparcelas | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</h3>
           </div>
         </div>
       </div>
@@ -153,7 +155,7 @@
                         </span>
           </div>
           <div>
-            <span>Prestações pagas</span>
+            <span>Glosa total</span>
             <h3 class="font-medium m-b-0">0</h3>
           </div>
         </div>
@@ -222,10 +224,10 @@
         <td>
          {{balanco.cpf}}
         </td>
-        <td >{{balanco.numero_proposta}}</td>
+        <td >{{balanco.numeroProposta}}</td>
         <td>{{balanco.parcela}}</td>
-        <td>{{balanco.vlr_parcela}}</td>
-        <td>{{balanco.situacao_parcela}}</td>
+        <td>{{balanco.vlrParcela  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</td>
+        <td>{{balanco.situacaoParcela}}</td>
         <td>
           <span class="label label-success">{{balanco.periodo}}</span>
         </td>
