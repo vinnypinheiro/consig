@@ -485,7 +485,7 @@ public class EspelhoRetornoController {
 
 
         BufferedReader br = null;
-        FileReader fl =  new FileReader("C:\\Users\\vinicio\\Documents\\DAIANE\\ALBA\\2019\\ALBA_201905.txt");
+        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\ALBA\\2018\\ALBA_201809.txt");
 
         RelatorioAlba relatorioAlba = new RelatorioAlba();
 
@@ -586,7 +586,7 @@ public class EspelhoRetornoController {
 
 
         Integer matricula = Integer.valueOf(campos[0].substring(1,7).trim()) ;
-      //  String nomeAssociado = campos[0].substring(10,34);
+       String nomeAssociado = campos[0].substring(10,34);
 //        Double vlrParcela = Double.valueOf(campos[0].substring(34,40).replace(".","").replace(",","."));
         Double vlrPago = Double.valueOf(campos[0].substring(42,48).replace(".","").replace(",","."));
 
@@ -601,7 +601,7 @@ public class EspelhoRetornoController {
 
         for(ParcelaAlba parcela : parcelas){
 
-            if( parcela.getQtdglosa().toString().equals(matricula.toString()) ){
+            if( parcela.getNome().contains(nomeAssociado.substring(0,20)) ){
 
                 parcela.setStatus("PAGO");
                 parcela.setValorTotalPago(vlrPago);

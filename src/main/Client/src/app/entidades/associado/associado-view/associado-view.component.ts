@@ -584,3 +584,4 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
     }
 
 }
+

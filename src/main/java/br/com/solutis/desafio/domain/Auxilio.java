@@ -41,6 +41,9 @@ public class Auxilio implements Serializable {
     private String oplock;
     private String arquivo;
     private Double vlroperacao;
+    private Double vlrliquidoliberado;
+    private String importacao;
+
 
 
     @JsonBackReference(value="associado-auxilio")
@@ -70,6 +73,23 @@ public class Auxilio implements Serializable {
     @JsonManagedReference(value="auxilio-parcela")
     @OneToMany(mappedBy = "auxilio_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Parcela> parcelaList = new ArrayList<>();
+
+
+    public Double getVlrliquidoliberado() {
+        return vlrliquidoliberado;
+    }
+
+    public void setVlrliquidoliberado(Double vlrliquidoliberado) {
+        this.vlrliquidoliberado = vlrliquidoliberado;
+    }
+
+    public String getImportacao() {
+        return importacao;
+    }
+
+    public void setImportacao(String importacao) {
+        this.importacao = importacao;
+    }
 
     public Integer getQtdparcelasnaopagas() {
         return qtdparcelasnaopagas;

@@ -64,22 +64,22 @@ public class ImportdataController {
     int maxline = 99999999;
 
     //1 -FAMCRED 2-IESBA
-    int associacaoID = 1 ;
+    int associacaoID = 2 ;
 
     // 183596- TELCRED
-    int correspondenteID = 183596;
+    int correspondenteID  =183596 ;
 
-    // 204327- AIRES
-    int corretorID = 204327;
+    // 204327- AIRES ESCR-224566  nelia-204328
+    int corretorID = 204328;
 
     //1- SAEB   2- SUPREV
-    int convenioID =1;
+    int convenioID =2;
 
     // 1- 5041 (PARCELA)   2- 5022 (MENSALIDADE)
     int verbadescontoID = 1;
     
 
-    String oplock = "AIRES-FAM";
+    String oplock = "NELIA-SUPREV-IESBA";
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -92,7 +92,7 @@ public class ImportdataController {
 
 
         BufferedReader br = null;
-        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\IMPORTACAO\\AIRESFAM.CSV");
+        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\IMPORTACAO\\IESBA\\IESBANELIA.CSV");
 
         try {
             //le o csv
@@ -160,77 +160,176 @@ public class ImportdataController {
 
         String arquivo = campos[0];
 
-        Auxilio auxilio = new Auxilio();
-        Double vlrParcela = Double.valueOf(campos[2].replace(".","").replace(",","."));
-        Integer qtdparcelas =  Integer.parseInt(campos[5]);
 
          //Valores
-        if (campos[7] == "CONTRATO"){
+        if (campos[7].contains("CONTRATO")){
+
+            Auxilio auxilio = new Auxilio();
+            Double vlrParcela = Double.valueOf(campos[2].replace(".","").replace(",","."));
+            Integer qtdparcelas =  Integer.parseInt(campos[5]);
+
+            //Relacionamentos
+            auxilio.setAssociacao_id(associacao);
+            auxilio.setCorrespondente_id(correspondente);
+            auxilio.setCorretor_id(corretor);
+            auxilio.setConvenio_id(convenio);
+            auxilio.setVerbadesconto_id(verbaDesconto);
+
             auxilio.setTipo("1º CONTRATO");
 
             Double vlrauxilio = Double.valueOf(campos[1].replace(".","").replace(",","."));
             auxilio.setVlrauxilio(vlrauxilio);
-            auxilio.setVlrtotal(vlrauxilio*qtdparcelas);
+            auxilio.setVlrtotal(vlrParcela*qtdparcelas);
             auxilio.setPorcentagem(4);
             auxilio.setNumeroproposta(associado.getCpf().toString() + dateTimeReserva.getYear());
 
+
+            auxilio.setAssociado_id(associado);
+            auxilio.setDatareserva(dateTimeReserva);
+            auxilio.setDataContrato(dateTimeReserva);
+
+            auxilio.setVlrparcelas(vlrParcela);
+            auxilio.setQtdparcelas(qtdparcelas);
+            auxilio.setQtdparcelasnaopagas(qtdparcelas);
+            auxilio.setQtdparcelaspagas(0);
+            auxilio.setTotalaberto(vlrauxilio);
+
+
+            auxilio.setArquivo(arquivo);
+            auxilio.setOplock(oplock);
+
+
+            auxilioService.save(auxilio);
+
+
+            for (int i=0; i < qtdparcelas ; i++ ){
+
+                Parcela parcela = new Parcela();
+                parcela.setParcela(i+1);
+                parcela.setData(dateTimeReserva.plusMonths(i+1));
+                parcela.setStatus("Em Aberto");
+                parcela.setAuxilio_id(auxilio);
+                parcela.setOplock(oplock);
+
+                parcela.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
+
+                parcela.setValor(auxilio.getVlrparcelas());
+
+                parcelaService.save(parcela);
+
+            }
+
+
         } else {
+
+            Auxilio auxilio = new Auxilio();
+            Double vlrParcela = Double.valueOf(campos[2].replace(".","").replace(",","."));
+            Integer qtdparcelas =  Integer.parseInt(campos[5]);
+            Double vlrauxilio = Double.valueOf(campos[1].replace(".","").replace(",","."));
+
+            //Relacionamentos
+            auxilio.setAssociacao_id(associacao);
+            auxilio.setCorrespondente_id(correspondente);
+            auxilio.setCorretor_id(corretor);
+            auxilio.setConvenio_id(convenio);
+            auxilio.setVerbadesconto_id(verbaDesconto);
 
             auxilio.setTipo("REFINANCIAMENTO");
 
+            List<Auxilio> auxilioList = associado.getAuxilioList();
+
+            for(Auxilio aux : auxilioList){
+
+                    List<Parcela> parcelaList = new ArrayList<>(aux.getParcelaList());
+
+                    Comparator<Parcela> byParcela = (e1, e2) -> Integer.compare(e2.getParcela(), e1.getParcela());
+                    parcelaList.sort(byParcela.reversed());
+
+                    for(Parcela parcela : parcelaList){
+
+                            parcela.setStatus("LIQUIDADA REFI");
+                            parcela.setValorpago(parcela.getValor());
+                            parcela.setDatapagamento(parcela.getDatavencimento());
+                            parcela.setOplock(oplock);
+
+                            parcelaService.save(parcela);
+
+
+                    }
+
+                    aux.setQtdparcelasnaopagas(0);
+                    aux.setQtdparcelaspagas(aux.getQtdparcelas());
+                    aux.setStatus("QUITADO");
+                    aux.setImportacao("S");
+                    aux.setTotalaberto(0.0);
+                    aux.setTotalpago(aux.getVlrauxilio());
+
+                auxilioService.save(aux);
+
+
+
+
+            }
 
             Double totalaberto =  vlrParcela * ((1- Math.pow((1 + 0.04),- qtdparcelas)) / 0.04 );
+            Double vlrauxilioliquido = Double.valueOf(campos[1].replace(".","").replace(",","."));
 
-            auxilio.setVlrauxilio(totalaberto);
-            auxilio.setVlrtotal(totalaberto*qtdparcelas);
+
+            auxilio.setArquivo(arquivo);
+            auxilio.setOplock(oplock);
+
+            auxilio.setAssociado_id(associado);
+            auxilio.setDatareserva(dateTimeReserva);
+            auxilio.setDataContrato(dateTimeReserva);
+
+
+            auxilio.setVlrparcelas(vlrParcela);
+            auxilio.setTotalaberto(vlrauxilio);
+
+
+            auxilio.setVlrliquidoliberado(vlrauxilioliquido);
+            auxilio.setImportacao("S");
+            auxilio.setVlrauxilio(vlrauxilioliquido);
+            auxilio.setVlrtotal(vlrParcela*qtdparcelas);
             auxilio.setPorcentagem(5);
             auxilio.setNumeroproposta(associado.getCpf().toString() + dateTimeReserva.getYear() + ".1");
-        }
+
+            auxilio.setQtdparcelasnaopagas(qtdparcelas );
+            auxilio.setQtdparcelaspagas(0);
+            auxilio.setQtdparcelas(qtdparcelas);
+            auxilio.setStatus("DEFERIDO");
+            auxilio.setImportacao("S");
+            auxilio.setTotalaberto(totalaberto);
+            auxilio.setTotalpago(0.0);
+
+            auxilioService.save(auxilio);
+
+            for (int i=0; i < qtdparcelas ; i++ ){
+
+                Parcela parcela = new Parcela();
+                parcela.setParcela(i+1);
+                parcela.setData(dateTimeReserva.plusMonths(i+1));
+                parcela.setStatus("Em Aberto");
+                parcela.setAuxilio_id(auxilio);
+                parcela.setOplock(oplock);
+
+                parcela.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
+
+                parcela.setValor(auxilio.getVlrparcelas());
+
+                parcelaService.save(parcela);
+
+            }
 
 
 
-        auxilio.setAssociado_id(associado);
-        auxilio.setDatareserva(dateTimeReserva);
-        auxilio.setDataContrato(dateTimeReserva);
-
-        auxilio.setVlrparcelas(vlrParcela);
-        auxilio.setQtdparcelas(qtdparcelas);
-        auxilio.setQtdparcelasnaopagas(qtdparcelas);
-        auxilio.setQtdparcelasnaopagas(0);
-
-
-
-        auxilio.setArquivo(arquivo);
-
-        auxilio.setOplock(oplock);
-
-
-        //Relacionamentos
-        auxilio.setAssociacao_id(associacao);
-        auxilio.setCorrespondente_id(correspondente);
-        auxilio.setCorretor_id(corretor);
-        auxilio.setConvenio_id(convenio);
-        auxilio.setVerbadesconto_id(verbaDesconto);
-
-        auxilioService.save(auxilio);
-
-
-        for (int i=0; i < qtdparcelas ; i++ ){
-
-            Parcela parcela = new Parcela();
-            parcela.setParcela(i+1);
-            parcela.setData(dateTimeReserva.plusMonths(i+1));
-            parcela.setStatus("Em Aberto");
-            parcela.setAuxilio_id(auxilio);
-            parcela.setOplock(oplock);
-
-            parcela.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
-
-            parcela.setValor(auxilio.getVlrparcelas());
-
-            parcelaService.save(parcela);
 
         }
+
+
+
+
+
 
 //        //cria as mensalidades
 //        for (int i=0; i < qtdparcelas ; i++ ){
