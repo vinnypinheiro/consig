@@ -29,10 +29,20 @@ public class Parcela implements Serializable {
     private String status;
     private LocalDate data;
     private String oplock;
+    private String qtdparcelasquitar;
 
     @JsonBackReference(value="auxilio-parcela")
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "auxilio_id", nullable = true, foreignKey = @ForeignKey(name = "fk_convenio_associacao"))    private Auxilio auxilio_id;
+
+
+    public String getQtdparcelasquitar() {
+        return qtdparcelasquitar;
+    }
+
+    public void setQtdparcelasquitar(String qtdparcelasquitar) {
+        this.qtdparcelasquitar = qtdparcelasquitar;
+    }
 
     public LocalDate getDatavencimento1() {
         return datavencimento1;

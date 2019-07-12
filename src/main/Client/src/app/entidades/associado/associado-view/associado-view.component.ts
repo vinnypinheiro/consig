@@ -284,11 +284,24 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
   }
 
 
-    gestaoAuxilio(auxilio, auxilioModal){
+  gestaoAuxilio(auxilio, auxilioModal){
         this.auxilioActive = auxilio;
         console.log("Auxilio Ativo: " + this.auxilioActive);
 
         this.calculaDesagio(auxilio.vlrparcelas, auxilio.qtdparcelasnaopagas, auxilio.porcentagem);
+
+
+      this.refisForm.patchValue(
+
+          {
+              convenio_id:  auxilio.convenio_id,
+              associacao_id: auxilio.associacao_id,
+              associado_id:  auxilio.associado_id,
+              correspondente_id:auxilio.correspondente_id,
+              verbadesconto_id: auxilio.verbadesconto_id,
+
+
+          });
 
         this.openModalAuxilio(auxilioModal);
     }
@@ -298,9 +311,8 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
     vlrparcela: number;
     porcentagem: number;
     totalaberto: number;
+    liquidoareceber: number;
     getQtdparcelasnaopagas: number;
-
-
 
     calculaVlrParcela(){
 
@@ -359,6 +371,7 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         this.totalaberto =  vlrparcela * ((1- Math.pow((1 + porcentagem),- qtdparcelasnaopagas)) / porcentagem );
 
 
+
     }
 
     calculaVlrParcelaRefis(){
@@ -378,6 +391,8 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
        // this.vlrparcela = ( this.vlrauxilio* this.porcentagem)/(1 - Math.pow(1/(1+ this.porcentagem),this.qtdparcela))
        // this.vlrparcela = Math.round( this.vlrparcela*100)/100
 
+        this.liquidoareceber = this.vlrauxilio - this.totalaberto;
+
         var vlraux;
 
         vlraux = this.vlrauxilio.toString().replace('.', ',');
@@ -387,7 +402,9 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
 
             {
                 vlrauxilio: this.vlrauxilio,
-                vlrauxextenso: extenso(vlraux, {real: true})
+                vlrauxextenso: extenso(vlraux, {real: true}),
+                vlrliquidoliberado: this.liquidoareceber,
+                vlrliquidadorefi: this.totalaberto
 
             });
 
@@ -408,6 +425,17 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         }
     }
 
+    quitarParcelas(auxilio, qtd){
+
+        this.auxilioService.quitarparcelas(auxilio, qtd.value).subscribe(response => {
+            console.log(response);
+            this.closeLg('Close');
+            this.ngOnInit();
+        });
+
+
+    }
+
 
     calculaValorTotalAuxilio(entity){
 
@@ -417,7 +445,7 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
 
         for (let entry of entity.auxilioList) {
 
-            valorTotal.push(entry.vlrauxilio);
+            valorTotal.push(entry.vlrliquidoliberado);
 
         }
 
@@ -469,6 +497,7 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
 
 
         data: null,
+        vlrliquidoliberado: null,
         qtdparcelasnaopagas: null,
         numeroproposta:  null,
         vlrauxilio:  null,
@@ -484,7 +513,8 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
         dataContrato: null,
         verbadesconto_id: null,
         arquivo: null,
-        totalaberto: null
+        totalaberto: null,
+        vlrliquidadorefi: null
 
 
     });
@@ -496,6 +526,15 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
 
     setVerbaDescontoList(event, a){
         this.verbaDescontoList = this.activeForm.controls.convenio_id.value.verbadescontolist;
+    }
+
+    setConvenioListRefis(event, a){
+        this.convenioList = this.refisForm.controls.associacao_id.value.convenioList;
+    }
+
+
+    setVerbaDescontoListRefis(event, a){
+        this.verbaDescontoList = this.refisForm.controls.convenio_id.value.verbadescontolist;
     }
 
     openLg(content) {
@@ -532,6 +571,30 @@ export class AssociadoViewComponent extends CommonsForm<Associado>   implements 
                 return this.apiService;
             }
         }
+    }
+
+    saveAuxilioRefis(id){
+
+        let dia =  this.refisForm.controls.dataContrato.value.day;
+        let mes =   this.refisForm.controls.dataContrato.value.month;
+        let ano =  this.refisForm.controls.dataContrato.value.year;
+
+        var d = new Date(mes +'/'+ dia +'/'+ano);
+
+        this.refisForm.patchValue(
+            {
+                associado_id: this.entity,
+                totalpago: 0,
+                dataContrato: d,
+
+            }
+        );
+
+        this.auxilioService.saverefis(this.refisForm.value, id ).subscribe(response => {
+            console.log(response);
+            this.closeLg('Close');
+            this.ngOnInit();
+        });
     }
 
     saveAuxilio(){

@@ -27,6 +27,12 @@ export interface FilterData {
     nomeField: string;
 }
 
+export interface Filtro {
+    campo: string;
+    valor: string;
+    tipo: string;
+}
+
 
 export interface ToolBarManager {
 

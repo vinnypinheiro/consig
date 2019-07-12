@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'; 
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router'; 
 import {FilterData} from '../../../components/interfaces'; 
 import {FieldSearch} from '../../../utils/utils'; 
@@ -7,35 +7,42 @@ import {ReportGroup} from '../../../shared/report-group';
 import {Associado} from '../associado'; 
 import {AssociadoService} from '../associado.service';
 import { Subject } from 'rxjs';
+import {DataTableDirective} from "angular-datatables";
+import {FormBuilder} from "@angular/forms";
 
 @Component({ 
   selector: 'gov-associado-grid', 
   templateUrl: './associado-grid.component.html', 
   //styleUrls: ['./associado-grid.component.css'] 
 }) 
-export class AssociadoGridComponent extends CommonsGrid<Associado> implements OnInit {
+export class AssociadoGridComponent extends CommonsGrid<Associado> implements OnInit, AfterViewInit {
 
     dtOptions: DataTables.Settings = {};
     dtTrigger: Subject<Associado> = new Subject();
 
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
+
     totalAssociados: number;
     associaodos: any ;
 
-     constructor(apiService: AssociadoService, router: Router) { 
+     constructor(apiService: AssociadoService,
+                 router: Router,
+                 private fb: FormBuilder,) {
          super(apiService, router); 
      } 
 
      ngOnInit() { 
 
-         this.apiService.loadByFilter(this.getDefaultFilter()).subscribe(response => {
-             this.activeBean =  response.content;
-             if(this.activeBean != null ){
-                 this.associaodos = this.activeBean;
-                 console.log("teste")
-                 this.dtTrigger.next();
-             }
-
-         });
+         // this.apiService.loadByFilter(this.getDefaultFilter()).subscribe(response => {
+         //     this.activeBean =  response.content;
+         //     if(this.activeBean != null ){
+         //         this.associaodos = this.activeBean;
+         //         console.log("teste")
+         //         this.dtTrigger.next();
+         //     }
+         //
+         // });
 
 
          this.dtOptions = {
@@ -67,8 +74,6 @@ export class AssociadoGridComponent extends CommonsGrid<Associado> implements On
          };
 
      }
-
-
 
 
 
@@ -130,6 +135,36 @@ export class AssociadoGridComponent extends CommonsGrid<Associado> implements On
 getReportList():ReportGroup[]{ 
     return []; 
 }
+
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            // Destroy the table first
+            dtInstance.destroy();
+            // Call the dtTrigger to rerender again
+            this.dtTrigger.next();
+        });
+    }
+
+    ngAfterViewInit(): void {this.dtTrigger.next();}
+
+
+    buscaForm = this.fb.group({
+        campo: "nome",
+        tipo: "associado",
+        valor: [''],
+
+    });
+
+    buscar(){
+        this.rerender();
+
+        this.apiService.busca(this.buscaForm.value).subscribe(response => {
+            console.log(response);
+            this.associaodos = response;
+
+
+        });
+    }
 
 
 }

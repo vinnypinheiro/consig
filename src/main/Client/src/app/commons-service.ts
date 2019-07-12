@@ -1,4 +1,4 @@
-import {FilterData} from './components/interfaces';
+import {FilterData, Filtro} from './components/interfaces';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/index';
 import {Injectable} from '@angular/core';
@@ -33,6 +33,20 @@ export abstract class CommonsService<T extends DomainBase> {
     console.log(bean);
     return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/save`, JSON.parse(stringifyCustom(bean)));
   }
+
+    public saverefis(bean: DomainBase, id: number): Observable<ServerResponse<T>> {
+        console.log(bean);
+        return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/refinanciar/${id}`, JSON.parse(stringifyCustom(bean)));
+    }
+
+    public busca(filtro: Filtro): Observable<ServerResponse<T>> {
+        return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/`+ filtro.tipo +`/busca`, filtro);
+    }
+
+    public quitarparcelas(bean: DomainBase, qtd: number): Observable<ServerResponse<T>> {
+        console.log(bean);
+        return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/quitarparcelas/${qtd}`, JSON.parse(stringifyCustom(bean)) );
+    }
 
   public getbyassociacao(bean: any): Observable<ServerResponse<T>> {
     console.log(bean);

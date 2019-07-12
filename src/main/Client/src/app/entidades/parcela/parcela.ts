@@ -12,5 +12,6 @@ export interface Parcela extends DomainBase {
     valorpago: number;
     auxilio_id: Auxilio;
     parcela: number;
+    qtdparcelasquitar: string;
 
 }

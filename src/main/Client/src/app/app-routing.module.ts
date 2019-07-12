@@ -11,7 +11,7 @@ const routes: Routes = [
         path: '',
         component: FullComponent,
         children: [
-            { path: '', loadChildren: './entidades/associado/associado.module#AssociadoModule'  },
+            { path: '', loadChildren: './entidades/dashboard/dashboard.module#DashboardModule'  },
             { path: 'associacao', loadChildren: './entidades/associacao/associacao.module#AssociacaoModule' },
             { path: 'balanco', loadChildren: './entidades/balanco/balanco.module#BalancoModule' },
             { path: 'convenio', loadChildren: './entidades/convenio/convenio.module#ConvenioModule' },

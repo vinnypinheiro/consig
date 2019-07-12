@@ -4,6 +4,7 @@ import br.com.solutis.desafio.domain.Associado;
 import br.com.solutis.desafio.domain.Auxilio;
 import br.com.solutis.desafio.domain.Mensalidade;
 import br.com.solutis.desafio.helper.filter.FilterData;
+import br.com.solutis.desafio.helper.filter.Filtro;
 import br.com.solutis.desafio.helper.filter.WhereClause;
 import br.com.solutis.desafio.repository.AssociadoRepository;
 import org.hibernate.Criteria;
@@ -31,6 +32,23 @@ public class AssociadoService {
 
     @Autowired
     AssociadoRepository associadoRepository;
+
+    public  List<Associado> getAssociadoByCrit( Filtro filtro) {
+
+        String campo = filtro.getCampo();
+        String valor = filtro.getValor();
+
+        Session session = em.unwrap(Session.class);
+
+        List<Associado> associado  = session.createNativeQuery(
+                "select id, nome, cpf, telefone, email  from associado " +
+                        " where nome ilike '%"+valor+"%'" )
+                .getResultList();
+
+
+        return  associado ;
+
+    }
 
     public Associado save(Associado bean){
         return associadoRepository.save(bean);

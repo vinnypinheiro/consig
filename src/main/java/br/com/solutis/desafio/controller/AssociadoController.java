@@ -2,6 +2,7 @@ package br.com.solutis.desafio.controller;
 import br.com.solutis.desafio.domain.Associado;
 import br.com.solutis.desafio.domain.Mensalidade;
 import br.com.solutis.desafio.helper.filter.FilterData;
+import br.com.solutis.desafio.helper.filter.Filtro;
 import br.com.solutis.desafio.service.AssociadoService;
 import br.com.solutis.desafio.service.MensalidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,12 @@ public class AssociadoController {
 
     @Autowired
     MensalidadeService mensalidadeService;
+
+    @RequestMapping(value = "/busca", method = RequestMethod.POST)
+    public ResponseEntity queryBusca(@RequestBody Filtro filtro ) {
+
+        return this.buildResponse( associadoService.getAssociadoByCrit(filtro));
+    }
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)

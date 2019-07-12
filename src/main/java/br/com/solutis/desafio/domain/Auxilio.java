@@ -43,6 +43,8 @@ public class Auxilio implements Serializable {
     private Double vlroperacao;
     private Double vlrliquidoliberado;
     private String importacao;
+    private String qtdparcelasquitar;
+    private Double vlrliquidadorefi;
 
 
 
@@ -71,9 +73,16 @@ public class Auxilio implements Serializable {
     @JoinColumn(name = "verbadesconto_id", nullable = true, foreignKey = @ForeignKey(name = "fk_auxilio_verbadesconto"))    private VerbaDesconto verbadesconto_id;
 
     @JsonManagedReference(value="auxilio-parcela")
-    @OneToMany(mappedBy = "auxilio_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "auxilio_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Parcela> parcelaList = new ArrayList<>();
 
+    public Double getVlrliquidadorefi() {
+        return vlrliquidadorefi;
+    }
+
+    public void setVlrliquidadorefi(Double vlrliquidadorefi) {
+        this.vlrliquidadorefi = vlrliquidadorefi;
+    }
 
     public Double getVlrliquidoliberado() {
         return vlrliquidoliberado;
@@ -81,6 +90,14 @@ public class Auxilio implements Serializable {
 
     public void setVlrliquidoliberado(Double vlrliquidoliberado) {
         this.vlrliquidoliberado = vlrliquidoliberado;
+    }
+
+    public String getQtdparcelasquitar() {
+        return qtdparcelasquitar;
+    }
+
+    public void setQtdparcelasquitar(String qtdparcelasquitar) {
+        this.qtdparcelasquitar = qtdparcelasquitar;
     }
 
     public String getImportacao() {

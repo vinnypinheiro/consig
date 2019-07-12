@@ -47,7 +47,7 @@
                             </div>
                             <div>
                                 <span class="text-muted">Total Pago</span>
-                                <h3 class="font-medium m-b-0">{{entity?.auxilioList[0]?.totalpago | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h3>
+                                <h3 class="font-medium m-b-0">{{entity?.auxilioList[0]?.totalpago |currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h3>
                             </div>
                         </div>
                     </div>
@@ -275,6 +275,7 @@
                         </div>
                         <div class="modal-footer">
 
+
                         </div>
                     </ng-template>
                     <button class="btn btn-rounded btn-info" type="button"  (click)="openLg(content)"><i class="fa fa-plus"></i> Adicionar auxílio</button>
@@ -296,6 +297,7 @@
                             <th >Não Pagos</th>
                             <th >Pagos</th>
                             <th >Tipo</th>
+                            <th >Status</th>
                             <th ></th>
                         </tr>
                         </thead>
@@ -312,9 +314,13 @@
                             <td>{{row.qtdparcelas}}</td>
                             <td>{{row.qtdparcelasnaopagas }}</td>
                             <td>{{row.qtdparcelaspagas}}</td>
+
                             <td >
                                 <span [ngStyle]="{ 'background-color' : (row.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (row.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{row.tipo}}</span>
                             </td>
+
+                            <td >
+                              <span [ngClass]="{'quitado': row.status=='QUITADO'}" > {{row.status}}</span>  </td>
                             <td><button (click)="gestaoAuxilio( row, auxilioModal)" class="btn btn-primary btn-circle" type="button"><i class="fa fa-list"></i></button></td>
                         </tr>
                         </tbody>
@@ -359,7 +365,14 @@
                                     </div>
 
                                     <hr>
-                                    <button class="btn btn-lg btn-info waves-effect waves-light m-t-25 m-b-20">REFINANCIAR</button>
+
+                                    <div class="totalizadores">
+                                        <span class="text-muted">Liquido a receber</span>
+                                        <h2 class="text-danger font-bold m-b-5">{{liquidoareceber | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
+                                    </div>
+
+
+                                    <button (click)="saveAuxilioRefis(auxilioActive.id)" class="btn btn-lg btn-info waves-effect waves-light m-t-25 m-b-20">REFINANCIAR</button>
                                 </div>
                             </div>
                         </div>
@@ -470,6 +483,70 @@
 
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Número da proposta</label>
+                                            <input  style="text-transform: uppercase;" formControlName="numeroproposta"  type="text" class="form-control">
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="control-label">Data do Contrato</label>
+                                        <div class="input-group">
+                                            <input formControlName="dataContrato" class="form-control" placeholder="dd-mm-yyyy" name="dp"  ngbDatepicker #d="ngbDatepicker">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label class="control-label">CT</label>
+                                                <input  style="text-transform: uppercase;" formControlName="arquivo"  type="text" class="form-control">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Associação</label>
+                                                <select  formControlName="associacao_id" class="form-control" (change)="setConvenioListRefis($event, associacao_id)" >
+                                                    <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-form-label">Convênio</label>
+                                                <select  formControlName="convenio_id" class="form-control" (change)="setVerbaDescontoListRefis($event, convenio_id)">
+                                                    <option [ngValue]="c" *ngFor="let c of convenioList" > {{c.nomefantasia}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-form-label">Verba de Descontos (VD)</label>
+                                                <select  formControlName="verbadesconto_id" class="form-control" >
+                                                    <option [ngValue]="vd" *ngFor="let vd of verbaDescontoList " > {{vd.descricao}} - {{vd.codigo}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+
+                                </div>
+
+
                             </form>
 
 
@@ -525,6 +602,37 @@
                                 </table>
 
                                 <h3 >Parcelas:</h3>
+
+                                <div class="row">
+                                    <!-- column -->
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+
+                                        <div class="card-body bg-info">
+                                            <div class="d-flex align-items-center  text-white">
+                                                <div>
+                                                    <h4 class=" m-b-0">Quitar parcelas</h4>
+                                                </div><div class="ml-auto">
+                                                <a href="javascript: void(0)">
+                                                    <i class="mdi mdi-menu text-white font-20"></i>
+                                                </a>
+                                            </div>
+                                            </div>
+                                            <form class="m-t-30 m-b-20 ng-untouched ng-pristine ng-valid" novalidate="">
+                                                <div class="input-group input-group-lg mb-3 ">
+                                                    <input aria-label="" class="form-control" #qtd placeholder="Quantidades de parcelas p/ Quitar" type="text">
+                                                    <div class="input-group-append">
+                                                        <button (click)="quitarParcelas(auxilioActive,qtd )" class="btn btn-light" type="button">
+                                                            <i class="ti-upload"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
                                 <table datatable [dtOptions]="dtOptions"  class="table table-striped table-bordered">
                                     <thead>
                                     <tr>
