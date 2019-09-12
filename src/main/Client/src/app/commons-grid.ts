@@ -16,6 +16,9 @@ export abstract class CommonsGrid<T extends DomainBase> implements OnInit {
 
   public activeBean = <T> {};
 
+  @ViewChild(ToolBarComponent)
+  protected toolBar: ToolBarComponent;
+
   public filterData = <FilterData>{};
 
   constructor(public apiService: CommonsService<T>, protected router: Router) {
@@ -26,6 +29,7 @@ export abstract class CommonsGrid<T extends DomainBase> implements OnInit {
   }
 
   ngOnInit(): void {
+    this.toolBar.stateButons = new StateButons();
     this.loadByFilter(this.getDefaultFilter());
   }
 
@@ -35,13 +39,9 @@ export abstract class CommonsGrid<T extends DomainBase> implements OnInit {
       this.dataList = response.content;
       this.filterData = response.filterData;
       this.toolBar.updateStatus(this.filterData.totalPages, this.filterData.page);*/
-      this.activeBean =  response.content;
-      console.log(this.activeBean)
-
+      this.activeBean = null;
     });
   }
-
-
 
   onButtonActionClick(button: string): void {
 
@@ -84,6 +84,10 @@ export abstract class CommonsGrid<T extends DomainBase> implements OnInit {
 
   onSelectionChange(checked: boolean, selectedBean: any) {
     this.activeBean = checked ? selectedBean : null;
+    this.toolBar.stateButons.open = (this.activeBean != null);
+    this.toolBar.stateButons.print = (this.activeBean != null);
+    this.toolBar.stateButons.copy = (this.activeBean != null);
+    this.toolBar.stateButons.delete = (this.activeBean != null);
 
     SharedService.beanIdSelected = this.activeBean.id;
   }
@@ -99,7 +103,7 @@ export abstract class CommonsGrid<T extends DomainBase> implements OnInit {
   getDefaultFilter() {
     return <FilterData>{
       page: 1,
-      limit: 15,
+      limit: 300,
       whereClauses: []
     };
   }

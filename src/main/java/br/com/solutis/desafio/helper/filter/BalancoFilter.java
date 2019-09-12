@@ -6,8 +6,8 @@ import java.time.LocalDate;
 public class BalancoFilter {
 
 
-    private int associacaoId;
-    private int convenioid;
+    private String associacaoId;
+    private String convenioid;
     private String situacao;
     private LocalDate dataInicio;
     private LocalDate dataFim;
@@ -20,19 +20,19 @@ public class BalancoFilter {
         this.situacao = situacao;
     }
 
-    public int getAssociacaoId() {
+    public String getAssociacaoId() {
         return associacaoId;
     }
 
-    public void setAssociacaoId(int associacaoId) {
+    public void setAssociacaoId(String associacaoId) {
         this.associacaoId = associacaoId;
     }
 
-    public int getConvenioid() {
+    public String getConvenioid() {
         return convenioid;
     }
 
-    public void setConvenioid(int convenioid) {
+    public void setConvenioid(String convenioid) {
         this.convenioid = convenioid;
     }
 

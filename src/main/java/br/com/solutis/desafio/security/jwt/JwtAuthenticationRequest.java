@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class JwtAuthenticationRequest implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private String cpf;
+    private static final long serialVersionUID = 1L;
+    private String login;
     private String password;
     private String entidade;
     private String unidadeGestora;
@@ -14,19 +14,19 @@ public class JwtAuthenticationRequest implements Serializable {
         super();
     }
 
-    public JwtAuthenticationRequest(String cpf, String password,String entidade,String unidadeGestora) {
-        this.setCpf(cpf);
+    public JwtAuthenticationRequest(String login, String password,String entidade,String unidadeGestora) {
+        this.setLogin(login);
         this.setPassword(password);
         this.setEntidade(entidade);
         this.setUnidadeGestora(unidadeGestora);
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getLogin() {
+        return login;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {

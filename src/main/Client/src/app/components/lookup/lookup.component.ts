@@ -115,7 +115,7 @@ export class LookupComponent implements OnInit, AfterViewInit {
                     this.requestSubscription.unsubscribe();
                 }
 
-               /* this.requestSubscription = this.apiService.post('http://10.1.1.238:8080/1188/despesas/list', params).subscribe((response) => {
+               /* this.requestSubscription = this.apiService.post('http://10.1.1.239:8080/1188/despesas/list', params).subscribe((response) => {
                     this.$field.find('.lookup-loading').hide().siblings('.lookup-search').show();
                     this.sourceData = response.data;
 

@@ -13,7 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //Datatables
 import { DataTablesModule } from 'angular-datatables';
 
-import { ChartistModule } from 'ng-chartist';
  
 const ROUTES  = [ 
         { 
@@ -41,7 +40,6 @@ const ROUTES  = [
         @NgModule({ 
                 imports: [RouterModule.forChild(ROUTES), 
                 SharedModule,
-                    ChartistModule,
                     NgbModule,
                     DataTablesModule,
                     FormsModule,

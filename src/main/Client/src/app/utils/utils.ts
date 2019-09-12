@@ -2,7 +2,6 @@ export class DomainBase {
   id;
 }
 
-
 export enum Operation {
   READ = 'READ',
   CREATE = 'CREATE',
@@ -12,6 +11,7 @@ export enum Operation {
   REPORT = 'REPORT',
   FILTER = 'FILTER'
 }
+
 export class FieldSearch {
 
   constructor(_name: string, _label: string, _type:string){

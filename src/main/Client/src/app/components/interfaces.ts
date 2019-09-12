@@ -28,9 +28,9 @@ export interface FilterData {
 }
 
 export interface Filtro {
-    campo: string;
-    valor: string;
-    tipo: string;
+  campo: string;
+  valor: string;
+  tipo: string;
 }
 
 

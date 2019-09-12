@@ -1,26 +1,49 @@
 import {LoginService} from './login.service';
 import {LoginRequest} from '../login-request';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {Router} from "@angular/router";
 import {LoginResponse} from "../login-response";
 import {SharedService} from "../../shared/shared.service";
+import {ToastrService} from "ngx-toastr";
+
+
+declare var $:any;
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   user = new LoginRequest('','',"","");
   message : string;
 
   constructor(private userService: LoginService,
               private sharedService: SharedService,
+              private toastr: ToastrService,
               private router: Router) {
   }
 
   ngOnInit() {
+
+    $('body').addClass('empty-layout');
+  }
+
+  ngAfterViewInit() {
+    $('#login-form').validate({
+      errorClass:"help-block",
+      rules: {
+        email: {required:true,email:true},
+        password: {required:true}
+      },
+      highlight:function(e){$(e).closest(".form-group").addClass("has-error")},
+      unhighlight:function(e){$(e).closest(".form-group").removeClass("has-error")},
+    });
+  }
+
+  ngOnDestroy() {
+    $('body').removeClass('empty-layout');
   }
 
 
@@ -37,6 +60,10 @@ export class LoginComponent implements OnInit {
       localStorage.clear();
       this.sharedService.updateLoginDetails();
       this.message = 'Erro ';
+      this.toastr.error('Usuário ou senha incorretos', 'Erro   ', {
+        positionClass: 'toast-top-center'
+      });
+
     });
   }
 

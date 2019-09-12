@@ -3,7 +3,7 @@ import {Espelhoretorno} from '../espelhoretorno';
 import {EspelhoRetornoService} from '../espelhoretorno.service';
 
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
-const URL = 'http://localhost:8080/espelhoretorno/importcsv';
+const URL = 'http://10.1.1.239:8080/espelhoretorno/importcsv';
 
 //react form
 import { FormBuilder } from '@angular/forms';

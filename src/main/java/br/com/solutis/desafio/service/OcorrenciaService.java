@@ -33,8 +33,18 @@ public class OcorrenciaService {
         return ocorrenciaRepository.save(bean);
     }
 
-    public Ocorrencia getById(Long id){
-        return ocorrenciaRepository.getOne(id);
+    public List<Ocorrencia> getById(Long id){
+
+        Session session = em.unwrap(Session.class);
+
+        List<Ocorrencia> ocorrencias =  session.createNativeQuery("select\n" +
+                "* \n" +
+                "from ocorrencia \n" +
+                "where associado_id = ("+ id+")")
+                .addEntity(Ocorrencia.class)
+                .list();
+
+        return ocorrencias;
     }
 
     public void delete(Long id){

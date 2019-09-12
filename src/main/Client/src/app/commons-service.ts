@@ -34,42 +34,52 @@ export abstract class CommonsService<T extends DomainBase> {
     return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/save`, JSON.parse(stringifyCustom(bean)));
   }
 
-    public saverefis(bean: DomainBase, id: number): Observable<ServerResponse<T>> {
-        console.log(bean);
-        return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/refinanciar/${id}`, JSON.parse(stringifyCustom(bean)));
-    }
+  public saverefis(bean: DomainBase, id: number): Observable<ServerResponse<T>> {
+    console.log(bean);
+    return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/refinanciar/${id}`, JSON.parse(stringifyCustom(bean)));
+  }
 
-    public busca(filtro: Filtro): Observable<ServerResponse<T>> {
-        return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/`+ filtro.tipo +`/busca`, filtro);
-    }
+  public busca(filtro: Filtro): Observable<ServerResponse<T>> {
+    return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/`+ filtro.tipo +`/busca`, filtro);
+  }
 
-    public quitarparcelas(bean: DomainBase, qtd: number): Observable<ServerResponse<T>> {
-        console.log(bean);
-        return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/quitarparcelas/${qtd}`, JSON.parse(stringifyCustom(bean)) );
-    }
+  public quitarparcelas(bean: DomainBase, qtd: number): Observable<ServerResponse<T>> {
+    console.log(bean);
+    return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/quitarparcelas/${qtd}`, JSON.parse(stringifyCustom(bean)) );
+  }
 
   public getbyassociacao(bean: any): Observable<ServerResponse<T>> {
     console.log(bean);
     return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/getbalanco`, JSON.parse(stringifyCustom(bean)));
   }
 
-    public importcsv(): Observable<ServerResponse<T>> {
-        return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/importcsv`, "01");
-    }
+  public getcontareceber(bean: any): Observable<ServerResponse<T>> {
+    console.log(bean);
+    return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/getcontasreceber`, JSON.parse(stringifyCustom(bean)));
+  }
+
+  public importcsv(): Observable<ServerResponse<T>> {
+    return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/importcsv`, "01");
+  }
 
   public espelhoretorno(): Observable<ServerResponse<T>> {
     return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/importar`, "01");
   }
 
-    public importretornoalba(): Observable<ServerResponse<T>> {
-        return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/importretornoalba`, "01");
-    }
+  public importretornoalba(): Observable<ServerResponse<T>> {
+    return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/importretornoalba`, "01");
+  }
 
   public loadQuery(filterData: FilterData, queryId: string): Observable<ServerResponse<T>> {
     return this.http.post<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/q/${queryId}`, filterData);
   }
 
   public findById(id: string): Observable<ServerResponse<T>> {
+    return this.http.get<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/${id}`);
+  }
+
+
+  public findOcorrenciaById(id: string): Observable<ServerResponse<T>> {
     return this.http.get<ServerResponse<T>>(`${this.API_ROOT_URL}/${this.getPathModule()}/${id}`);
   }
 

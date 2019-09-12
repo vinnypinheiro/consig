@@ -182,7 +182,7 @@ public class EspelhoRetornoController {
             //gera a ocorrencia
             LocalDate dateTimeOcorrencia = LocalDate.now();
             Ocorrencia ocorrencia = new Ocorrencia();
-            ocorrencia.setAssociado_id(associado);
+            ocorrencia.setAssociado_id(associado.getId());
             ocorrencia.setData(dateTimeOcorrencia);
             ocorrencia.setDescricao("Leitura espelho retorno oplock = "+ oplock );
 
@@ -312,7 +312,6 @@ public class EspelhoRetornoController {
         return;
 
     }
-
 
     public void atualizaParcelas(Associado associado,String[] campos, EspelhoRetorno espelhoRetorno  ) throws ParseException {
 

@@ -52,14 +52,17 @@ public class BalancoService {
 
     public List<Balanco> getBalanco(BalancoFilter filter) {
 
-        int associacao = filter.getAssociacaoId();
-        int convenio = filter.getConvenioid();
+        String associacao = filter.getAssociacaoId();
+        String convenio = filter.getConvenioid();
         LocalDate dataInicio = filter.getDataInicio();
         LocalDate dataFim = filter.getDataFim();
 
+        String dataInicial = dataInicio.toString();
+        String dataFinal = dataFim.toString();
+
         Session session = em.unwrap(Session.class);
 
-        if (filter.getAssociacaoId() > 0 && filter.getConvenioid() <= 0 && filter.getDataFim() == null){
+       /* if (filter.getAssociacaoId() > 0 && filter.getConvenioid() <= 0 && filter.getDataFim() == null){
             List<Balanco> balancoViews =  session.createSQLQuery("SELECT * from getbyassociacao(:associacao);")
                     .addEntity(Balanco.class)
                     .setParameter("associacao",associacao)
@@ -67,10 +70,37 @@ public class BalancoService {
 
             return balancoViews;
 
+        }*/
+
+
+
+        if (filter.getAssociacaoId() != null  && filter.getDataFim() != null ){
+
+            List<Balanco> balancoViews =  session.createNativeQuery("select\n" +
+                    "ass.nome as associado,\n" +
+                    "ass.cpf,\n" +
+                    "ac.nomefantasia as associacao,\n" +
+                    "cv.nomefantasia as convenio,\n" +
+                    "a.numeroproposta as numero_proposta,\n" +
+                    "p.parcela,\n" +
+                    "'periodo' as periodo,\n" +
+                    "p.status as situacao_parcela,\n" +
+                    "p.valor as vlr_parcela\n" +
+                    "from parcela p\n" +
+                    "left join auxilio a on a.id = p.auxilio_id\n" +
+                    "left join associado ass on ass.id = a.associado_id\n" +
+                    "left join associacao ac on ac.id = a.associacao_id\n" +
+                    "left join convenio cv on cv.id = a.convenio_id\n" +
+                    "where datavencimento between '"+dataInicial+"' and '"+dataFinal+"'\n" +
+                    "and p.status = 'Em Aberto'\n" +
+                    "and a.associacao_id in ("+ associacao+")")
+                    .addEntity(Balanco.class)
+                    .list();
+
+            return balancoViews;
+
         }
-
-
-
+/*
         if (filter.getAssociacaoId() > 0 && filter.getDataFim() != null ){
 
             List<Balanco> balancoViews =  session.createSQLQuery("SELECT * from getbyperiodo(:associacao, :datainicio, :datafim);")
@@ -82,13 +112,27 @@ public class BalancoService {
 
             return balancoViews;
 
-        }
+        }*/
 
 
-
-        List<Balanco> balancoViews =  session.createSQLQuery("SELECT * from getbyassociacao(:associacao);")
+        List<Balanco> balancoViews =  session.createSQLQuery("select\n" +
+                "ass.nome as associado,\n" +
+                "ass.cpf,\n" +
+                "ac.nomefantasia as associacao,\n" +
+                "cv.nomefantasia as convenio,\n" +
+                "a.numeroproposta as numero_proposta,\n" +
+                "p.parcela,\n" +
+                "p.status as situacao_parcela,\n" +
+                "p.valor as vlrParcela\n" +
+                "from parcela p\n" +
+                "left join auxilio a on a.id = p.auxilio_id\n" +
+                "left join associado ass on ass.id = a.associado_id\n" +
+                "left join associacao ac on ac.id = a.associacao_id\n" +
+                "left join convenio cv on cv.id = a.convenio_id\n" +
+                "where datavencimento between '2019-07-01' and '2019-07-31'\n" +
+                "and p.status = 'Em Aberto'\n" +
+                "and a.associacao_id = 1")
                 .addEntity(Balanco.class)
-                .setParameter("associacao",associacao)
                 .list();
 
         return balancoViews;

@@ -1,6 +1,4 @@
 import {Component, Injectable, OnInit} from '@angular/core';
-import * as Chartist from 'chartist';
-import { ChartType, ChartEvent } from 'ng-chartist/dist/chartist.component';
 import {CommonsForm} from "../../../commons-form";
 import {Balanco} from "../balanco";
 import {FilterData} from "../../../components/interfaces";
@@ -57,13 +55,6 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
 
 declare var require: any;
 
-interface Chart {
-    type: ChartType;
-    data: Chartist.IChartistData;
-    options?: any;
-    responsiveOptions?: any;
-    events?: ChartEvent;
-}
 
 
 @Component({

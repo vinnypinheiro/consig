@@ -39,18 +39,18 @@ export class SharedService {
   }
 
   printReport(reportname:string,id:number){
-      this.downloadPDF(reportname,id).subscribe(
-        (res) => {
-          let fileURL = URL.createObjectURL(res);
-          window.open(fileURL);
-        }
-      );
+    this.downloadPDF(reportname,id).subscribe(
+      (res) => {
+        let fileURL = URL.createObjectURL(res);
+        window.open(fileURL);
+      }
+    );
   }
 
   downloadPDF(reportname:string,id:number): any {
 
     //if (report.needFilter){
-     // report.filterData = this.builderFilterData(report.nome);
+    // report.filterData = this.builderFilterData(report.nome);
     //}
 
 

@@ -3,10 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
+  hmr       : false,
   getBaseURL: function () {
       // console.log('getBaseURL -> production', this.production);
-      return 'http://localhost:8080';
+      return 'http://localhost:8083';
   }
 
 };

@@ -1,292 +1,622 @@
-<div class="row">
-    <!-- Column -->
-    <div class="col-sm-12 col-lg-4">
-        <div class="card">
-            <div class="card-body" >
-                <h4 class="card-title"><i class="fa fa-user"></i> {{entity?.nome}}</h4>
-                <h5 (click)="copyCPF()" id="cpf" class="card-subtitle">CPF: {{entity?.cpf}}</h5>
-                <h5 class="font-medium">Tel: {{entity?.telefone}}</h5>
-                <h5 class="font-medium">{{entity?.email}}</h5>
-                <h5 class="font-medium">{{entity?.associacao1?.nomefantasia}}</h5>
-                <h5 class="font-medium">{{entity?.associacao2?.nomefantasia}}</h5>
+<div class="page-header page-header-profile">
+  <div class="ibox flex-1">
+    <div class="ibox-body">
+      <div class="flexbox">
+        <div class="flexbox-b">
+
+          <div>
+            <h4 class="card-title"><i class="fa fa-user"></i> {{activeBean?.nome}}</h4>
+            <div class="text-muted font-13 mb-3">
+              <span class="mr-3"><i class="ti-location-pin mr-2"></i>{{activeBean.cidade}}</span>
             </div>
-            <div class="earningsbox m-t-5"></div>
+            <div>
+              <h5 (click)="copyCPF()" id="cpf" class="card-subtitle">CPF: {{entity?.cpf}}</h5>
+              <h5 class="font-medium">Tel: {{entity?.telefone}}</h5>
+              <h5 class="font-medium">{{entity?.email}}</h5>
+              <h5 class="font-medium">{{entity?.associacao1?.nomefantasia}}</h5>
+              <h5 class="font-medium">{{entity?.associacao2?.nomefantasia}}</h5>
+
+
+            </div>
+          </div>
         </div>
+        <div class="d-inline-flex" style=" margin-right: 300px; ">
+
+
+          <div class="px-4 text-center">
+            <button (click)="this.openModal()" type="button"
+                    class="btn btn-primary btn-labeled btn-labeled-left btn-icon">
+              <span class="btn-label"><i class="la la-check-square"></i></span>Ocorrências
+            </button>
+
+
+          </div>
+
+
+          <div class="px-4 text-center">
+            <div class="text-muted font-13">ID</div>
+            <div class="h2 mt-2">{{activeBean.id}}</div>
+          </div>
+
+        </div>
+      </div>
     </div>
-    <!-- Column -->
-    <div class="col-sm-12 col-lg-8">
+    <ul class="nav nav-tabs tabs-line m-0 pl-5 pr-3">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#cobranca"><i class="ti-support mr-2"></i>Auxílios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#principal"><i class="ti-briefcase mr-2"></i>Dados Cadastrais</a>
+      </li>
+
+
+    </ul>
+  </div>
+</div>
+
+<div class="tab-content">
+  <div class="tab-pane tab-pane-profile  fade show active" id="cobranca">
+
+    <div class="row" style="margin-bottom: 20px">
+      <!-- Column -->
+
+      <!-- Column -->
+      <div class="col-sm-12 col-lg-12">
         <div class="card">
-            <div class="card-body border-bottom">
-                <h4 class="card-title">Visão Geral</h4>
-                <h5 class="card-subtitle">Resumo</h5>
-            </div>
-            <div class="card-body">
-                <div class="row m-t-10">
-                    <!-- col -->
-                    <div class="col-md-6 col-sm-12 col-lg-4">
-                        <div class="d-flex align-items-center">
-                            <div class="m-r-10">
+          <div class="card-body border-bottom">
+            <h4 class="card-title">Visão Geral</h4>
+            <h5 class="card-subtitle">Resumo</h5>
+          </div>
+          <div class="card-body">
+            <div class="row m-t-10">
+              <!-- col -->
+              <div class="col-md-6 col-sm-12 col-lg-4">
+                <div class="d-flex align-items-center">
+                  <div class="m-r-10">
                                 <span class="text-orange display-5">
                                     <i class="mdi mdi-wallet"></i>
                                 </span>
-                            </div>
-                            <div>
-                                <span class="text-muted">Total Emprestado</span>
-                                <h3 class="font-medium m-b-0">{{totalAuxilio | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- col -->
-                    <!-- col -->
-                    <div class="col-md-6 col-sm-12 col-lg-4">
-                        <div class="d-flex align-items-center">
-                            <div class="m-r-10">
+                  </div>
+                  <div>
+                    <span class="text-muted">Total Emprestado</span>
+                    <h3 class="font-medium m-b-0">{{totalAuxilio |  currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h3>
+                  </div>
+                </div>
+              </div>
+              <!-- col -->
+              <!-- col -->
+              <div class="col-md-6 col-sm-12 col-lg-4">
+                <div class="d-flex align-items-center">
+                  <div class="m-r-10">
                                 <span class="text-primary display-5">
                                     <i class="mdi mdi-basket"></i>
                                 </span>
-                            </div>
-                            <div>
-                                <span class="text-muted">Total Pago</span>
-                                <h3 class="font-medium m-b-0">{{entity?.auxilioList[0]?.totalpago |currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- col -->
-                    <!-- col -->
-                    <div class="col-md-6 col-sm-12 col-lg-4">
-                        <div class="d-flex align-items-center">
-                            <div class="m-r-10">
+                  </div>
+                  <div>
+                    <span class="text-muted">Total Pago</span>
+                  </div>
+                </div>
+              </div>
+              <!-- col -->
+              <!-- col -->
+              <div class="col-md-6 col-sm-12 col-lg-4">
+                <div class="d-flex align-items-center">
+                  <div class="m-r-10">
                                 <span class="display-5">
                                     <i class="mdi mdi-account-box"></i>
                                 </span>
-                            </div>
-                            <div>
-                                <span class="text-muted">Mensalidades Pagas</span>
-                                <h3 class="font-medium m-b-0">R$0</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- col -->
+                  </div>
+                  <div>
+                    <span class="text-muted">Mensalidades Pagas</span>
+                    <h3 class="font-medium m-b-0">R$0</h3>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-
-  <!-- Column -->
-  <div class="col-lg-12 col-xlg-12 col-md-12">
-    <div class="card">
-      <ngb-tabset type="pills" class="custom-pills">
-        <ngb-tab title="Programas de auxílio ">
-          <ng-template ngbTabContent>
-            <div class="card-body" style="min-height: 800px;">
-
-              <div class="d-md-flex align-items-center">
-                <div>
-                  <h4 class="card-title"><i class="fa fa-user"></i> Esteira de auxílios  </h4>
-                </div>
-
               </div>
+              <!-- col -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-                <div>
+    <div class="row">
+
+      <!-- Column -->
+      <div class="col-lg-12 col-xlg-12 col-md-12">
+        <div class="card">
+          <ngb-tabset type="pills" class="custom-pills">
+            <ngb-tab title="Programas de auxílio ">
+              <ng-template ngbTabContent>
+                <div class="card-body" style="min-height: 800px;">
+
+                  <div class="d-md-flex align-items-center">
+                    <div>
+                      <h4 class="card-title"><i class="fa fa-user"></i> Esteira de auxílios  </h4>
+                    </div>
+
+                  </div>
+
+                  <div>
                     <ng-template #content let-c="close" let-d="dismiss">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Novo Auxílio</h4>
-                            <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <h4 class="modal-title">Proposta: {{entity?.cpf}}.2019</h4>
+                      <div class="modal-header">
+                        <h4 class="modal-title">Novo Auxílio</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h4 class="modal-title">Proposta: {{entity?.cpf}}.2019</h4>
 
-                          <form name="activeForm" [formGroup]="activeForm" (ngSubmit)="saveAuxilio()" >
+                        <form name="activeForm" [formGroup]="activeForm" (ngSubmit)="saveAuxilio()" >
 
-                            <div class="card-body" style="min-height: 800px;">
+                          <div class="card-body" style="min-height: 800px;">
 
-                                <div class="row">
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label">Número da proposta</label>
-                                            <input  style="text-transform: uppercase;" formControlName="numeroproposta"  type="text" class="form-control">
-
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="control-label">Data do Contrato</label>
-                                        <div class="input-group">
-                                            <input formControlName="dataContrato" class="form-control" placeholder="dd-mm-yyyy" name="dp"  ngbDatepicker #d="ngbDatepicker">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label">CT</label>
-                                            <input  style="text-transform: uppercase;" formControlName="arquivo"  type="text" class="form-control">
-
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label class="control-label">Associação</label>
-                                            <select  formControlName="associacao_id" class="form-control" (change)="setConvenioList($event, associacao_id)" >
-                                                <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label col-form-label">Convênio</label>
-                                            <select  formControlName="convenio_id" class="form-control" (change)="setVerbaDescontoList($event, convenio_id)">
-                                                <option [ngValue]="c" *ngFor="let c of convenioList" > {{c.nomefantasia}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label col-form-label">Verba de Descontos (VD)</label>
-                                            <select  formControlName="verbadesconto_id" class="form-control" >
-                                                <option [ngValue]="vd" *ngFor="let vd of verbaDescontoList " > {{vd.descricao}} - {{vd.codigo}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-12">
-                                        <div class="form-group">
-                                            <label class="control-label col-form-label">Correspondente</label>
-                                            <select  formControlName="correspondente_id" class="form-control" >
-                                                <option [ngValue]="c" *ngFor="let c of correspondente" > {{c.nomefantasia}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label col-form-label">Valor do auxílio</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon1">R$</span>
-                                                </div>
-                                                <input (change)="setValorExtenso()"  type="text"  formControlName="vlrauxilio"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-9">
-                                        <div class="form-group">
-                                            <label class="control-label">Valor extenso</label>
-                                            <input readonly style="text-transform: uppercase;" formControlName="vlrauxextenso"  type="text" class="form-control">
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label">Quantidade de parcelas</label>
-                                            <select  formControlName="qtdparcelas" class="form-control" >
-                                                <option value="1" selected>1</option>
-                                                <option value="2" >2</option>
-                                                <option value="3" >3</option>
-                                                <option value="4" >4</option>
-                                                <option value="5" >5</option>
-                                                <option value="6" >6</option>
-                                                <option value="7" >7</option>
-                                                <option value="8" >8</option>
-                                                <option value="9" >9</option>
-                                                <option value="10" >10</option>
-                                                <option value="11" >11</option>
-                                                <option value="12" >12</option>
-                                                <option value="13" >13</option>
-                                                <option value="14" >14</option>
-                                                <option value="15" >15</option>
-                                                <option value="16" >16</option>
-                                                <option value="17" >17</option>
-                                                <option value="18" >18</option>
-                                                <option value="19" >19</option>
-                                                <option value="20" >20</option>
-                                                <option value="21" >21</option>
-                                                <option value="22" >22</option>
-                                                <option value="23" >23</option>
-                                                <option value="24" >24</option>
-                                                <option value="25" >25</option>
-                                                <option value="26" >26</option>
-                                                <option value="27" >27</option>
-                                                <option value="28" >28</option>
-                                                <option value="29" >29</option>
-                                                <option value="30" >30</option>
-                                                <option value="31" >31</option>
-                                                <option value="32" >32</option>
-                                                <option value="33" >23</option>
-                                                <option value="34" >34</option>
-                                                <option value="35" >35</option>
-                                                <option value="36" >36</option>
-
-                                            </select>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label">Porcentagem</label>
-                                            <select (change)="calculaVlrParcela()"  formControlName="porcentagem" class="form-control" >
-
-                                                <option value="4" selected >4%</option>
-                                                <option value="5" >5%</option>
-                                                <option value="6" >6%</option>
-                                                <option value="7" >7%</option>
-                                                <option value="8" >8%</option>
-                                                <option value="9" >9%</option>
-
-                                            </select>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label ">Valor das parcelas</label>
-                                            <input  type="text" [value]="vlrparcela" formControlName="vlrparcelas"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
-                                        </div>
-                                    </div>
+                            <div class="row">
+                              <div class="col-3">
+                                <div class="form-group">
+                                  <label class="control-label">Número da proposta</label>
+                                  <input  style="text-transform: uppercase;" formControlName="numeroproposta"  type="text" class="form-control">
 
                                 </div>
+                              </div>
+
+                              <div class="form-group">
+                                <label class="control-label">Data do Contrato</label>
+                                <div class="input-group">
+                                  <input formControlName="dataContrato" class="form-control" placeholder="dd-mm-yyyy" name="dp"  ngbDatepicker #d="ngbDatepicker">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
+                                      <i class="fa fa-calendar"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                              <button type="submit" class="btn btn-success">
-                                  <i class="fa fa-check"></i> Salvar</button>
-                              <button type="button" class="btn btn-light" (click)="c('Close click')">Cancelar</button>
 
-                          </form>
-                        </div>
-                        <div class="modal-footer">
+                            <div class="row">
+                              <div class="col-3">
+                                <div class="form-group">
+                                  <label class="control-label">CT</label>
+                                  <input  style="text-transform: uppercase;" formControlName="arquivo"  type="text" class="form-control">
+
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="control-label">Associação</label>
+                                  <select  formControlName="associacao_id" class="form-control" (change)="setConvenioList($event, associacao_id)" >
+                                    <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                  <label class="control-label col-form-label">Convênio</label>
+                                  <select  formControlName="convenio_id" class="form-control" (change)="setVerbaDescontoList($event, convenio_id)">
+                                    <option [ngValue]="c" *ngFor="let c of convenioList" > {{c.nomefantasia}}</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                  <label class="control-label col-form-label">Verba de Descontos (VD)</label>
+                                  <select  formControlName="verbadesconto_id" class="form-control" >
+                                    <option [ngValue]="vd" *ngFor="let vd of verbaDescontoList " > {{vd.descricao}} - {{vd.codigo}}</option>
+                                  </select>
+                                </div>
+                              </div>
+
+                              <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                  <label class="control-label col-form-label">Correspondente</label>
+                                  <select  formControlName="correspondente_id" class="form-control" >
+                                    <option [ngValue]="c" *ngFor="let c of correspondente" > {{c.nomefantasia}}</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-3">
+                                <div class="form-group">
+                                  <label class="control-label col-form-label">Valor do auxílio</label>
+                                  <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text" id="basic-addon1">R$</span>
+                                    </div>
+                                    <input (change)="setValorExtenso()"  type="text"  formControlName="vlrauxilio"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-9">
+                                <div class="form-group">
+                                  <label class="control-label">Valor extenso</label>
+                                  <input readonly style="text-transform: uppercase;" formControlName="vlrauxextenso"  type="text" class="form-control">
+
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-3">
+                                <div class="form-group">
+                                  <label class="control-label">Quantidade de parcelas</label>
+                                  <select  formControlName="qtdparcelas" class="form-control" >
+                                    <option value="1" selected>1</option>
+                                    <option value="2" >2</option>
+                                    <option value="3" >3</option>
+                                    <option value="4" >4</option>
+                                    <option value="5" >5</option>
+                                    <option value="6" >6</option>
+                                    <option value="7" >7</option>
+                                    <option value="8" >8</option>
+                                    <option value="9" >9</option>
+                                    <option value="10" >10</option>
+                                    <option value="11" >11</option>
+                                    <option value="12" >12</option>
+                                    <option value="13" >13</option>
+                                    <option value="14" >14</option>
+                                    <option value="15" >15</option>
+                                    <option value="16" >16</option>
+                                    <option value="17" >17</option>
+                                    <option value="18" >18</option>
+                                    <option value="19" >19</option>
+                                    <option value="20" >20</option>
+                                    <option value="21" >21</option>
+                                    <option value="22" >22</option>
+                                    <option value="23" >23</option>
+                                    <option value="24" >24</option>
+                                    <option value="25" >25</option>
+                                    <option value="26" >26</option>
+                                    <option value="27" >27</option>
+                                    <option value="28" >28</option>
+                                    <option value="29" >29</option>
+                                    <option value="30" >30</option>
+                                    <option value="31" >31</option>
+                                    <option value="32" >32</option>
+                                    <option value="33" >23</option>
+                                    <option value="34" >34</option>
+                                    <option value="35" >35</option>
+                                    <option value="36" >36</option>
+
+                                  </select>
+
+                                </div>
+                              </div>
+
+                              <div class="col-3">
+                                <div class="form-group">
+                                  <label class="control-label">Porcentagem</label>
+                                  <select (change)="calculaVlrParcela()"  formControlName="porcentagem" class="form-control" >
+
+                                    <option value="4" selected >4%</option>
+                                    <option value="5" >5%</option>
+                                    <option value="6" >6%</option>
+                                    <option value="7" >7%</option>
+                                    <option value="8" >8%</option>
+                                    <option value="9" >9%</option>
+
+                                  </select>
+
+                                </div>
+                              </div>
+
+                              <div class="col-3">
+                                <div class="form-group">
+                                  <label class="control-label ">Valor das parcelas</label>
+                                  <input  type="text" [value]="vlrparcela" formControlName="vlrparcelas"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                          <button type="submit" class="btn btn-success">
+                            <i class="fa fa-check"></i> Salvar</button>
+                          <button type="button" class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+
+                        </form>
+                      </div>
+                      <div class="modal-footer">
 
 
-                        </div>
+                      </div>
                     </ng-template>
                     <button class="btn btn-rounded btn-info" type="button"  (click)="openLg(content)"><i class="fa fa-plus"></i> Adicionar auxílio</button>
-                </div>
-                <br>
-                <div *ngIf="!entity?.auxilioList[0]">Associado não possui histórico de auxilíos</div>
+                  </div>
+                  <br>
+                  <div *ngIf="!entity?.auxilioList[0]">Associado não possui histórico de auxilíos</div>
 
-                <div *ngIf="entity?.auxilioList[0]" class="table-responsive">
-                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped table-bordered">
-                        <thead>
-                        <tr>
+                  <div *ngIf="entity?.auxilioList[0]" class="table-responsive">
+
+                    <table class="table table-bordered table-hover" id="guiasPagasTable">
+                      <thead class="thead-default thead-lg">
+                      <tr>
+                        <th >ARQ</th>
+                        <th >Associacao</th>
+                        <th >Data inclusão</th>
+                        <th >Contrato</th>
+                        <th >Valor Auxílio</th>
+                        <th >Valor da Prestação</th>
+                        <th >Prazos</th>
+                        <th >Não Pagos</th>
+                        <th >Pagos</th>
+                        <th >Tipo</th>
+                        <th >Status</th>
+                        <th ></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr  *ngFor="let row of entity?.auxilioList" >
+
+                        <td>{{row.arquivo}}</td>
+                        <td>{{row.nomefantasia}}</td>
+                        <td>{{row.dataContrato | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{row.numeroproposta}}</td>
+                        <td>
+                          <h4 class="m-b-0 font-16">{{row.vlrliquidoliberado |  currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h4>
+                        </td>
+                        <td>{{row.vlrparcelas |  currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</td>
+                        <td>{{row.qtdparcelas}}</td>
+                        <td>{{row.qtdparcelasnaopagas }}</td>
+                        <td>{{row.qtdparcelaspagas}}</td>
+
+                        <td >
+                          <span [ngStyle]="{ 'background-color' : (row.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (row.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{row.tipo}}</span>
+                        </td>
+
+                        <td >
+                          <span [ngClass]="{'quitado': row.status=='QUITADO'}" > {{row.status}}</span>  </td>
+                        <td><button (click)="gestaoAuxilio( row, auxilioModal)" class="btn btn-primary btn-circle" type="button"><i class="fa fa-list"></i></button></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                    
+                    
+
+                  </div>
+
+                </div>
+              </ng-template>
+
+              <ng-template  #auxilioModal let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <h4 class="modal-title">Gestão de Auxílio   |   Associado: {{entity?.nome}} |   CPF: {{entity?.cpf}}</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+
+                  <div class="row">
+                    <!-- column -->
+                    <div class="col-sm-12 col-md-5 col-lg-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title">Proposta: {{auxilioActive.numeroproposta}}</h4>
+                          <h5 class="card-subtitle">Arquivo: {{auxilioActive.arquivo}} </h5>
+
+                          <div class="totalizadores">
+                            <span class="text-muted">Valor auxílio</span>
+                            <h2 class="text-info font-bold m-b-5">{{auxilioActive.vlrauxilio |  currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
+                          </div>
+
+                          <div class="totalizadores">
+                            <span class="text-muted">Total Pago</span>
+                            <h2 class="text-success font-bold m-b-5">{{auxilioActive.totalpago |  currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
+                          </div>
+
+                          <div class="totalizadores">
+                            <span class="text-muted">Em Aberto</span>
+                            <h2 class="text-danger font-bold m-b-5">{{totalaberto |  currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
+                          </div>
+
+                          <hr>
+
+                          <div class="totalizadores">
+                            <span class="text-muted">Liquido a receber</span>
+                            <h2 class="text-danger font-bold m-b-5">{{liquidoareceber |  currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
+                          </div>
+
+
+                          <button (click)="saveAuxilioRefis(auxilioActive.id)" class="btn btn-lg btn-info waves-effect waves-light m-t-25 m-b-20">REFINANCIAR</button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- column -->
+                    <div class="col-sm-12 col-md-7 col-lg-9">
+
+                      <h4 class="card-title">Refinanciar</h4>
+                      <hr>
+
+                      <form name="refisForm" [formGroup]="refisForm" (ngSubmit)="saveAuxilio()" >
+
+                        <div class="row">
+
+                          <div class="col-3">
+                            <div class="form-group">
+                              <label class="control-label ">Novo Valor das parcelas</label>
+                              <input   type="text" [value]="vlrparcela" formControlName="vlrparcelas"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                            </div>
+                          </div>
+
+                          <div class="col-3">
+                            <div class="form-group">
+                              <label class="control-label">Porcentagem</label>
+                              <select  formControlName="porcentagem" class="form-control" >
+                                <option value="5" >5%</option>
+                                <option value="6" >6%</option>
+                                <option value="7" >7%</option>
+                                <option value="8" >8%</option>
+                                <option value="9" >9%</option>
+
+                              </select>
+
+                            </div>
+                          </div>
+
+                          <div class="col-3">
+                            <div class="form-group">
+                              <label class="control-label">Nova Quantidade de parcelas</label>
+                              <select (change)="calculaVlrParcelaRefis()"  formControlName="qtdparcelas" class="form-control" >
+                                <option value="1" selected>1</option>
+                                <option value="2" >2</option>
+                                <option value="3" >3</option>
+                                <option value="4" >4</option>
+                                <option value="5" >5</option>
+                                <option value="6" >6</option>
+                                <option value="7" >7</option>
+                                <option value="8" >8</option>
+                                <option value="9" >9</option>
+                                <option value="10" >10</option>
+                                <option value="11" >11</option>
+                                <option value="12" >12</option>
+                                <option value="13" >13</option>
+                                <option value="14" >14</option>
+                                <option value="15" >15</option>
+                                <option value="16" >16</option>
+                                <option value="17" >17</option>
+                                <option value="18" >18</option>
+                                <option value="19" >19</option>
+                                <option value="20" >20</option>
+                                <option value="21" >21</option>
+                                <option value="22" >22</option>
+                                <option value="23" >23</option>
+                                <option value="24" >24</option>
+                                <option value="25" >25</option>
+                                <option value="26" >26</option>
+                                <option value="27" >27</option>
+                                <option value="28" >28</option>
+                                <option value="29" >29</option>
+                                <option value="30" >30</option>
+                                <option value="31" >31</option>
+                                <option value="32" >32</option>
+                                <option value="33" >23</option>
+                                <option value="34" >34</option>
+                                <option value="35" >35</option>
+                                <option value="36" >36</option>
+
+                              </select>
+
+                            </div>
+                          </div>
+
+
+
+                        </div>
+
+                        <div class="row">
+
+                          <div class="col-3">
+                            <div class="form-group">
+                              <label class="control-label col-form-label">Novo Valor do auxílio</label>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="">R$</span>
+                                </div>
+                                <input (change)="setValorExtensoRefis()"  type="text"  formControlName="vlrauxilio"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-7">
+                            <div class="form-group">
+                              <label class="control-label">Valor extenso</label>
+                              <input readonly style="text-transform: uppercase;" formControlName="vlrauxextenso"  type="text" class="form-control">
+
+                            </div>
+                          </div>
+
+
+                        </div>
+
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="form-group">
+                              <label class="control-label">Número da proposta</label>
+                              <input  style="text-transform: uppercase;" formControlName="numeroproposta"  type="text" class="form-control">
+
+                            </div>
+                          </div>
+
+
+                          <div class="form-group">
+                            <label class="control-label">Data do Contrato</label>
+                            <div class="input-group">
+                              <input formControlName="dataContrato" class="form-control" placeholder="dd-mm-yyyy" name="dp"  ngbDatepicker #d="ngbDatepicker">
+                              <div class="input-group-append">
+                                <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
+                                  <i class="fa fa-calendar"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-3">
+                            <div class="form-group">
+                              <label class="control-label">CT</label>
+                              <input  style="text-transform: uppercase;" formControlName="arquivo"  type="text" class="form-control">
+
+                            </div>
+                          </div>
+
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label class="control-label">Associação</label>
+                              <select  formControlName="associacao_id" class="form-control" (change)="setConvenioListRefis($event, associacao_id)" >
+                                <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
+                              </select>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                              <label class="control-label col-form-label">Convênio</label>
+                              <select  formControlName="convenio_id" class="form-control" (change)="setVerbaDescontoListRefis($event, convenio_id)">
+                                <option [ngValue]="c" *ngFor="let c of convenioList" > {{c.nomefantasia}}</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                              <label class="control-label col-form-label">Verba de Descontos (VD)</label>
+                              <select  formControlName="verbadesconto_id" class="form-control" >
+                                <option [ngValue]="vd" *ngFor="let vd of verbaDescontoList " > {{vd.descricao}} - {{vd.codigo}}</option>
+                              </select>
+                            </div>
+                          </div>
+
+
+
+                        </div>
+
+
+                      </form>
+
+
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <!-- column -->
+                  <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="card">
+                      <div class="card-body">
+
+                        <h5>Proposta: {{auxilioActive.numeroproposta}}</h5>
+
+
+                        <table  class="table table-striped table-bordered">
+                          <thead>
+                          <tr>
 
                             <th >ARQ</th>
                             <th >Data inclusão</th>
@@ -297,1115 +627,1241 @@
                             <th >Não Pagos</th>
                             <th >Pagos</th>
                             <th >Tipo</th>
-                            <th >Status</th>
-                            <th ></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr  *ngFor="let row of entity?.auxilioList" >
 
-                            <td>{{row.arquivo}}</td>
-                            <td>{{row.dataContrato | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{row.numeroproposta}}</td>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr  >
+
+                            <td>{{auxilioActive.arquivo}}</td>
+                            <td>{{auxilioActive.dataContrato | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{auxilioActive.numeroproposta}}</td>
                             <td>
-                                <h4 class="m-b-0 font-16">{{row.vlrauxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h4>
+                              <h4 class="m-b-0 font-16">{{auxilioActive.vlrauxilio |  currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h4>
                             </td>
-                            <td>{{row.vlrparcelas | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</td>
-                            <td>{{row.qtdparcelas}}</td>
-                            <td>{{row.qtdparcelasnaopagas }}</td>
-                            <td>{{row.qtdparcelaspagas}}</td>
-
+                            <td>{{auxilioActive.vlrparcelas |  currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</td>
+                            <td>{{auxilioActive.qtdparcelas}}</td>
+                            <td>{{auxilioActive.qtdparcelasnaopagas }}</td>
+                            <td>{{auxilioActive.qtdparcelaspagas}}</td>
                             <td >
-                                <span [ngStyle]="{ 'background-color' : (row.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (row.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{row.tipo}}</span>
+                              <span [ngStyle]="{ 'background-color' : (auxilioActive.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (auxilioActive.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{auxilioActive.tipo}}</span>
                             </td>
 
-                            <td >
-                              <span [ngClass]="{'quitado': row.status=='QUITADO'}" > {{row.status}}</span>  </td>
-                            <td><button (click)="gestaoAuxilio( row, auxilioModal)" class="btn btn-primary btn-circle" type="button"><i class="fa fa-list"></i></button></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                          </tr>
+                          </tbody>
+                        </table>
 
-                </div>
+                        <h3 >Parcelas:</h3>
 
-            </div>
-          </ng-template>
+                        <div class="row">
+                          <!-- column -->
+                          <div class="col-sm-4 col-md-4 col-lg-4">
 
-            <ng-template  #auxilioModal let-c="close" let-d="dismiss">
-                <div class="modal-header">
-                    <h4 class="modal-title">Gestão de Auxílio   |   Associado: {{entity?.nome}} |   CPF: {{entity?.cpf}}</h4>
-                    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-
-                    <div class="row">
-                        <!-- column -->
-                        <div class="col-sm-12 col-md-5 col-lg-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Proposta: {{auxilioActive.numeroproposta}}</h4>
-                                    <h5 class="card-subtitle">Arquivo: {{auxilioActive.arquivo}} </h5>
-
-                                    <div class="totalizadores">
-                                        <span class="text-muted">Valor auxílio</span>
-                                        <h2 class="text-info font-bold m-b-5">{{auxilioActive.vlrauxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
-                                    </div>
-
-                                    <div class="totalizadores">
-                                        <span class="text-muted">Total Pago</span>
-                                        <h2 class="text-success font-bold m-b-5">{{auxilioActive.totalpago | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
-                                    </div>
-
-                                    <div class="totalizadores">
-                                        <span class="text-muted">Em Aberto</span>
-                                        <h2 class="text-danger font-bold m-b-5">{{totalaberto | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
-                                    </div>
-
-                                    <hr>
-
-                                    <div class="totalizadores">
-                                        <span class="text-muted">Liquido a receber</span>
-                                        <h2 class="text-danger font-bold m-b-5">{{liquidoareceber | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h2>
-                                    </div>
-
-
-                                    <button (click)="saveAuxilioRefis(auxilioActive.id)" class="btn btn-lg btn-info waves-effect waves-light m-t-25 m-b-20">REFINANCIAR</button>
+                            <div class="card-body bg-info">
+                              <div class="d-flex align-items-center  text-white">
+                                <div>
+                                  <h4 class=" m-b-0">Quitar parcelas</h4>
+                                </div><div class="ml-auto">
+                                <a href="javascript: void(0)">
+                                  <i class="mdi mdi-menu text-white font-20"></i>
+                                </a>
+                              </div>
+                              </div>
+                              <form class="m-t-30 m-b-20 ng-untouched ng-pristine ng-valid" novalidate="">
+                                <div class="input-group input-group-lg mb-3 ">
+                                  <input aria-label="" class="form-control" #qtd placeholder="Quantidades de parcelas p/ Quitar" type="text">
+                                  <div class="input-group-append">
+                                    <button (click)="quitarParcelas(auxilioActive,qtd )" class="btn btn-light" type="button">
+                                      <i class="ti-upload"></i>
+                                    </button>
+                                  </div>
                                 </div>
+                              </form>
                             </div>
-                        </div>
-                        <!-- column -->
-                        <div class="col-sm-12 col-md-7 col-lg-9">
-
-                            <h4 class="card-title">Refinanciar</h4>
-                            <hr>
-
-                            <form name="refisForm" [formGroup]="refisForm" (ngSubmit)="saveAuxilio()" >
-
-                                <div class="row">
-
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label ">Novo Valor das parcelas</label>
-                                            <input   type="text" [value]="vlrparcela" formControlName="vlrparcelas"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label">Porcentagem</label>
-                                            <select  formControlName="porcentagem" class="form-control" >
-                                                <option value="5" >5%</option>
-                                                <option value="6" >6%</option>
-                                                <option value="7" >7%</option>
-                                                <option value="8" >8%</option>
-                                                <option value="9" >9%</option>
-
-                                            </select>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label">Nova Quantidade de parcelas</label>
-                                            <select (change)="calculaVlrParcelaRefis()"  formControlName="qtdparcelas" class="form-control" >
-                                                <option value="1" selected>1</option>
-                                                <option value="2" >2</option>
-                                                <option value="3" >3</option>
-                                                <option value="4" >4</option>
-                                                <option value="5" >5</option>
-                                                <option value="6" >6</option>
-                                                <option value="7" >7</option>
-                                                <option value="8" >8</option>
-                                                <option value="9" >9</option>
-                                                <option value="10" >10</option>
-                                                <option value="11" >11</option>
-                                                <option value="12" >12</option>
-                                                <option value="13" >13</option>
-                                                <option value="14" >14</option>
-                                                <option value="15" >15</option>
-                                                <option value="16" >16</option>
-                                                <option value="17" >17</option>
-                                                <option value="18" >18</option>
-                                                <option value="19" >19</option>
-                                                <option value="20" >20</option>
-                                                <option value="21" >21</option>
-                                                <option value="22" >22</option>
-                                                <option value="23" >23</option>
-                                                <option value="24" >24</option>
-                                                <option value="25" >25</option>
-                                                <option value="26" >26</option>
-                                                <option value="27" >27</option>
-                                                <option value="28" >28</option>
-                                                <option value="29" >29</option>
-                                                <option value="30" >30</option>
-                                                <option value="31" >31</option>
-                                                <option value="32" >32</option>
-                                                <option value="33" >23</option>
-                                                <option value="34" >34</option>
-                                                <option value="35" >35</option>
-                                                <option value="36" >36</option>
-
-                                            </select>
-
-                                        </div>
-                                    </div>
-
-
-
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label col-form-label">Novo Valor do auxílio</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="">R$</span>
-                                                </div>
-                                                <input (change)="setValorExtensoRefis()"  type="text"  formControlName="vlrauxilio"  class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-7">
-                                        <div class="form-group">
-                                            <label class="control-label">Valor extenso</label>
-                                            <input readonly style="text-transform: uppercase;" formControlName="vlrauxextenso"  type="text" class="form-control">
-
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label">Número da proposta</label>
-                                            <input  style="text-transform: uppercase;" formControlName="numeroproposta"  type="text" class="form-control">
-
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <label class="control-label">Data do Contrato</label>
-                                        <div class="input-group">
-                                            <input formControlName="dataContrato" class="form-control" placeholder="dd-mm-yyyy" name="dp"  ngbDatepicker #d="ngbDatepicker">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label class="control-label">CT</label>
-                                                <input  style="text-transform: uppercase;" formControlName="arquivo"  type="text" class="form-control">
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label class="control-label">Associação</label>
-                                                <select  formControlName="associacao_id" class="form-control" (change)="setConvenioListRefis($event, associacao_id)" >
-                                                    <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-form-label">Convênio</label>
-                                                <select  formControlName="convenio_id" class="form-control" (change)="setVerbaDescontoListRefis($event, convenio_id)">
-                                                    <option [ngValue]="c" *ngFor="let c of convenioList" > {{c.nomefantasia}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-form-label">Verba de Descontos (VD)</label>
-                                                <select  formControlName="verbadesconto_id" class="form-control" >
-                                                    <option [ngValue]="vd" *ngFor="let vd of verbaDescontoList " > {{vd.descricao}} - {{vd.codigo}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-
-
-                                </div>
-
-
-                            </form>
-
-
+                          </div>
                         </div>
 
-                        </div>
+
+
+                        <table datatable [dtOptions]="dtOptions"  class="table table-striped table-bordered">
+                          <thead>
+                          <tr>
+                            <th>Parcela</th>
+                            <th>Data Vencimento </th>
+                            <th>Valor </th>
+                            <th>Valor Descontado</th>
+                            <th>Data de Pagamento </th>
+                            <th>Status</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let rowDetalhe of auxilioActive.parcelaList">
+                            <td>
+                              <p>{{rowDetalhe.parcela}} / {{rowDetalhe.qtdparcelas}}</p>
+                            </td>
+                            <td>
+                              <p>{{rowDetalhe.datavencimento  | date: 'dd/MM/yyyy'}}</p>
+                            </td>
+                            <td>
+                              <p>{{rowDetalhe.valor  |  currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                            </td>
+                            <td>
+                              <p>{{rowDetalhe.valorpago  |  currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                            </td>
+                            <td>
+                              <p>{{rowDetalhe.datapagamento  | date: 'dd/MM/yyyy'}}</p>
+                            </td>
+                            <td ><span [ngStyle]="{ 'background-color' : (rowDetalhe.status=='EM ABERTO')? '#e43030' : '#0f8818', 'color' : (rowDetalhe.status=='LIQUIDADA')? '#fff' : '#fff' }" class="label"> {{rowDetalhe.status}}</span></td>
+
+
+                          </tr>
+                          </tbody>
+                          <tfoot>
+                          <tr>
+
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>E-mail</th>
+                            <th>Status</th>
+                          </tr>
+                          </tfoot>
+                        </table>
+                      </div>
                     </div>
-
-                <div class="row">
-                    <!-- column -->
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-
-                                <h5>Proposta: {{auxilioActive.numeroproposta}}</h5>
-
-
-                                <table  class="table table-striped table-bordered">
-                                    <thead>
-                                    <tr>
-
-                                        <th >ARQ</th>
-                                        <th >Data inclusão</th>
-                                        <th >Contrato</th>
-                                        <th >Valor Auxílio</th>
-                                        <th >Valor da Prestação</th>
-                                        <th >Prazos</th>
-                                        <th >Não Pagos</th>
-                                        <th >Pagos</th>
-                                        <th >Tipo</th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr  >
-
-                                        <td>{{auxilioActive.arquivo}}</td>
-                                        <td>{{auxilioActive.dataContrato | date: 'dd/MM/yyyy'}}</td>
-                                        <td>{{auxilioActive.numeroproposta}}</td>
-                                        <td>
-                                            <h4 class="m-b-0 font-16">{{auxilioActive.vlrauxilio | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</h4>
-                                        </td>
-                                        <td>{{auxilioActive.vlrparcelas | currency:'BRL':'symbol':'2.2-2':'pt-BR' }}</td>
-                                        <td>{{auxilioActive.qtdparcelas}}</td>
-                                        <td>{{auxilioActive.qtdparcelasnaopagas }}</td>
-                                        <td>{{auxilioActive.qtdparcelaspagas}}</td>
-                                        <td >
-                                            <span [ngStyle]="{ 'background-color' : (auxilioActive.tipo=='REFINANCIAMENTO')? '#e43030' : '#ffffff', 'color' : (auxilioActive.tipo=='REFINANCIAMENTO')? '#fff' : '#000' }" class="label label-success">{{auxilioActive.tipo}}</span>
-                                        </td>
-
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                                <h3 >Parcelas:</h3>
-
-                                <div class="row">
-                                    <!-- column -->
-                                    <div class="col-sm-4 col-md-4 col-lg-4">
-
-                                        <div class="card-body bg-info">
-                                            <div class="d-flex align-items-center  text-white">
-                                                <div>
-                                                    <h4 class=" m-b-0">Quitar parcelas</h4>
-                                                </div><div class="ml-auto">
-                                                <a href="javascript: void(0)">
-                                                    <i class="mdi mdi-menu text-white font-20"></i>
-                                                </a>
-                                            </div>
-                                            </div>
-                                            <form class="m-t-30 m-b-20 ng-untouched ng-pristine ng-valid" novalidate="">
-                                                <div class="input-group input-group-lg mb-3 ">
-                                                    <input aria-label="" class="form-control" #qtd placeholder="Quantidades de parcelas p/ Quitar" type="text">
-                                                    <div class="input-group-append">
-                                                        <button (click)="quitarParcelas(auxilioActive,qtd )" class="btn btn-light" type="button">
-                                                            <i class="ti-upload"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                                <table datatable [dtOptions]="dtOptions"  class="table table-striped table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>Parcela</th>
-                                        <th>Data Vencimento </th>
-                                        <th>Valor </th>
-                                        <th>Valor Descontado</th>
-                                        <th>Data de Pagamento </th>
-                                        <th>Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr *ngFor="let rowDetalhe of auxilioActive.parcelaList">
-                                        <td>
-                                            <p>{{rowDetalhe.parcela}} / {{rowDetalhe.qtdparcelas}}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{rowDetalhe.datavencimento  | date: 'dd/MM/yyyy'}}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{rowDetalhe.valor  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{rowDetalhe.valorpago  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{rowDetalhe.datapagamento  | date: 'dd/MM/yyyy'}}</p>
-                                        </td>
-                                        <td ><span [ngStyle]="{ 'background-color' : (rowDetalhe.status=='EM ABERTO')? '#e43030' : '#0f8818', 'color' : (rowDetalhe.status=='LIQUIDADA')? '#fff' : '#fff' }" class="label"> {{rowDetalhe.status}}</span></td>
-
-
-                                    </tr>
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-
-                                        <th>ID</th>
-                                        <th>Nome</th>
-                                        <th>CPF</th>
-                                        <th>Telefone</th>
-                                        <th>E-mail</th>
-                                        <th>Status</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                  </div>
                 </div>
 
 
                 <div class="modal-footer">
 
                 </div>
-            </ng-template>
+              </ng-template>
 
-        </ngb-tab>
-        <ngb-tab title="Parcelas">
-          <ng-template ngbTabContent>
-            <div class="card-body" style="min-height: 800px;">
+            </ngb-tab>
+            <ngb-tab title="Parcelas">
+              <ng-template ngbTabContent>
+                <div class="card-body" style="min-height: 800px;">
 
-              <!-- title -->
-              <div class="d-md-flex align-items-center">
-                <div>
-                  <h4 class="card-title"> Histórico de Parcelas</h4>
-                    <div *ngIf="!entity?.auxilioList[0]">Associado não possui parcelas</div>
-                </div>
-                <div class="ml-auto d-flex align-items-center">
-                  <div class="dl">
+                  <!-- title -->
+                  <div class="d-md-flex align-items-center">
+                    <div>
+                      <h4 class="card-title"> Histórico de Parcelas</h4>
+                      <div *ngIf="!entity?.auxilioList[0]">Associado não possui parcelas</div>
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                      <div class="dl">
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <ngb-tabset type="pills" class="custom-pills">
-                <ngb-tab  *ngFor="let auxilio of entity?.auxilioList" title="{{auxilio.numeroproposta}}">
-                  <ng-template ngbTabContent>
+                  <ngb-tabset type="pills" class="custom-pills">
+                    <ngb-tab  *ngFor="let auxilio of entity?.auxilioList" title="{{auxilio.numeroproposta}}">
+                      <ng-template ngbTabContent>
 
-                              <div class="table-responsive m-t-20">
-                                  <table class="table table-bordered m-b-20" data-page-length='10'>
-                                      <thead>
-                                      <tr class="bg-light">
+                        <div class="table-responsive m-t-20">
+                          <table class="table table-bordered m-b-20" data-page-length='10'>
+                            <thead>
+                            <tr class="bg-light">
 
-                                          <th>Parcela</th>
-                                          <th>Data Vencimento </th>
-                                          <th>Valor </th>
-                                          <th>Valor Descontado</th>
-                                          <th>Data de Pagamento </th>
-                                          <th>Status</th>
-                                          <th></th>
-                                      </tr>
-                                      </thead>
-                                      <tbody>
-                                      <tr *ngFor="let row of auxilio.parcelaList">
-                                          <td>
-                                             <p>{{row.parcela}} / {{auxilio.qtdparcelas}}</p>
-                                          </td>
-                                          <td>
-                                              <p>{{row.datavencimento  | date: 'dd/MM/yyyy'}}</p>
-                                          </td>
-                                          <td>
-                                              <p>{{row.valor  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
-                                          </td>
-                                          <td>
-                                              <p>{{row.valorpago  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
-                                          </td>
-                                          <td>
-                                              <p>{{row.datapagamento  | date: 'dd/MM/yyyy'}}</p>
-                                          </td>
-                                          <td ><span [ngStyle]="{ 'background-color' : (row.status=='EM ABERTO')? '#e43030' : '#0f8818', 'color' : (row.status=='LIQUIDADA')? '#fff' : '#fff' }" class="label"> {{row.status}}</span></td>
+                              <th>Parcela</th>
+                              <th>Data Vencimento </th>
+                              <th>Valor </th>
+                              <th>Valor Descontado</th>
+                              <th>Data de Pagamento </th>
+                              <th>Status</th>
+                              <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let row of auxilio.parcelaList">
+                              <td>
+                                <p>{{row.parcela}} / {{auxilio.qtdparcelas}}</p>
+                              </td>
+                              <td>
+                                <p>{{row.datavencimento  | date: 'dd/MM/yyyy'}}</p>
+                              </td>
+                              <td>
+                                <p>{{row.valor  |  currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                              </td>
+                              <td>
+                                <p>{{row.valorpago  |  currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                              </td>
+                              <td>
+                                <p>{{row.datapagamento  | date: 'dd/MM/yyyy'}}</p>
+                              </td>
+                              <td ><span [ngStyle]="{ 'background-color' : (row.status=='EM ABERTO')? '#e43030' : '#0f8818', 'color' : (row.status=='LIQUIDADA')? '#fff' : '#fff' }" class="label"> {{row.status}}</span></td>
 
-                                          <td>
-                                              <p><button (click)="gestaoParcela(row, auxilio, parcelaModal)"  class="btn btn-success btn-circle" type="button"><i class="fa fa-link"></i></button></p>
-                                          </td>
-                                      </tr>
+                              <td>
+                                <p><button (click)="gestaoParcela(row, auxilio, parcelaModal)"  class="btn btn-success btn-circle" type="button"><i class="fa fa-link"></i></button></p>
+                              </td>
+                            </tr>
 
-                                      </tbody>
-                                  </table>
-                              </div>
+                            </tbody>
+                          </table>
+                        </div>
 
 
-                  </ng-template>
-                </ngb-tab>
+                      </ng-template>
+                    </ngb-tab>
 
-              </ngb-tabset>
+                  </ngb-tabset>
 
-              <!-- column -->
+                  <!-- column -->
 
-                <ng-template #parcelaModal let-c="close" let-d="dismiss">
+                  <ng-template #parcelaModal let-c="close" let-d="dismiss">
                     <div class="modal-header">
-                        <h4 class="modal-title">Gestão de Parcela</h4>
-                        <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                      <h4 class="modal-title">Gestão de Parcela</h4>
+                      <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                     </div>
                     <div class="modal-body">
-                        <h4 class="modal-title">Proposta: {{parcelaRow.auxilio_id?.numeroproposta}}</h4>
-                        <form name="activeForm" [formGroup]="parcelaForm" (ngSubmit)="atualizaParcela()" >
+                      <h4 class="modal-title">Proposta: {{parcelaRow.auxilio_id?.numeroproposta}}</h4>
+                      <form name="activeForm" [formGroup]="parcelaForm" (ngSubmit)="atualizaParcela()" >
 
-                            <div class="card-body" style="min-height: 800px;">
+                        <div class="card-body" style="min-height: 800px;">
 
-                                <div class="col-sm-12 col-md-6">
-                                    <h5>Numero da Parcela: {{parcelaRow.parcela}}</h5>
-                                </div>
+                          <div class="col-sm-12 col-md-6">
+                            <h5>Numero da Parcela: {{parcelaRow.parcela}}</h5>
+                          </div>
 
-                                <div class="col-sm-12 col-md-6">
-                                    <h5>Status:</h5>
-                                    <button class="btn btn-rounded btn-xs " [ngClass]="parcelaRow.status=='PAGO' ? 'btn-success' : 'btn-info'" type="button">{{parcelaRow.status}}</button>
-                                </div>
+                          <div class="col-sm-12 col-md-6">
+                            <h5>Status:</h5>
+                            <button class="btn btn-rounded btn-xs " [ngClass]="parcelaRow.status=='PAGO' ? 'btn-success' : 'btn-info'" type="button">{{parcelaRow.status}}</button>
+                          </div>
 
-                                <div class="col-sm-12 col-md-6">
-                                    <h5>Valor da Parcela: {{parcelaRow.valor}}</h5>
-                                </div>
+                          <div class="col-sm-12 col-md-6">
+                            <h5>Valor da Parcela: {{parcelaRow.valor}}</h5>
+                          </div>
 
-                                    <div class="col-sm-12 col-md-6">
+                          <div class="col-sm-12 col-md-6">
 
-                                            <h5>Data de Vencimento: {{parcelaRow.parcela  | date: 'dd/MM/yyyy'}}</h5>
+                            <h5>Data de Vencimento: {{parcelaRow.parcela  | date: 'dd/MM/yyyy'}}</h5>
 
-                                    </div>
+                          </div>
 
-                                <div class="col-sm-12 col-md-6">
+                          <div class="col-sm-12 col-md-6">
 
-                                    <h5>Data de Pagamento: {{parcelaRow.datapagamento  | date: 'dd/MM/yyyy'}}</h5>
+                            <h5>Data de Pagamento: {{parcelaRow.datapagamento  | date: 'dd/MM/yyyy'}}</h5>
 
-                                </div>
+                          </div>
 
-                                <div class="atualizaParcela">
+                          <div class="atualizaParcela">
 
-                                    <h4>
-                                        Atualizar Parcela
-                                    </h4>
-
-
-                                    <div class="col-sm-3 col-md-3">
-                                        <div class="form-group">
-                                            <label class="control-label col-form-label">Mudar Status</label>
-                                            <select  formControlName="status" class="form-control" >
-                                                <option value="Em Aberto" > Em Aberto</option>
-                                                <option value="PAGO" > Pago </option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-3 col-md-3">
-                                            <div class="form-group">
-                                                <label class="control-label">Data de Pagamento</label>
-                                                <div class="input-group">
-                                                    <input formControlName="datapagamento" class="form-control" placeholder="dd-mm-yyyy" name="dp"  ngbDatepicker #d="ngbDatepicker">
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label class="control-label col-form-label">Valor do Pagamento</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" >R$</span>
-                                                </div>
-                                                <input (change)="setValorExtenso()" formControlName="valorpago" type="text" value="{{parcelaRow.valor }}" class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <h4>
+                              Atualizar Parcela
+                            </h4>
 
 
-
+                            <div class="col-sm-3 col-md-3">
+                              <div class="form-group">
+                                <label class="control-label col-form-label">Mudar Status</label>
+                                <select  formControlName="status" class="form-control" >
+                                  <option value="Em Aberto" > Em Aberto</option>
+                                  <option value="PAGO" > Pago </option>
+                                </select>
+                              </div>
                             </div>
-                            <button type="submit" class="btn btn-success">
-                                <i class="fa fa-check"></i> Salvar</button>
-                            <button type="button" class="btn btn-light" (click)="c('Close click')">Cancelar</button>
 
-                        </form>
+                            <div class="col-sm-3 col-md-3">
+                              <div class="form-group">
+                                <label class="control-label">Data de Pagamento</label>
+                                <div class="input-group">
+                                  <input formControlName="datapagamento" class="form-control" placeholder="dd-mm-yyyy" name="dp"  ngbDatepicker #d="ngbDatepicker">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary no-shadow" (click)="d.toggle()" type="button">
+                                      <i class="fa fa-calendar"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-3">
+                              <div class="form-group">
+                                <label class="control-label col-form-label">Valor do Pagamento</label>
+                                <div class="input-group mb-3">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text" >R$</span>
+                                  </div>
+                                  <input (change)="setValorExtenso()" formControlName="valorpago" type="text" value="{{parcelaRow.valor }}" class="form-control"  aria-label="Valor do auxílio" aria-describedby="basic-addon1">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                          <i class="fa fa-check"></i> Salvar</button>
+                        <button type="button" class="btn btn-light" (click)="c('Close click')">Cancelar</button>
+
+                      </form>
                     </div>
                     <div class="modal-footer">
 
                     </div>
-                </ng-template>
+                  </ng-template>
 
 
 
-            </div>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab title="Mensalidades">
-          <ng-template ngbTabContent>
-            <div class="card-body" style="min-height: 600px;">
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Mensalidades">
+              <ng-template ngbTabContent>
+                <div class="card-body" style="min-height: 600px;">
 
-                <!-- title -->
-                <div class="d-md-flex align-items-center">
+                  <!-- title -->
+                  <div class="d-md-flex align-items-center">
                     <div>
-                        <h4 class="card-title">Histórico de mensalidades</h4>
+                      <h4 class="card-title">Histórico de mensalidades</h4>
                     </div>
                     <div class="ml-auto d-flex align-items-center">
-                        <div class="dl">
+                      <div class="dl">
 
-                        </div>
+                      </div>
                     </div>
-                </div>
-                <ngb-tabset type="pills" class="custom-pills">
+                  </div>
+                  <ngb-tabset type="pills" class="custom-pills">
                     <ngb-tab  title="Mensalidades">
-                        <ng-template ngbTabContent>
+                      <ng-template ngbTabContent>
 
-                            <div class="table-responsive m-t-20">
-                                <table class="table table-bordered m-b-20" data-page-length='10'>
-                                    <thead>
-                                    <tr class="bg-light">
+                        <div class="table-responsive m-t-20">
+                          <table class="table table-bordered m-b-20" data-page-length='10'>
+                            <thead>
+                            <tr class="bg-light">
 
-                                        <th>Mensalidade</th>
-                                        <th>Data Vencimento </th>
-                                        <th>Valor </th>
-                                        <th>Valor Descontado</th>
-                                        <th>Data de Pagamento </th>
-                                        <th>Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr *ngFor="let row of entity?.mensalidadeList">
-                                        <td>
-                                            <p>{{row.mensalidade}} /999 </p>
-                                        </td>
-                                        <td>
-                                            <p>{{row.datavencimento  | date: 'dd/MM/yyyy'}}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{row.vlrmensalidade  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{row.valorpago  | currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
-                                        </td>
-                                        <td>
-                                            <p>{{row.dataprocesamento  | date: 'dd/MM/yyyy'}}</p>
-                                        </td>
-                                        <td ><span [ngStyle]="{ 'background-color' : (row.statuspagamento=='Em Aberto')? '#e43030' : '#0f8818', 'color' : (row.statuspagamento=='PAGO')? '#fff' : '#fff' }" class="label"> {{row.statuspagamento}}</span></td>
+                              <th>Mensalidade</th>
+                              <th>Data Vencimento </th>
+                              <th>Valor </th>
+                              <th>Valor Descontado</th>
+                              <th>Data de Pagamento </th>
+                              <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let row of entity?.mensalidadeList">
+                              <td>
+                                <p>{{row.mensalidade}} /999 </p>
+                              </td>
+                              <td>
+                                <p>{{row.datavencimento  | date: 'dd/MM/yyyy'}}</p>
+                              </td>
+                              <td>
+                                <p>{{row.vlrmensalidade  |  currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                              </td>
+                              <td>
+                                <p>{{row.valorpago  |  currency:'BRL':'symbol':'2.2-2':'pt-BR'}}</p>
+                              </td>
+                              <td>
+                                <p>{{row.dataprocesamento  | date: 'dd/MM/yyyy'}}</p>
+                              </td>
+                              <td ><span [ngStyle]="{ 'background-color' : (row.statuspagamento=='Em Aberto')? '#e43030' : '#0f8818', 'color' : (row.statuspagamento=='PAGO')? '#fff' : '#fff' }" class="label"> {{row.statuspagamento}}</span></td>
 
-                                    </tr>
+                            </tr>
 
-                                    </tbody>
-                                </table>
-                            </div>
+                            </tbody>
+                          </table>
+                        </div>
 
 
-                        </ng-template>
+                      </ng-template>
                     </ngb-tab>
 
-                </ngb-tabset>
+                  </ngb-tabset>
 
-                <!-- column -->
+                  <!-- column -->
 
-            </div>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab title="Informações Cadastrais">
-          <ng-template ngbTabContent>
-            <div class="card-body" style="min-height: 800px;">
-                <form name="activeForm" [formGroup]="associadoForm" (ngSubmit)="saveAssociado()" >
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Informações Cadastrais">
+              <ng-template ngbTabContent>
+                <div class="card-body" style="min-height: 800px;">
+                  <form name="activeForm" [formGroup]="associadoForm" (ngSubmit)="saveAssociado()" >
                     <div class="card-body">
-                        <h4 class="card-title"><i class="fas fa-user"></i> Informações pessoais</h4>
+                      <h4 class="card-title"><i class="fas fa-user"></i> Informações pessoais</h4>
                     </div>
                     <hr>
 
                     <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="control-label">Associação 1</label>
-                                <select   formControlName="associacao1" class="form-control" >
-                                    <option  [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
-                                </select>
-                            </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="control-label">Associação 1</label>
+                          <select   formControlName="associacao1" class="form-control" >
+                            <option  [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
+                          </select>
                         </div>
+                      </div>
 
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="control-label">Associação 2</label>
-                                <select  formControlName="associacao2" class="form-control"  >
-                                    <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
-                                </select>
-                            </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="control-label">Associação 2</label>
+                          <select  formControlName="associacao2" class="form-control"  >
+                            <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
+                          </select>
                         </div>
+                      </div>
                     </div>
 
                     <div class="form-body">
-                        <div class="card-body">
-                            <div class="row p-t-20">
+                      <div class="card-body">
+                        <div class="row p-t-20">
 
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="control-label">Nome</label>
-                                        <input formControlName="nome"  type="text" class="form-control">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="control-label">Nome</label>
+                              <input formControlName="nome"  type="text" class="form-control">
 
-                                    </div>
-                                </div>
-                                <!--/span-->
-                                <div class="col-md-2">
-                                    <div class="form-group has-danger">
-                                        <label class="control-label">CPF</label>
-                                        <input formControlName="cpf"   type="text"  class="form-control form-control-danger" >
+                            </div>
+                          </div>
+                          <!--/span-->
+                          <div class="col-md-2">
+                            <div class="form-group has-danger">
+                              <label class="control-label">CPF</label>
+                              <input formControlName="cpf"   type="text"  class="form-control form-control-danger" >
 
-                                    </div>
-                                </div>
+                            </div>
+                          </div>
 
-                                <div class="col-md-2">
-                                    <div class="form-group has-danger">
-                                        <label class="control-label">RG</label>
-                                        <input formControlName="rg"   type="text"  class="form-control form-control-danger" >
+                          <div class="col-md-2">
+                            <div class="form-group has-danger">
+                              <label class="control-label">RG</label>
+                              <input formControlName="rg"   type="text"  class="form-control form-control-danger" >
 
-                                    </div>
-                                </div>
-                                <!--/span-->
+                            </div>
+                          </div>
+                          <!--/span-->
 
-                                <div class="col-md-2">
-                                    <div class="form-group has-danger">
-                                        <label class="control-label">Matrícula</label>
-                                        <input formControlName="matricula"  type="text"  class="form-control form-control-danger" >
+                          <div class="col-md-2">
+                            <div class="form-group has-danger">
+                              <label class="control-label">Matrícula</label>
+                              <input formControlName="matricula"  type="text"  class="form-control form-control-danger" >
 
-                                    </div>
-                                </div>
+                            </div>
+                          </div>
 
-                                <div class=" col-md-2">
-                                    <label class="control-label">Situação</label>
-                                    <select formControlName="situacao" class="custom-select" id="inputGroupSelect01">
-                                        <option value="Ativo - Em Atividade">Ativo - Em Atividade</option>
-                                        <option value="Inativo -  Aposentado">Inativo -  Aposentado</option>
-                                    </select>
-                                </div>
+                          <div class=" col-md-2">
+                            <label class="control-label">Situação</label>
+                            <select formControlName="situacao" class="custom-select" id="inputGroupSelect01">
+                              <option value="Ativo - Em Atividade">Ativo - Em Atividade</option>
+                              <option value="Inativo -  Aposentado">Inativo -  Aposentado</option>
+                            </select>
+                          </div>
 
-                                <div class="col-md-3">
-                                    <div class="form-group has-danger">
-                                        <label class="control-label">Cargo</label>
-                                        <input formControlName="cargo"  type="text"  class="form-control form-control-danger" >
+                          <div class="col-md-3">
+                            <div class="form-group has-danger">
+                              <label class="control-label">Cargo</label>
+                              <input formControlName="cargo"  type="text"  class="form-control form-control-danger" >
 
-                                    </div>
-                                </div>
+                            </div>
+                          </div>
 
-                                <div class="col-md-3">
-                                    <div class="form-group has-danger">
-                                        <label class="control-label">Orgão</label>
-                                        <input formControlName="orgao"  type="text"  class="form-control form-control-danger" >
+                          <div class="col-md-3">
+                            <div class="form-group has-danger">
+                              <label class="control-label">Orgão</label>
+                              <input formControlName="orgao"  type="text"  class="form-control form-control-danger" >
 
-                                    </div>
-                                </div>
+                            </div>
+                          </div>
 
-                                <div class="col-md-12">
-                                    <div class="form-group has-danger">
-                                        <label class="control-label">Observações</label>
-                                        <textarea formControlName="obs"  type="text"  class="form-control form-control-danger" >
+                          <div class="col-md-12">
+                            <div class="form-group has-danger">
+                              <label class="control-label">Observações</label>
+                              <textarea formControlName="obs"  type="text"  class="form-control form-control-danger" >
                                         </textarea>
 
-                                    </div>
-                                </div>
-
-
                             </div>
-                            <!--/row-->
-                            <div class="row">
+                          </div>
 
 
-
-                            </div>
-                            <!--/row-->
-
-                            <!--/row-->
-
-                            <h4 class="card-title m-t-40"> <i class="fas fa-address-book"></i> Endereço</h4>
                         </div>
-                        <hr>
+                        <!--/row-->
+                        <div class="row">
+
+
+
+                        </div>
+                        <!--/row-->
+
+                        <!--/row-->
+
+                        <h4 class="card-title m-t-40"> <i class="fas fa-address-book"></i> Endereço</h4>
+                      </div>
+                      <hr>
+                      <div class="card-body">
+
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>CEP</label>
+                            <input formControlName="cep"  type="text" class="form-control">
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-12 ">
+                            <div class="form-group">
+                              <label>Endereço</label>
+                              <input formControlName="endereco"  type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>Bairro </label>
+                              <input formControlName="bairro"  type="text" class="form-control">
+                            </div>
+                          </div>
+                          <!--/span-->
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>Cidade</label>
+                              <input formControlName="cidade"  type="text" class="form-control">
+                            </div>
+                          </div>
+                          <!--/span-->
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>Estado</label>
+                              <input formControlName="uf"  type="text" class="form-control">
+                            </div>
+                          </div>
+
+
+                        </div>
+                        <!--/row-->
+                        <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Contato</h4>
+                      </div>
+                      <hr>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-3 ">
+                            <div class="form-group">
+                              <label>Telefone</label>
+                              <input formControlName="telefone"  type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>E-mail: </label>
+                              <input formControlName="email"  type="text" class="form-control">
+                            </div>
+                          </div>
+                          <!--/span-->
+
+                        </div>
+                        <!--/row-->
+                        <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Associação </h4>
+                      </div>
+                      <hr>
+                      <div class="card-body">
+                        <div class="row">
+
+                          <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                              <label class="control-label col-form-label">Verba de Descontos (VD)</label>
+                              <input readonly formControlName="verbadesconto" placeholder="5022 - MENSALIDADE ASSOCIAÇÃO "  type="text" class="form-control">
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+
+                            </div>
+                          </div>
+
+                          <div class="col-sm-3 col-md-3">
+                            <div class="form-group">
+                              <label>Valor da mensalidade</label>
+                              <div class="input-group mb-3">
+                                <span class="input-group-text">R$</span>
+                                <input formControlName="vlrmensalidade"  type="text" class="form-control">
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <div class="custom-control custom-radio">
+                                <input checked="" class="custom-control-input" id="customRadio2" name="customRadio" type="radio">
+                                <label class="custom-control-label" for="customRadio2">ATIVO</label>
+                              </div>
+                            </div>
+                          </div>
+                          <!--/span-->
+
+                        </div>
+                        <!--/row-->
+
+                      </div>
+
+                      <div class="form-actions">
                         <div class="card-body">
+                          <button type="submit" class="btn btn-success">
+                            <i class="fa fa-check"></i> Salvar</button>
+                          <button type="button" [routerLink]="'/associado'" class="btn btn-dark">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>            </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Ocorrências">
+              <ng-template ngbTabContent>
+                <div class="card-body" style="min-height: 800px;">
+                  <form name="activeForm" [formGroup]="associadoForm" (ngSubmit)="saveAssociado()" >
+                    <div class="card-body">
+                      <h4 class="card-title"><i class="fas fa-user"></i> Informações pessoais</h4>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="control-label">Associação 1</label>
+                          <select   formControlName="associacao1" class="form-control" >
+                            <option  [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label class="control-label">Associação 2</label>
+                          <select  formControlName="associacao2" class="form-control"  >
+                            <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-body">
+                      <div class="card-body">
+                        <div class="row p-t-20">
+
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="control-label">Nome</label>
+                              <input formControlName="nome"  type="text" class="form-control">
+
+                            </div>
+                          </div>
+                          <!--/span-->
+                          <div class="col-md-2">
+                            <div class="form-group has-danger">
+                              <label class="control-label">CPF</label>
+                              <input formControlName="cpf"   type="text"  class="form-control form-control-danger" >
+
+                            </div>
+                          </div>
+
+                          <div class="col-md-2">
+                            <div class="form-group has-danger">
+                              <label class="control-label">RG</label>
+                              <input formControlName="rg"   type="text"  class="form-control form-control-danger" >
+
+                            </div>
+                          </div>
+                          <!--/span-->
+
+                          <div class="col-md-2">
+                            <div class="form-group has-danger">
+                              <label class="control-label">Matrícula</label>
+                              <input formControlName="matricula"  type="text"  class="form-control form-control-danger" >
+
+                            </div>
+                          </div>
+
+                          <div class=" col-md-2">
+                            <label class="control-label">Situação</label>
+                            <select formControlName="situacao" class="custom-select" id="inputGroupSelect01">
+                              <option value="Ativo - Em Atividade">Ativo - Em Atividade</option>
+                              <option value="Inativo -  Aposentado">Inativo -  Aposentado</option>
+                            </select>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group has-danger">
+                              <label class="control-label">Cargo</label>
+                              <input formControlName="cargo"  type="text"  class="form-control form-control-danger" >
+
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group has-danger">
+                              <label class="control-label">Orgão</label>
+                              <input formControlName="orgao"  type="text"  class="form-control form-control-danger" >
+
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <div class="form-group has-danger">
+                              <label class="control-label">Observações</label>
+                              <textarea formControlName="obs"  type="text"  class="form-control form-control-danger" >
+                                        </textarea>
+
+                            </div>
+                          </div>
+
+
+                        </div>
+                        <!--/row-->
+                        <div class="row">
+
+
+
+                        </div>
+                        <!--/row-->
+
+                        <!--/row-->
+
+                        <h4 class="card-title m-t-40"> <i class="fas fa-address-book"></i> Endereço</h4>
+                      </div>
+                      <hr>
+                      <div class="card-body">
+
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>CEP</label>
+                            <input formControlName="cep"  type="text" class="form-control">
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-12 ">
+                            <div class="form-group">
+                              <label>Endereço</label>
+                              <input formControlName="endereco"  type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>Bairro </label>
+                              <input formControlName="bairro"  type="text" class="form-control">
+                            </div>
+                          </div>
+                          <!--/span-->
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>Cidade</label>
+                              <input formControlName="cidade"  type="text" class="form-control">
+                            </div>
+                          </div>
+                          <!--/span-->
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>Estado</label>
+                              <input formControlName="uf"  type="text" class="form-control">
+                            </div>
+                          </div>
+
+
+                        </div>
+                        <!--/row-->
+                        <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Contato</h4>
+                      </div>
+                      <hr>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-3 ">
+                            <div class="form-group">
+                              <label>Telefone</label>
+                              <input formControlName="telefone"  type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>E-mail: </label>
+                              <input formControlName="email"  type="text" class="form-control">
+                            </div>
+                          </div>
+                          <!--/span-->
+
+                        </div>
+                        <!--/row-->
+                        <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Associação </h4>
+                      </div>
+                      <hr>
+                      <div class="card-body">
+                        <div class="row">
+
+                          <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                              <label class="control-label col-form-label">Verba de Descontos (VD)</label>
+                              <input readonly formControlName="verbadesconto" placeholder="5022 - MENSALIDADE ASSOCIAÇÃO "  type="text" class="form-control">
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+
+                            </div>
+                          </div>
+
+                          <div class="col-sm-3 col-md-3">
+                            <div class="form-group">
+                              <label>Valor da mensalidade</label>
+                              <div class="input-group mb-3">
+                                <span class="input-group-text">R$</span>
+                                <input formControlName="vlrmensalidade"  type="text" class="form-control">
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <div class="custom-control custom-radio">
+                                <input checked="" class="custom-control-input" id="customRadio2" name="customRadio" type="radio">
+                                <label class="custom-control-label" for="customRadio2">ATIVO</label>
+                              </div>
+                            </div>
+                          </div>
+                          <!--/span-->
+
+                        </div>
+                        <!--/row-->
+
+                      </div>
+
+                      <div class="form-actions">
+                        <div class="card-body">
+                          <button type="submit" class="btn btn-success">
+                            <i class="fa fa-check"></i> Salvar</button>
+                          <button type="button" [routerLink]="'/associado'" class="btn btn-dark">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>            </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </div>
+      </div>
+      <!-- Column -->
+    </div>
+
+  </div>
+  <div class="tab-pane tab-pane-profile fade  " id="principal">
+
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-lg-12">
+        <div class="ibox">
+          <div class="ibox-head">
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a class="nav-link active" href="#informcaoesCadastrais" data-toggle="tab">Informações Cadastrais</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#documentacao" data-toggle="tab">Documentação</a>
+              </li>
+            </ul>
+          </div>
+          <div class="ibox-body">
+            <form name="associadoForm" class="form-info" [formGroup]="associadoForm" (ngSubmit)="saveAssociado()" >
+
+              <div class="tab-content">
+                <div class="tab-pane fade show active " id="informcaoesCadastrais">
+                  <div class="ibox-body">
+                    <div class="row">
+                      <div class="form-body">
+                        <div class="card-body">
+                          <div class="row p-t-20">
+
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label class="control-label">Nome</label>
+                                <input formControlName="nome"  type="text" class="form-control">
+
+                              </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-2">
+                              <div class="form-group has-danger">
+                                <label class="control-label">CPF</label>
+                                <input formControlName="cpf"   type="text"  class="form-control form-control-danger" >
+
+                              </div>
+                            </div>
+
+                            <div class="col-md-2">
+                              <div class="form-group has-danger">
+                                <label class="control-label">RG</label>
+                                <input formControlName="rg"   type="text"  class="form-control form-control-danger" >
+
+                              </div>
+                            </div>
+                            <!--/span-->
+
+                            <div class="col-md-2">
+                              <div class="form-group has-danger">
+                                <label class="control-label">Matrícula</label>
+                                <input formControlName="matricula"  type="text"  class="form-control form-control-danger" >
+
+                              </div>
+                            </div>
+
+                            <div class=" col-md-2">
+                              <label class="control-label">Situação</label>
+                              <select formControlName="situacao" class="custom-select" id="inputGroupSelect01">
+                                <option value="Ativo - Em Atividade">Ativo - Em Atividade</option>
+                                <option value="Inativo -  Aposentado">Inativo -  Aposentado</option>
+                              </select>
+                            </div>
 
                             <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>CEP</label>
-                                    <input formControlName="cep"  type="text" class="form-control">
-                                </div>
-                            </div>
+                              <div class="form-group has-danger">
+                                <label class="control-label">Cargo</label>
+                                <input formControlName="cargo"  type="text"  class="form-control form-control-danger" >
 
-                            <div class="row">
-                                <div class="col-md-12 ">
-                                    <div class="form-group">
-                                        <label>Endereço</label>
-                                        <input formControlName="endereco"  type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Bairro </label>
-                                        <input formControlName="bairro"  type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <!--/span-->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Cidade</label>
-                                        <input formControlName="cidade"  type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <!--/span-->
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Estado</label>
-                                        <input formControlName="uf"  type="text" class="form-control">
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <!--/row-->
-                            <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Contato</h4>
-                        </div>
-                        <hr>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3 ">
-                                    <div class="form-group">
-                                        <label>Telefone</label>
-                                        <input formControlName="telefone"  type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>E-mail: </label>
-                                        <input formControlName="email"  type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <!--/span-->
-
-                            </div>
-                            <!--/row-->
-                            <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Associação </h4>
-                        </div>
-                        <hr>
-                        <div class="card-body">
-                            <div class="row">
-
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-form-label">Verba de Descontos (VD)</label>
-                                        <input readonly formControlName="verbadesconto" placeholder="5022 - MENSALIDADE ASSOCIAÇÃO "  type="text" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6 col-md-6">
-                                    <div class="form-group">
-
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-3 col-md-3">
-                                    <div class="form-group">
-                                        <label>Valor da mensalidade</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text">R$</span>
-                                            <input formControlName="vlrmensalidade"  type="text" class="form-control">
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="custom-control custom-radio">
-                                            <input checked="" class="custom-control-input" id="customRadio2" name="customRadio" type="radio">
-                                            <label class="custom-control-label" for="customRadio2">ATIVO</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/span-->
-
-                            </div>
-                            <!--/row-->
-
-                        </div>
-
-                        <div class="form-actions">
-                            <div class="card-body">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fa fa-check"></i> Salvar</button>
-                                <button type="button" [routerLink]="'/associado'" class="btn btn-dark">Cancelar</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>            </div>
-          </ng-template>
-        </ngb-tab>
-          <ngb-tab title="Ocorrências">
-              <ng-template ngbTabContent>
-                  <div class="card-body" style="min-height: 800px;">
-                      <form name="activeForm" [formGroup]="associadoForm" (ngSubmit)="saveAssociado()" >
-                          <div class="card-body">
-                              <h4 class="card-title"><i class="fas fa-user"></i> Informações pessoais</h4>
-                          </div>
-                          <hr>
-
-                          <div class="row">
-                              <div class="col-6">
-                                  <div class="form-group">
-                                      <label class="control-label">Associação 1</label>
-                                      <select   formControlName="associacao1" class="form-control" >
-                                          <option  [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
-                                      </select>
-                                  </div>
                               </div>
+                            </div>
 
-                              <div class="col-6">
-                                  <div class="form-group">
-                                      <label class="control-label">Associação 2</label>
-                                      <select  formControlName="associacao2" class="form-control"  >
-                                          <option [ngValue]="a" *ngFor="let a of associacao" > {{a.nomefantasia}}</option>
-                                      </select>
-                                  </div>
+                            <div class="col-md-3">
+                              <div class="form-group has-danger">
+                                <label class="control-label">Orgão</label>
+                                <input formControlName="orgao"  type="text"  class="form-control form-control-danger" >
+
                               </div>
-                          </div>
+                            </div>
 
-                          <div class="form-body">
-                              <div class="card-body">
-                                  <div class="row p-t-20">
-
-                                      <div class="col-md-12">
-                                          <div class="form-group">
-                                              <label class="control-label">Nome</label>
-                                              <input formControlName="nome"  type="text" class="form-control">
-
-                                          </div>
-                                      </div>
-                                      <!--/span-->
-                                      <div class="col-md-2">
-                                          <div class="form-group has-danger">
-                                              <label class="control-label">CPF</label>
-                                              <input formControlName="cpf"   type="text"  class="form-control form-control-danger" >
-
-                                          </div>
-                                      </div>
-
-                                      <div class="col-md-2">
-                                          <div class="form-group has-danger">
-                                              <label class="control-label">RG</label>
-                                              <input formControlName="rg"   type="text"  class="form-control form-control-danger" >
-
-                                          </div>
-                                      </div>
-                                      <!--/span-->
-
-                                      <div class="col-md-2">
-                                          <div class="form-group has-danger">
-                                              <label class="control-label">Matrícula</label>
-                                              <input formControlName="matricula"  type="text"  class="form-control form-control-danger" >
-
-                                          </div>
-                                      </div>
-
-                                      <div class=" col-md-2">
-                                          <label class="control-label">Situação</label>
-                                          <select formControlName="situacao" class="custom-select" id="inputGroupSelect01">
-                                              <option value="Ativo - Em Atividade">Ativo - Em Atividade</option>
-                                              <option value="Inativo -  Aposentado">Inativo -  Aposentado</option>
-                                          </select>
-                                      </div>
-
-                                      <div class="col-md-3">
-                                          <div class="form-group has-danger">
-                                              <label class="control-label">Cargo</label>
-                                              <input formControlName="cargo"  type="text"  class="form-control form-control-danger" >
-
-                                          </div>
-                                      </div>
-
-                                      <div class="col-md-3">
-                                          <div class="form-group has-danger">
-                                              <label class="control-label">Orgão</label>
-                                              <input formControlName="orgao"  type="text"  class="form-control form-control-danger" >
-
-                                          </div>
-                                      </div>
-
-                                      <div class="col-md-12">
-                                          <div class="form-group has-danger">
-                                              <label class="control-label">Observações</label>
-                                              <textarea formControlName="obs"  type="text"  class="form-control form-control-danger" >
+                            <div class="col-md-12">
+                              <div class="form-group has-danger">
+                                <label class="control-label">Observações</label>
+                                <textarea formControlName="obs"  type="text"  class="form-control form-control-danger" >
                                         </textarea>
 
-                                          </div>
-                                      </div>
-
-
-                                  </div>
-                                  <!--/row-->
-                                  <div class="row">
-
-
-
-                                  </div>
-                                  <!--/row-->
-
-                                  <!--/row-->
-
-                                  <h4 class="card-title m-t-40"> <i class="fas fa-address-book"></i> Endereço</h4>
                               </div>
-                              <hr>
-                              <div class="card-body">
-
-                                  <div class="col-md-3">
-                                      <div class="form-group">
-                                          <label>CEP</label>
-                                          <input formControlName="cep"  type="text" class="form-control">
-                                      </div>
-                                  </div>
-
-                                  <div class="row">
-                                      <div class="col-md-12 ">
-                                          <div class="form-group">
-                                              <label>Endereço</label>
-                                              <input formControlName="endereco"  type="text" class="form-control">
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="row">
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label>Bairro </label>
-                                              <input formControlName="bairro"  type="text" class="form-control">
-                                          </div>
-                                      </div>
-                                      <!--/span-->
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label>Cidade</label>
-                                              <input formControlName="cidade"  type="text" class="form-control">
-                                          </div>
-                                      </div>
-                                      <!--/span-->
-                                      <div class="col-md-3">
-                                          <div class="form-group">
-                                              <label>Estado</label>
-                                              <input formControlName="uf"  type="text" class="form-control">
-                                          </div>
-                                      </div>
+                            </div>
 
 
-                                  </div>
-                                  <!--/row-->
-                                  <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Contato</h4>
-                              </div>
-                              <hr>
-                              <div class="card-body">
-                                  <div class="row">
-                                      <div class="col-md-3 ">
-                                          <div class="form-group">
-                                              <label>Telefone</label>
-                                              <input formControlName="telefone"  type="text" class="form-control">
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="row">
-                                      <div class="col-md-4">
-                                          <div class="form-group">
-                                              <label>E-mail: </label>
-                                              <input formControlName="email"  type="text" class="form-control">
-                                          </div>
-                                      </div>
-                                      <!--/span-->
-
-                                  </div>
-                                  <!--/row-->
-                                  <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Associação </h4>
-                              </div>
-                              <hr>
-                              <div class="card-body">
-                                  <div class="row">
-
-                                      <div class="col-sm-12 col-md-6">
-                                          <div class="form-group">
-                                              <label class="control-label col-form-label">Verba de Descontos (VD)</label>
-                                              <input readonly formControlName="verbadesconto" placeholder="5022 - MENSALIDADE ASSOCIAÇÃO "  type="text" class="form-control">
-                                          </div>
-                                      </div>
-
-                                      <div class="col-sm-6 col-md-6">
-                                          <div class="form-group">
-
-                                          </div>
-                                      </div>
-
-                                      <div class="col-sm-3 col-md-3">
-                                          <div class="form-group">
-                                              <label>Valor da mensalidade</label>
-                                              <div class="input-group mb-3">
-                                                  <span class="input-group-text">R$</span>
-                                                  <input formControlName="vlrmensalidade"  type="text" class="form-control">
-                                              </div>
-
-                                          </div>
-                                      </div>
-
-                                  </div>
-
-                                  <div class="row">
-                                      <div class="col-md-4">
-                                          <div class="form-group">
-                                              <div class="custom-control custom-radio">
-                                                  <input checked="" class="custom-control-input" id="customRadio2" name="customRadio" type="radio">
-                                                  <label class="custom-control-label" for="customRadio2">ATIVO</label>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <!--/span-->
-
-                                  </div>
-                                  <!--/row-->
-
-                              </div>
-
-                              <div class="form-actions">
-                                  <div class="card-body">
-                                      <button type="submit" class="btn btn-success">
-                                          <i class="fa fa-check"></i> Salvar</button>
-                                      <button type="button" [routerLink]="'/associado'" class="btn btn-dark">Cancelar</button>
-                                  </div>
-                              </div>
                           </div>
-                      </form>            </div>
-              </ng-template>
-          </ngb-tab>
-      </ngb-tabset>
+                          <!--/row-->
+                          <div class="row">
+
+
+
+                          </div>
+                          <!--/row-->
+
+                          <!--/row-->
+
+                          <h4 class="card-title m-t-40"> <i class="fas fa-address-book"></i> Endereço</h4>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>CEP</label>
+                              <input formControlName="cep"  type="text" class="form-control">
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12 ">
+                              <div class="form-group">
+                                <label>Endereço</label>
+                                <input formControlName="endereco"  type="text" class="form-control">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3">
+                              <div class="form-group">
+                                <label>Bairro </label>
+                                <input formControlName="bairro"  type="text" class="form-control">
+                              </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                              <div class="form-group">
+                                <label>Cidade</label>
+                                <input formControlName="cidade"  type="text" class="form-control">
+                              </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-3">
+                              <div class="form-group">
+                                <label>Estado</label>
+                                <input formControlName="uf"  type="text" class="form-control">
+                              </div>
+                            </div>
+
+
+                          </div>
+                          <!--/row-->
+                          <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Contato</h4>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-3 ">
+                              <div class="form-group">
+                                <label>Telefone</label>
+                                <input formControlName="telefone"  type="text" class="form-control">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label>E-mail: </label>
+                                <input formControlName="email"  type="text" class="form-control">
+                              </div>
+                            </div>
+                            <!--/span-->
+
+                          </div>
+                          <!--/row-->
+                          <h4 class="card-title m-t-40"><i class="fas fa-at"></i> Associação </h4>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                          <div class="row">
+
+                            <div class="col-sm-12 col-md-6">
+                              <div class="form-group">
+                                <label class="control-label col-form-label">Verba de Descontos (VD)</label>
+                                <input readonly formControlName="verbadesconto" placeholder="5022 - MENSALIDADE ASSOCIAÇÃO "  type="text" class="form-control">
+                              </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-6">
+                              <div class="form-group">
+
+                              </div>
+                            </div>
+
+                            <div class="col-sm-3 col-md-3">
+                              <div class="form-group">
+                                <label>Valor da mensalidade</label>
+                                <div class="input-group mb-3">
+                                  <span class="input-group-text">R$</span>
+                                  <input formControlName="vlrmensalidade"  type="text" class="form-control">
+                                </div>
+
+                              </div>
+                            </div>
+
+                          </div>
+
+                  </div>
+                  <div class="ibox-footer">
+                    <button (click)="AtualizaProfissional()" class="btn btn-primary btn-rounded mr-3">Atualizar
+                    </button>
+
+                  </div>
+                </div>
+
+              </div>
+          </div>
+        </div>
+
+      </div>
+            </form>
     </div>
+
   </div>
-  <!-- Column -->
+
+  <div class="tab-pane tab-pane-profile fade text-center" id="certificado">
+    <div class="h1 mt-5 mb-3">TAB 3</div>
+    <p class="mb-5">Laborum dolore consectetur occaecat in ex sunt et dolore dolore aliqua aute qui cupidatat et ullamco
+      in pariatur dolor quis laboris ut.</p>
+  </div>
+
+  <div class="tab-pane tab-pane-profile fade text-center" id="arquivodigital">
+    <div class="h1 mt-5 mb-3">TAB 4</div>
+    <p class="mb-5">Laborum dolore consectetur occaecat in ex sunt et dolore dolore aliqua aute qui cupidatat et ullamco
+      in pariatur dolor quis laboris ut.</p>
+  </div>
+
+  <div class="tab-pane tab-pane-profile fade text-center" id="documento">
+    <div class="h1 mt-5 mb-3">TAB 5</div>
+    <p class="mb-5">Laborum dolore consectetur occaecat in ex sunt et dolore dolore aliqua aute qui cupidatat et ullamco
+      in pariatur dolor quis laboris ut.</p>
+  </div>
+</div>
+
+<div class="modal fade " id="protocolo-modal">
+  <div class="modal-dialog modal-xl" role="document">
+    <form class="modal-content">
+      <div class="modal-header p-4">
+        <h5 class="modal-title">Protocolo</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="flexbox mb-4">
+          <div class="table-responsive row">
+            <table class="table table-bordered table-hover" id="">
+              <thead class="thead-default thead-lg">
+              <tr>
+                <th class="no-sort sorting_disabled" rowspan="1" colspan="1" style="width: 62px;" aria-label=""><label
+                  class="checkbox checkbox-success">
+                  <input type="checkbox">
+                  <span class="input-span"></span></label></th>
+                <th>Data</th>
+                <th>Nº do protocolo:</th>
+                <th>Dept</th>
+                <th>Assunnto</th>
+                <th>Processo</th>
+                <th>Interessado</th>
+                <th>Anotações</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><label class="checkbox checkbox-success">
+                  <input type="checkbox">
+                  <span class="input-span"></span></label></td>
+                <td>17/02/2019</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><a target="_blank" href="http://10.1.1.239:8080/report/BoletoCobranca/1"
+                       class="btn btn-success btn-icon-only btn-sm btn-air"><i class="la la-print"></i></a>
+                  <button class="btn btn-primary btn-icon-only btn-sm btn-air"><i class="la la-envelope"></i></button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+        <div class="modal-body p-4">
+
+          <div class="col-lg-12 col-md-12">
+            <div class="card mb-4">
+              <div class="card-body flexbox-b">
+
+                <form name="tipocobrancaForm" (ngSubmit)="saveTipoCobranca()" class="form-info">
+                  <div class="ibox-body">
+                    <div class="row">
+
+                      <div class="col-sm-8 form-group mb-8">
+                        <label>Descrição</label>
+                        <input class="form-control" type="text">
+                      </div>
+                      <div class="col-sm-4 form-group mb-4">
+                        <label>Valor</label>
+                        <input class="form-control" type="text">
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="ibox-footer">
+
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between bg-primary-50">
+        <div>
+          <button class="btn btn-primary btn-rounded mr-3">Novo protocolo</button>
+          <label class="btn btn-sm btn-transparent btn-secondary btn-icon-only btn-circle file-input mb-0"><i
+            class="la la-paperclip font-20"></i>
+            <input type="file">
+          </label>
+          <label class="btn btn-sm btn-transparent btn-secondary btn-icon-only btn-circle file-input mb-0"><i
+            class="la la-image font-20"></i>
+            <input type="file">
+          </label>
+          <button class="btn btn-sm btn-transparent btn-secondary btn-icon-only btn-circle"><i
+            class="la la-link font-20"></i></button>
+        </div>
+        <a class="text-danger"><i class="la la-trash font-20"></i></a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade " id="new-mail-modal">
+  <div class="modal-dialog modal-xl" role="document">
+    <form class="modal-content">
+      <div class="modal-header p-4">
+        <h5 class="modal-title">Ocorrências</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="flexbox mb-4">
+          <div class="table-responsive row">
+            <table class="table table-bordered table-hover" id="ocorrencias">
+              <thead class="thead-default thead-lg">
+              <tr>
+                <th class="no-sort sorting_disabled" rowspan="1" colspan="1" style="width: 62px;" aria-label=""><label
+                  class="checkbox checkbox-success">
+                  <input type="checkbox">
+                  <span class="input-span"></span></label></th>
+                <th>Data</th>
+                <th>Regsitrado por:</th>
+                <th>Ocorrência</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><label class="checkbox checkbox-success">
+                  <input type="checkbox">
+                  <span class="input-span"></span></label></td>
+                <td>17/02/2019</td>
+                <td> Ivo Silva</td>
+                <td>Eviado boletos anuidade 2019...</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between bg-primary-50">
+        <div>
+          <button class="btn btn-primary btn-rounded mr-3">Nova Ocorrência</button>
+          <label class="btn btn-sm btn-transparent btn-secondary btn-icon-only btn-circle file-input mb-0"><i
+            class="la la-paperclip font-20"></i>
+            <input type="file">
+          </label>
+          <label class="btn btn-sm btn-transparent btn-secondary btn-icon-only btn-circle file-input mb-0"><i
+            class="la la-image font-20"></i>
+            <input type="file">
+          </label>
+          <button class="btn btn-sm btn-transparent btn-secondary btn-icon-only btn-circle"><i
+            class="la la-link font-20"></i></button>
+        </div>
+        <a class="text-danger"><i class="la la-trash font-20"></i></a>
+      </div>
+    </form>
+  </div>
 </div>

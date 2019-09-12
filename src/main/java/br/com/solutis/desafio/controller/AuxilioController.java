@@ -26,6 +26,9 @@ public class AuxilioController {
     @Autowired
     MensalidadeService mensalidadeService;
 
+    @Autowired
+    ContaReceberService contaReceberService;
+
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody Auxilio bean) {
@@ -47,6 +50,28 @@ public class AuxilioController {
 
 
             parcelaService.save(p);
+
+            ContaReceber contaReceberFuturoMensalidade = new ContaReceber();
+
+            contaReceberFuturoMensalidade.setAssociado_id(bean.getAssociado_id());
+            contaReceberFuturoMensalidade.setAssociacao_id(bean.getAssociacao_id());
+            contaReceberFuturoMensalidade.setCorrespondente_id(bean.getCorrespondente_id());
+            contaReceberFuturoMensalidade.setConvenio_id(bean.getConvenio_id());
+
+            contaReceberFuturoMensalidade.setNome(bean.getAssociado_id().getNome());
+            contaReceberFuturoMensalidade.setCpf(String.valueOf(bean.getAssociado_id().getCpf()) );
+            contaReceberFuturoMensalidade.setParcela("1");
+            contaReceberFuturoMensalidade.setOplock("via refi");
+
+
+            contaReceberFuturoMensalidade.setValor(bean.getAssociado_id().getVlrmensalidade());
+
+
+            contaReceberFuturoMensalidade.setSituacao("A RECEBER");
+            contaReceberFuturoMensalidade.setDataVencimento(dataContrato.plusMonths(i+2).withDayOfMonth(10));
+
+            contaReceberService.save(contaReceberFuturoMensalidade);
+
         }
 
         //cria as mensalidades
@@ -60,6 +85,27 @@ public class AuxilioController {
             m.setVlrmensalidade( bean.getAssociado_id().getVlrmensalidade() );
 
             mensalidadeService.save(m);
+
+            ContaReceber contaReceberFuturoMensalidade = new ContaReceber();
+
+            contaReceberFuturoMensalidade.setAssociado_id(bean.getAssociado_id());
+            contaReceberFuturoMensalidade.setAssociacao_id(bean.getAssociacao_id());
+            contaReceberFuturoMensalidade.setCorrespondente_id(bean.getCorrespondente_id());
+            contaReceberFuturoMensalidade.setConvenio_id(bean.getConvenio_id());
+
+            contaReceberFuturoMensalidade.setNome(bean.getAssociado_id().getNome());
+            contaReceberFuturoMensalidade.setCpf(String.valueOf(bean.getAssociado_id().getCpf()) );
+            contaReceberFuturoMensalidade.setParcela("1");
+            contaReceberFuturoMensalidade.setOplock("via refi");
+
+
+            contaReceberFuturoMensalidade.setValor(bean.getAssociado_id().getVlrmensalidade());
+
+
+            contaReceberFuturoMensalidade.setSituacao("A RECEBER");
+            contaReceberFuturoMensalidade.setDataVencimento(dataContrato.plusMonths(i+2).withDayOfMonth(10));
+
+            contaReceberService.save(contaReceberFuturoMensalidade);
         }
 
         return this.buildResponse(auxilioService.save(bean));
@@ -79,7 +125,7 @@ public class AuxilioController {
                 parcela.setValorpago(parcela.getValor());
                 parcela.setDatapagamento(parcela.getDatavencimento());
                 parcela.setStatus("LIQUIDADA");
-
+                parcela.setOplock("CONFERIDO");
                 parcelaService.save(parcela);
 
             }
@@ -89,6 +135,7 @@ public class AuxilioController {
         }
 
         auxilioUpdate.setQtdparcelaspagas(qtd);
+        auxilioUpdate.setOplock("CONFERIDO");
         auxilioUpdate.setQtdparcelasnaopagas(auxilioUpdate.getQtdparcelas() - qtd);
         auxilioUpdate.setTotalpago(auxilioUpdate.getVlrparcelas() * qtd);
 
@@ -157,6 +204,27 @@ public class AuxilioController {
 
 
             parcelaService.save(p);
+
+            ContaReceber contaReceberFuturoMensalidade = new ContaReceber();
+
+            contaReceberFuturoMensalidade.setAssociado_id(bean.getAssociado_id());
+            contaReceberFuturoMensalidade.setAssociacao_id(bean.getAssociacao_id());
+            contaReceberFuturoMensalidade.setCorrespondente_id(bean.getCorrespondente_id());
+            contaReceberFuturoMensalidade.setConvenio_id(bean.getConvenio_id());
+
+            contaReceberFuturoMensalidade.setNome(bean.getAssociado_id().getNome());
+            contaReceberFuturoMensalidade.setCpf(String.valueOf(bean.getAssociado_id().getCpf()) );
+            contaReceberFuturoMensalidade.setParcela("1");
+            contaReceberFuturoMensalidade.setOplock("via refi");
+
+
+            contaReceberFuturoMensalidade.setValor(bean.getAssociado_id().getVlrmensalidade());
+
+
+            contaReceberFuturoMensalidade.setSituacao("A RECEBER");
+            contaReceberFuturoMensalidade.setDataVencimento(dataContrato.plusMonths(i+2).withDayOfMonth(10));
+
+            contaReceberService.save(contaReceberFuturoMensalidade);
         }
 
         //cria as mensalidades
@@ -169,7 +237,29 @@ public class AuxilioController {
             m.setDatavencimento(dataContrato.plusMonths(i+1).withDayOfMonth(3));
             m.setVlrmensalidade( bean.getAssociado_id().getVlrmensalidade() );
 
+
             mensalidadeService.save(m);
+
+            ContaReceber contaReceberFuturoMensalidade = new ContaReceber();
+
+            contaReceberFuturoMensalidade.setAssociado_id(bean.getAssociado_id());
+            contaReceberFuturoMensalidade.setAssociacao_id(bean.getAssociacao_id());
+            contaReceberFuturoMensalidade.setCorrespondente_id(bean.getCorrespondente_id());
+            contaReceberFuturoMensalidade.setConvenio_id(bean.getConvenio_id());
+
+            contaReceberFuturoMensalidade.setNome(bean.getAssociado_id().getNome());
+            contaReceberFuturoMensalidade.setCpf(String.valueOf(bean.getAssociado_id().getCpf()) );
+            contaReceberFuturoMensalidade.setParcela("1");
+            contaReceberFuturoMensalidade.setOplock("via refi");
+
+
+            contaReceberFuturoMensalidade.setValor(bean.getAssociado_id().getVlrmensalidade());
+
+
+            contaReceberFuturoMensalidade.setSituacao("A RECEBER");
+            contaReceberFuturoMensalidade.setDataVencimento(dataContrato.plusMonths(i+2).withDayOfMonth(10));
+
+            contaReceberService.save(contaReceberFuturoMensalidade);
         }
 
         return this.buildResponse(auxilioService.save(bean));
@@ -238,7 +328,6 @@ public class AuxilioController {
         return this.buildResponse(auxilioService.getById(id));
 
     }
-
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") String id) {

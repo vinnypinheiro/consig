@@ -1,45 +1,37 @@
-import * as $ from 'jquery';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule  } from '@angular/core';
+
+import { DataTablesModule } from 'angular-datatables';
+
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  CommonModule
-} from '@angular/common';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { Routes, RouterModule } from '@angular/router';
+import { ToastrModule } from 'ngx-toastr';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AgmCoreModule } from '@agm/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule} from 'ngx-mask'
+import { CurrencyMaskModule } from "ng2-currency-mask";
+import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/currency-mask.config";
 
-import { FullComponent } from './layouts/full/full.component';
-import { BlankComponent } from './layouts/blank/blank.component';
+import {MatFormFieldModule, MatInputModule, MatAutocompleteModule, MatButtonModule} from '@angular/material';
 
-import { NavigationComponent } from './shared/header-navigation/navigation.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+  align: "right",
+  allowNegative: true,
+  decimal: ",",
+  precision: 2,
+  prefix: "R$ ",
+  suffix: "",
+  thousands: "."
+};
 
+import { AppComponent } from './/app.component';
+import { AppRoutingModule } from './/app-routing.module';
+import { LayoutModule } from './/layouts/layout.module';
+import { ScriptLoaderService } from './_services/script-loader.service';
 
-import { AppComponent } from './app.component';
-import { SpinnerComponent } from './shared/spinner.component';
-
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-
-//modulo de roteamento
-import { AppRoutingModule } from './app-routing.module';
-
-// meus Imports
-import {AuthGuard} from './security/auth.guard';
-import {LoginService} from './security/login/login.service';
-
-import {SharedService} from "./shared/shared.service";
 import {SharedModule} from "./shared/shared.module";
-
-import { ReactiveFormsModule } from '@angular/forms';
-import {MatInputModule, MatFormFieldModule} from '@angular/material';
-
+import {OcorrenciaModule} from "./entidades/ocorrencia/ocorrencia.module";
+import {SearchService} from "./search.service";
 
 //pt-br pipes
 import { LOCALE_ID } from '@angular/core';
@@ -48,54 +40,38 @@ import localePt from '@angular/common/locales/pt';
 
 registerLocaleData(localePt);
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true,
-  wheelSpeed: 1,
-  wheelPropagation: true,
-  minScrollbarLength: 20
-};
-
 @NgModule({
   declarations: [
     AppComponent,
-    SpinnerComponent,
-    FullComponent,
-    BlankComponent,
-    NavigationComponent,
-    BreadcrumbComponent,
-    SidebarComponent,
-
   ],
   imports: [
-    CommonModule,
     BrowserModule,
-    BrowserAnimationsModule,
+    DataTablesModule,
     FormsModule,
-    HttpClientModule,
-    NgbModule,
-  //  RouterModule.forRoot(Approutes),
-    PerfectScrollbarModule,
-    AgmCoreModule.forRoot({ apiKey: 'AIzaSyBUb3jDWJQ28vDJhuQZxkC0NXr_zycm8D0' }),
     AppRoutingModule,
-      MatInputModule,
-      MatFormFieldModule,
-
-    //meus imports
+    LayoutModule,
     SharedModule,
-      ReactiveFormsModule,
+    OcorrenciaModule,
+    NgxMaskModule.forRoot(),
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }), // ToastrModule added
 
+    ReactiveFormsModule,
+
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+
+    CurrencyMaskModule
   ],
-  providers: [
-      { provide: LOCALE_ID, useValue: 'pt-BR' },
-      SharedService,
-    AuthGuard,
-    LoginService,
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
-     
-    }
-  ],
-  bootstrap: [AppComponent]
+  providers: [      { provide: LOCALE_ID, useValue: 'pt-BR' },
+  SearchService,ScriptLoaderService, { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },],
+  bootstrap: [AppComponent],
+
 })
-export class AppModule {}
+export class AppModule { }

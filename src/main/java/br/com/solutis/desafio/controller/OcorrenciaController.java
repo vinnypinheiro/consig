@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController("OcorrenciaController")
 @RequestMapping("/ocorrencia")
 public class OcorrenciaController {
@@ -18,6 +20,9 @@ public class OcorrenciaController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity save(@RequestBody Ocorrencia bean) {
+
+        bean.setData(LocalDate.now());
+
         return this.buildResponse(ocorrenciaService.save(bean));
     }
 

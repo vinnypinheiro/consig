@@ -2,8 +2,15 @@ import {DomainBase} from '../../utils/utils';
 
 export interface Usuario extends DomainBase {
 
-  id: number;
-  senha: string;
-  nome: string;
-  email: string;
+      id: number;
+     nome: string;
+     email: string;
+     senha: string;
+     login: string;
+
+  dataCadastro: Date;
+  dataExpiracao: Date;
+  setor: string;
+
+
 }

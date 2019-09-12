@@ -57,6 +57,9 @@ public class ImportdataController {
     @Autowired
     MensalidadeService mensalidadeService;
 
+    @Autowired
+    ContaReceberService contaReceberService;
+
     long time = 0;
     int line = 2;
     int inseridos = 0;
@@ -67,19 +70,19 @@ public class ImportdataController {
     int associacaoID = 2 ;
 
     // 183596- TELCRED
-    int correspondenteID  =183596 ;
+    int correspondenteID  = 183596 ;
 
     // 204327- AIRES ESCR-224566  nelia-204328
     int corretorID = 204328;
 
     //1- SAEB   2- SUPREV
-    int convenioID =2;
+    int convenioID = 3;
 
     // 1- 5041 (PARCELA)   2- 5022 (MENSALIDADE)
     int verbadescontoID = 1;
     
 
-    String oplock = "NELIA-SUPREV-IESBA";
+    String oplock = "iesbasaeb17";
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -92,7 +95,7 @@ public class ImportdataController {
 
 
         BufferedReader br = null;
-        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\IMPORTACAO\\IESBA\\IESBANELIA.CSV");
+        FileReader fl =  new FileReader("X:\\DOCUMENTOS\\projetos\\DAIANE\\IMPORTACAO\\FAMCRED\\iesba\\iebasaeb.CSV");
 
         try {
             //le o csv
@@ -130,11 +133,15 @@ public class ImportdataController {
         Corretor corretor = corretorService.getById(Long.valueOf(corretorID));
         Correspondente correspondente = correspondenteService.getById(Long.valueOf(correspondenteID));
         Convenio convenio = convenioService.getById(Long.valueOf(convenioID));
-        VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(verbadescontoID));
 
         System.out.println("######################## Linha--> "+line+" - Inseridos --> "+(line - (inseridos +1)));
 
         String cpfString = campos[3].replaceAll("[,.-]", "").trim();
+
+        if (cpfString.length() == 10){
+            String zero = "0";
+            cpfString = zero+cpfString;
+        }
 
            Associado associado =  associadoService.getByCpf(Long.valueOf(cpfString));
 
@@ -144,213 +151,180 @@ public class ImportdataController {
                if(campos[3] != null && !campos[3].isEmpty()){
                    associado.setNome(campos[4]);
                    associado.setCpf( Long.valueOf(cpfString) );
+                   associado.setOplock("VIA IMPORTACAO");
                    associadoService.save(associado);
                }
            }
 
 
-                Double vlrmensalidade =79.0;
-                associado.setVlrmensalidade(vlrmensalidade);
+        String nome = campos[1];
+        String pagas = campos[4];
+        String naoPagas = campos[6];
+        String tipo= campos[13];
+        Double valor = Double.valueOf(campos[8].replace(".","").replace(",","."));
 
-
-
-        String dataReserva = campos[6];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dateTimeReserva = LocalDate.parse(dataReserva, formatter);
+        LocalDate dataVencimento = LocalDate.parse("10/07/2019", formatter);
 
         String arquivo = campos[0];
 
 
          //Valores
-        if (campos[7].contains("CONTRATO")){
+        if (associado != null ){
 
-            Auxilio auxilio = new Auxilio();
-            Double vlrParcela = Double.valueOf(campos[2].replace(".","").replace(",","."));
-            Integer qtdparcelas =  Integer.parseInt(campos[5]);
+            ContaReceber contaReceber = new ContaReceber();
 
-            //Relacionamentos
-            auxilio.setAssociacao_id(associacao);
-            auxilio.setCorrespondente_id(correspondente);
-            auxilio.setCorretor_id(corretor);
-            auxilio.setConvenio_id(convenio);
-            auxilio.setVerbadesconto_id(verbaDesconto);
+            contaReceber.setAssociado_id(associado);
+            contaReceber.setAssociacao_id(associacao);
+            contaReceber.setCorrespondente_id(correspondente);
+            contaReceber.setConvenio_id(convenio);
+            contaReceber.setOplock(oplock);
 
-            auxilio.setTipo("1º CONTRATO");
+            contaReceber.setNome(nome);
+            contaReceber.setCpf(cpfString);
+            contaReceber.setParcela(pagas);
+            contaReceber.setValor(valor);
 
-            Double vlrauxilio = Double.valueOf(campos[1].replace(".","").replace(",","."));
-            auxilio.setVlrauxilio(vlrauxilio);
-            auxilio.setVlrtotal(vlrParcela*qtdparcelas);
-            auxilio.setPorcentagem(4);
-            auxilio.setNumeroproposta(associado.getCpf().toString() + dateTimeReserva.getYear());
+            contaReceber.setDataVencimento(dataVencimento);
+            contaReceber.setSituacao("LIQUIDADA");
 
-
-            auxilio.setAssociado_id(associado);
-            auxilio.setDatareserva(dateTimeReserva);
-            auxilio.setDataContrato(dateTimeReserva);
-
-            auxilio.setVlrparcelas(vlrParcela);
-            auxilio.setQtdparcelas(qtdparcelas);
-            auxilio.setQtdparcelasnaopagas(qtdparcelas);
-            auxilio.setQtdparcelaspagas(0);
-            auxilio.setTotalaberto(vlrauxilio);
-
-
-            auxilio.setArquivo(arquivo);
-            auxilio.setOplock(oplock);
-
-
-            auxilioService.save(auxilio);
-
-
-            for (int i=0; i < qtdparcelas ; i++ ){
-
-                Parcela parcela = new Parcela();
-                parcela.setParcela(i+1);
-                parcela.setData(dateTimeReserva.plusMonths(i+1));
-                parcela.setStatus("Em Aberto");
-                parcela.setAuxilio_id(auxilio);
-                parcela.setOplock(oplock);
-
-                parcela.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
-
-                parcela.setValor(auxilio.getVlrparcelas());
-
-                parcelaService.save(parcela);
+            if (tipo.contains("5041")){
+                VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(1));
+                contaReceber.setVerbadesconto_id(verbaDesconto);
 
             }
 
+            if (tipo.contains("5022")){
+                VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(2));
+                contaReceber.setVerbadesconto_id(verbaDesconto);
+                associado.setVlrmensalidade(valor);
+                associadoService.save(associado);
 
-        } else {
+            }
 
-            Auxilio auxilio = new Auxilio();
-            Double vlrParcela = Double.valueOf(campos[2].replace(".","").replace(",","."));
-            Integer qtdparcelas =  Integer.parseInt(campos[5]);
-            Double vlrauxilio = Double.valueOf(campos[1].replace(".","").replace(",","."));
+            if ( naoPagas.length() > 0 ){
 
-            //Relacionamentos
-            auxilio.setAssociacao_id(associacao);
-            auxilio.setCorrespondente_id(correspondente);
-            auxilio.setCorretor_id(corretor);
-            auxilio.setConvenio_id(convenio);
-            auxilio.setVerbadesconto_id(verbaDesconto);
+                if (Integer.valueOf(naoPagas)  > 0){
+                    int quantNaoPagas = Integer.valueOf(naoPagas);
 
-            auxilio.setTipo("REFINANCIAMENTO");
+                    for (int i=0; i < quantNaoPagas ; i++ ){
+                        ContaReceber contaReceberFuturo = new ContaReceber();
 
-            List<Auxilio> auxilioList = associado.getAuxilioList();
+                        contaReceberFuturo.setAssociado_id(associado);
+                        contaReceberFuturo.setAssociacao_id(associacao);
+                        contaReceberFuturo.setCorrespondente_id(correspondente);
+                        contaReceberFuturo.setConvenio_id(convenio);
 
-            for(Auxilio aux : auxilioList){
+                        contaReceberFuturo.setNome(nome);
+                        contaReceberFuturo.setCpf(cpfString);
+                        contaReceberFuturo.setParcela(pagas);
+                        contaReceberFuturo.setValor(valor);
+                        contaReceberFuturo.setOplock(oplock);
 
-                    List<Parcela> parcelaList = new ArrayList<>(aux.getParcelaList());
 
-                    Comparator<Parcela> byParcela = (e1, e2) -> Integer.compare(e2.getParcela(), e1.getParcela());
-                    parcelaList.sort(byParcela.reversed());
+                        if (tipo.contains("5041")){
+                            VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(1));
+                            contaReceberFuturo.setVerbadesconto_id(verbaDesconto);
 
-                    for(Parcela parcela : parcelaList){
+                        }
 
-                            parcela.setStatus("LIQUIDADA REFI");
-                            parcela.setValorpago(parcela.getValor());
-                            parcela.setDatapagamento(parcela.getDatavencimento());
-                            parcela.setOplock(oplock);
+                        if (tipo.contains("5022")){
+                            VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(2));
+                            contaReceberFuturo.setVerbadesconto_id(verbaDesconto);
+                            associado.setVlrmensalidade(valor);
+                            associadoService.save(associado);
 
-                            parcelaService.save(parcela);
+                        }
 
+
+                        contaReceberFuturo.setSituacao("A RECEBER");
+                        contaReceberFuturo.setDataVencimento(dataVencimento.plusMonths(i+1).withDayOfMonth(10));
+
+                        contaReceberService.save(contaReceberFuturo);
 
                     }
 
-                    aux.setQtdparcelasnaopagas(0);
-                    aux.setQtdparcelaspagas(aux.getQtdparcelas());
-                    aux.setStatus("QUITADO");
-                    aux.setImportacao("S");
-                    aux.setTotalaberto(0.0);
-                    aux.setTotalpago(aux.getVlrauxilio());
+                    for (int i=0; i < quantNaoPagas ; i++ ){
+                        ContaReceber contaReceberFuturoMensalidade = new ContaReceber();
 
-                auxilioService.save(aux);
+                        contaReceberFuturoMensalidade.setAssociado_id(associado);
+                        contaReceberFuturoMensalidade.setAssociacao_id(associacao);
+                        contaReceberFuturoMensalidade.setCorrespondente_id(correspondente);
+                        contaReceberFuturoMensalidade.setConvenio_id(convenio);
 
+                        contaReceberFuturoMensalidade.setNome(nome);
+                        contaReceberFuturoMensalidade.setCpf(cpfString);
+                        contaReceberFuturoMensalidade.setParcela(pagas);
+                        contaReceberFuturoMensalidade.setOplock(oplock);
+
+
+                        VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(2));
+                        contaReceberFuturoMensalidade.setVerbadesconto_id(verbaDesconto);
+
+
+
+                        contaReceberFuturoMensalidade.setValor(associado.getVlrmensalidade());
+
+
+                        contaReceberFuturoMensalidade.setSituacao("A RECEBER");
+                        contaReceberFuturoMensalidade.setDataVencimento(dataVencimento.plusMonths(i+1).withDayOfMonth(10));
+
+                        contaReceberService.save(contaReceberFuturoMensalidade);
+
+                    }
+
+                }
+
+            }
+
+            if ( Integer.valueOf(pagas)  > 0){
+
+                int quantPagas = Integer.valueOf(pagas);
+
+                for (int i=0; i < quantPagas ; i++ ){
+
+                    ContaReceber contaReceberPassado = new ContaReceber();
+
+                    contaReceberPassado.setAssociado_id(associado);
+                    contaReceberPassado.setAssociacao_id(associacao);
+                    contaReceberPassado.setCorrespondente_id(correspondente);
+                    contaReceberPassado.setConvenio_id(convenio);
+
+                    contaReceberPassado.setNome(nome);
+                    contaReceberPassado.setCpf(cpfString);
+                    contaReceberPassado.setParcela(pagas);
+                    contaReceberPassado.setValor(valor);
+                    contaReceberPassado.setOplock(oplock);
+
+                    if (tipo.contains("5041")){
+                        VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(1));
+                        contaReceberPassado.setVerbadesconto_id(verbaDesconto);
+
+                    }
+
+                    if (tipo.contains("5022")){
+                        VerbaDesconto verbaDesconto = verbaDescontoService.getById(Long.valueOf(2));
+                        contaReceberPassado.setVerbadesconto_id(verbaDesconto);
+                        associado.setVlrmensalidade(valor);
+                        associadoService.save(associado);
+
+                    }
+
+
+                    contaReceberPassado.setSituacao("LIQUIDADA");
+                    contaReceberPassado.setDataVencimento(dataVencimento.minusMonths(i+1).withDayOfMonth(10));
+
+                    contaReceberService.save(contaReceberPassado);
+
+                }
 
 
 
             }
 
-            Double totalaberto =  vlrParcela * ((1- Math.pow((1 + 0.04),- qtdparcelas)) / 0.04 );
-            Double vlrauxilioliquido = Double.valueOf(campos[1].replace(".","").replace(",","."));
-
-
-            auxilio.setArquivo(arquivo);
-            auxilio.setOplock(oplock);
-
-            auxilio.setAssociado_id(associado);
-            auxilio.setDatareserva(dateTimeReserva);
-            auxilio.setDataContrato(dateTimeReserva);
-
-
-            auxilio.setVlrparcelas(vlrParcela);
-            auxilio.setTotalaberto(vlrauxilio);
-
-
-            auxilio.setVlrliquidoliberado(vlrauxilioliquido);
-            auxilio.setImportacao("S");
-            auxilio.setVlrauxilio(vlrauxilioliquido);
-            auxilio.setVlrtotal(vlrParcela*qtdparcelas);
-            auxilio.setPorcentagem(5);
-            auxilio.setNumeroproposta(associado.getCpf().toString() + dateTimeReserva.getYear() + ".1");
-
-            auxilio.setQtdparcelasnaopagas(qtdparcelas );
-            auxilio.setQtdparcelaspagas(0);
-            auxilio.setQtdparcelas(qtdparcelas);
-            auxilio.setStatus("DEFERIDO");
-            auxilio.setImportacao("S");
-            auxilio.setTotalaberto(totalaberto);
-            auxilio.setTotalpago(0.0);
-
-            auxilioService.save(auxilio);
-
-            for (int i=0; i < qtdparcelas ; i++ ){
-
-                Parcela parcela = new Parcela();
-                parcela.setParcela(i+1);
-                parcela.setData(dateTimeReserva.plusMonths(i+1));
-                parcela.setStatus("Em Aberto");
-                parcela.setAuxilio_id(auxilio);
-                parcela.setOplock(oplock);
-
-                parcela.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
-
-                parcela.setValor(auxilio.getVlrparcelas());
-
-                parcelaService.save(parcela);
-
-            }
-
-
-
+       //   contaReceberService.save(contaReceber);
 
         }
-
-
-
-
-
-
-//        //cria as mensalidades
-//        for (int i=0; i < qtdparcelas ; i++ ){
-//
-//            Mensalidade m = new Mensalidade();
-//            m.setMensalidade(i+1);
-//            if (m.getMensalidade() == 1){
-//                m.setStatuspagamento("Enviado Folha " + dateTimeReserva.plusMonths(1));
-//            }else{
-//                m.setStatuspagamento("Em Aberto");
-//            }
-//
-//            m.setAssociado_id(associado);
-//            m.setDatavencimento(dateTimeReserva.plusMonths(i+1).withDayOfMonth(3));
-//            m.setVlrmensalidade(associado.getVlrmensalidade());
-//            m.setOplock(oplock);
-//
-//            mensalidadeService.save(m);
-//        }
-
-
     }
 
     public void makeRefinanciamento(Associado associadoRefis, String[] campos  ) throws ParseException {

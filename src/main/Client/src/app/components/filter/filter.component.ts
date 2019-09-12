@@ -31,7 +31,7 @@ export class FilterComponent implements AfterContentInit {
     if (isUndefined(this.filterData)) {
       this.filterData = <FilterData>{
         page: 1,
-        limit: 15,
+        limit: 300,
         whereClauses: []
       };
     }

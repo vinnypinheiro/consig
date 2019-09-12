@@ -11,19 +11,21 @@ declare var $: any;
 export abstract class CommonsForm<T extends DomainBase> implements OnInit, AfterViewInit {
     Operation = Operation;
     protected beanSubscribe: any;
+    protected beanComponent: any;
+    protected beanType: any;
     protected beanId: string;
     public activeBean = <T> {};
     public operation: Operation;
     protected lookupFilters = {};
     stickyMenu: boolean = false;
- 
+
 
     constructor(public apiService: CommonsService<T>,
                 protected route: ActivatedRoute,
                 protected router?: Router) {
 
     }
-
+ 
     ngOnInit(): void {
 
           this.beanSubscribe = this.route.params.subscribe(params => {
@@ -46,11 +48,20 @@ export abstract class CommonsForm<T extends DomainBase> implements OnInit, After
 
     save(): void {
         this.apiService.save(this.activeBean).subscribe(response => {
-          console.log(response);
-          this.openGrid();
+            console.log(response);
+            this.openGrid();
 
         });
     }
+
+    update(): void {
+      this.apiService.save(this.activeBean).subscribe(response => {
+        console.log(response);
+
+      });
+    }
+
+   
 
     ngAfterViewInit(): void {
 
@@ -77,7 +88,7 @@ export abstract class CommonsForm<T extends DomainBase> implements OnInit, After
     getDefaultFilter() {
         return <FilterData>{
             page: 1,
-            limit: 15,
+            limit: 300,
             whereClauses: []
         };
     }
@@ -85,7 +96,7 @@ export abstract class CommonsForm<T extends DomainBase> implements OnInit, After
     buildFilter(param: any): FilterData {
         let filter = this.getDefaultFilter();
         filter.page = 1;
-        filter.limit = param.limit ? param.limit : 15;
+        filter.limit = param.limit ? param.limit : 300;
         filter.order = param.order ? param.order : undefined;
         for(let whereClause of param.whereClauses){
             filter.whereClauses.push(whereClause);

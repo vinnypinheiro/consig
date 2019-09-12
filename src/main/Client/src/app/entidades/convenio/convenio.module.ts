@@ -9,7 +9,6 @@ import { ConvenioViewComponent } from './convenio-view/convenio-view.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ChartistModule } from 'ng-chartist';
 
 const ROUTES  = [
     {
@@ -50,7 +49,6 @@ const ROUTES  = [
 @NgModule({
     imports: [RouterModule.forChild(ROUTES),
         SharedModule,
-        ChartistModule,
         FormsModule,
         ReactiveFormsModule
     ],

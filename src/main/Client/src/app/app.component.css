@@ -1,0 +1,22 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 9999999999999 !important;
+}
+
+.preloader-backdrop {
+    background-color: transparent;
+}
+.page-preloader {
+    background-color: #fff;
+    box-shadow: 0 5px 20px #d6dee4;
+}
+
+@media (min-width: 992px){
+
+
+  .modal-lg, .modal-xl {
+    max-width: 1100px;
+  }
+
+}

@@ -1,0 +1,43 @@
+.campaign {
+    position: relative;
+.ct-series-a .ct-area {
+    fill: #4fc3f7;
+    fill-opacity: 0.2;
+}
+.ct-series-b .ct-area {
+    fill: #7460ee;
+    fill-opacity: 0.1;
+}
+.ct-series-a .ct-line,
+.ct-series-a .ct-point {
+    stroke: #4fc3f7;
+    stroke-width: 2px;
+}
+.ct-series-b .ct-line,
+.ct-series-b .ct-point {
+    stroke: #7460ee;
+    stroke-width: 2px;
+}
+.ct-series-a .ct-point,
+.ct-series-b .ct-point {
+    stroke-width: 6px;
+}
+}
+
+.custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+}
+.custom-day.focused {
+    background-color: #e6e6e6;
+}
+.custom-day.range, .custom-day:hover {
+    background-color: rgb(2, 117, 216);
+    color: white;
+}
+.custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5);
+}

@@ -1,140 +1,82 @@
-<!--BARRA SUPERIOR--> 
-<div class="row wrapper border-bottom white-bg page-heading">
-  <div class="col-lg-12">
-    <h2>Usuario</h2>
+<div class="page-header">
+  <div class="ibox flex-1">
+    <div class="ibox-body">
+      <div class="flexbox">
+        <div class="flexbox-b">
+          <div>
+            <h4>{{activeUser.nome}}</h4>
+            <div class="text-muted font-13 mb-3">
+              <span><i class="ti-calendar mr-2"></i>{{activeBean.dataCadastro}}</span>
+            </div>
+            <div>
+            <span class="mr-3">
+                <span class="badge badge-primary badge-circle mr-2 font-14"
+                      style="height:30px;width:30px;"><i
+                  class="ti-briefcase"></i></span>{{activeBean.setor}}</span>
 
-    <ol class="breadcrumb">
-      <li>
-        <a routerLink="/">Início</a>
+            </div>
+          </div>
+        </div>
+        <div class="d-inline-flex">
+
+
+        </div>
+      </div>
+    </div>
+    <ul class="nav nav-tabs tabs-line m-0 pl-5 pr-3">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab">Visão Geral</a>
       </li>
 
-      <li>
-        <a routerLink="/usuario">Usuario</a>
-      </li>
-
-      <li class="active">
-        <strong>{{activeBean.usuario_nome}}</strong>
-      </li>
-    </ol>
-
+    </ul>
   </div>
 </div>
-<!--**************************************************************************************************************-->
+<div class="page-content fade-in-up">
+  <div class="row">
+    <div class="col-lg-7">
+      <div class="ibox">
+        <form name="usuarioForm" [formGroup]="usuarioForm" class="ibox-body">
 
+        <h5 class="font-strong mb-4">Dados Cadastrais</h5>
 
-<!--TOOLBAR-->
-<div class="row"> 
-  <div class="mail-box-header l3-toolbar" [class.sticky]="stickyMenu" #stickyBar> 
- 
-    <div class="btn-group"> 
- 
-      <button class="btn btn-primary" 
-        type="button" (click)="enableEdit()" 
-                [disabled]="operation === Operation.CREATE || operation === Operation.UPDATE"> 
-        <i class="fas fa-pencil-alt"></i> Editar</button> 
- 
- 
-      <button class="btn btn-primary" 
-        type="button" 
-        (click)="delete('este imóvel')"> 
-        <i class="fas fa-eraser"></i> Apagar</button> 
- 
-      <button class="btn btn-primary"  
-         (click)="this.save()"  
-         type="button" 
-        [disabled]="operation !== Operation.CREATE && operation !== Operation.UPDATE"> 
-         <i class="fas fa-save"></i> Salvar</button> 
-    </div> 
- 
-    <div class="btn-group"> 
- 
-      <div class="dropdown report-dropdown "> 
- 
-        <button aria-expanded="true" 
-        class="dropdown-toggle btn btn-primary" 
-        data-toggle="dropdown" href="#"><i class="fas fa-external-link-square-alt"></i>Atalhos 
-                </button> 
- 
-        <ul class="dropdown-menu user-box  animated row"> 
-          <a><li>Açao 1</li></a> 
-          <a><li>Açao 2</li></a> 
-          <a><li>Açao 3</li></a> 
-        </ul> 
- 
-      </div> 
-    </div> 
- 
-    <div class="btn-group"> 
-      <div class="input-group"> 
-        <button class="btn btn-primary"><i class="fa fa-print m-r-xs"></i> Imprimir</button> 
- 
-        <div class="input-group-append"> 
-          <div class="dropdown report-dropdown"> 
-            <button aria-expanded="true" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" href="#"> 
-              <span></span> 
-            </button> 
- 
-            <ul class="dropdown-menu user-box  animated row"> 
-              <a><li>Relatorio 1</li></a> 
-              <a><li>Relatorio 2</li></a> 
-              <a><li>Relatorio 3</li></a> 
-            </ul> 
-          </div> 
-        </div> 
-      </div> 
-    </div> 
- 
-    <button class="btn btn-primary pull-right" 
-        type="button" 
-        (click)="openGrid()"> 
-      <i class="fas fa-times-circle"></i> Fechar</button> 
- 
-  </div> 
-  </div> 
-<!--**************************************************************************************************************-->
+            <div class="col-sm-5 form-group mb-2">
+              <label>Nome</label>
+              <input formControlName="nome" class="form-control" type="text">
+            </div>
 
+            <div class="col-sm-8 form-group mb-2">
+              <label>E-mail</label>
+              <input formControlName="email" class="form-control" type="text">
+            </div>
 
-<!--CONTAINER DO FORM-->
-<div class="ibox-content l3-form">
-  <div  class="form-horizontal row">
+            <div class="col-sm-6 form-group mb-2">
+              <label>Login</label>
+              <input formControlName="login" class="form-control" type="text">
+            </div>
 
+          <div class="col-sm-6 form-group mb-2">
+            <label>Senha</label>
+            <input formControlName="senha" class="form-control" type="password">
+          </div>
 
-    <!--**************************************************************************************************************-->
+          <div class="col-sm-5 form-group mb-6">
+            <label>Setor</label>
+            <select  formControlName="setor" class="form-control">
+              <option value="REGISTRO">REGISTRO</option>
+              <option value="FINANCEIRO">FINANCEIRO</option>
+              <option value="DEFIS">DEFIS</option>
+              <option value="SECRETARIA">SECRETARIA</option>
+              <option value="RECEPCAO">RECEPÇÃO</option>
+              <option value="RECEPCAO">TI</option>
 
-    <!--CAMPO NOME-->
-    <div class="form-group col-sm-5">
-      <label class="col-lg control-label">Nome</label>
-      <div class="col-lg">
-        <input type="text"
-               [readonly]="operation==Operation.SELECT"
-               [(ngModel)]="activeBean.nome"
-               class="form-control "/>
-      </div>
-    </div>
-    <!--**************************************************************************************************************-->
+            </select>
+          </div>
 
-    <!--CAMPO NOMEPOPULAR-->
-    <div class="form-group col-sm-4">
-      <label class="col-lg control-label">E-mail</label>
-      <div class="col-lg">
-        <input type="text"
-               [readonly]="operation==Operation.SELECT"
-               [(ngModel)]="activeBean.email"
-               class="form-control "/>
-      </div>
-    </div>
-    <!--**************************************************************************************************************-->
-    <!--CAMPO CODIGO-->
-    <div class="form-group col-lg-3">
-      <label class="col-lg control-label">Código</label>
-      <div class="col-lg">
-        <input type="text"
-               [readonly]="operation==Operation.SELECT"
-               [(ngModel)]="activeBean.senha"
-               class="form-control "/>
-      </div>
-    </div>
-
+          <button type="button" (click)="saveUsuario()" class="btn btn-primary btn-rounded mr-3">Atualizar
+          </button>
+        </form>
   </div>
 </div>
-<!--**************************************************************************************************************-->
+  </div>
+</div>
+

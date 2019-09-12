@@ -1,6 +1,4 @@
 import {Component, Injectable, OnInit} from '@angular/core';
-import * as Chartist from 'chartist';
-import { ChartType, ChartEvent } from 'ng-chartist/dist/chartist.component';
 import {Operation} from "../../../utils/utils";
 import {CommonsForm} from "../../../commons-form";
 import {Associacao} from "../associacao";
@@ -13,13 +11,7 @@ declare var require: any;
 
 const data: any = require('./data.json');
 
-interface Chart {
-    type: ChartType;
-    data: Chartist.IChartistData;
-    options?: any;
-    responsiveOptions?: any;
-    events?: ChartEvent;
-}
+
 
 @Injectable()
 export class I18n {
@@ -43,24 +35,7 @@ export class AssociacaoViewComponent extends CommonsForm<Associacao>   implement
       super(apiService, route, router);
   }
 
-    lineChart: Chart = {
-        type: 'Line',
-        data: data['Line'],
-        options: {
-            low: 0,
-            high: 28,
-            showArea: true,
-            fullWidth: true,
-            axisY: {
-                onlyInteger: true,
-                scaleMinSpace: 40,
-                offset: 20,
-                labelInterpolationFnc: function(value: number): string {
-                    return value / 1 + 'k';
-                }
-            }
-        }
-    };
+  
     entity: any;
     views: any;
     view: any;
@@ -81,12 +56,7 @@ export class AssociacaoViewComponent extends CommonsForm<Associacao>   implement
 
               });
 
-              this.apiService.getView(this.beanId).subscribe(response => {
-                  this.views = (<any>response);
-                  this.view =  this.views[0];
-                  console.log(this.view);
-
-              });
+      
           }
       });
 

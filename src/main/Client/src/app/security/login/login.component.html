@@ -1,21 +1,69 @@
-<div class="middle-box text-center loginscreen animated fadeInDown" style="height: 100%">
-  <div>
-    <div>
+<style>
+  .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
-      <h1 class="logo-name"></h1>
+  .cover {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(57, 230, 54, 0.14);
+  }
 
-    </div>
-    <h3>Login</h3>
-    <form class="m-t" role="form" action="index.html" #form="ngForm" (ngSubmit)="login()">
-      <div class="form-group">
-        <input type="text" class="form-control"  name="cpf" placeholder="Informe seu CPF" required="required" [(ngModel)]="user.cpf">
-      </div>
-      <div class="form-group">
-        <input type="password" class="form-control"  name="password" placeholder="Digite sua senha" required="required" [(ngModel)]="user.password">
-      </div>
-      <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+  .login-content {
+    max-width: 400px;
+    margin: 100px auto 50px;
+  }
 
-      <a href="#"><small>Esqueceu a senha?</small></a>
-    </form>
+  .auth-head-icon {
+    position: relative;
+    height: 60px;
+    width: 60px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    background-color: #fff;
+    color: #5c6bc0;
+    box-shadow: 0 5px 20px #d6dee4;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+</style>
+
+<div class="overlay"></div>
+<div class="cover"></div>
+<div class="ibox login-content">
+  <div class="text-center">
+    <span class="auth-head-icon"><i class="la la-user"></i></span>
   </div>
+  <form class="ibox-body" id="login-form" #form="ngForm" (ngSubmit)="login()">
+    <h4 class="font-strong text-center mb-5">Login</h4>
+    <div class="form-group mb-4">
+      <input class="form-control form-control-line" type="text" name="login" placeholder="Usuário" required="required" [(ngModel)]="user.login">
+    </div>
+    <div class="form-group mb-4">
+      <input class="form-control form-control-line" type="password" name="password" placeholder="Senha" required="required" [(ngModel)]="user.password">
+    </div>
+    <div class="flexbox mb-5">
+            <span>
+                <label class="ui-switch switch-icon mr-2 mb-0">
+                    <input type="checkbox" checked="">
+                    <span></span>
+                </label>Lembrar</span>
+      <a class="text-primary" routerLink="/forgot_password">Esqueceu a senha?</a>
+    </div>
+    <div class="text-center mb-4">
+      <button type="submit" class="btn btn-primary btn-rounded btn-block">LOGIN</button>
+    </div>
+  </form>
 </div>

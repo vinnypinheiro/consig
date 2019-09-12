@@ -2,8 +2,11 @@ import {DomainBase} from '../../utils/utils';
 
 export interface Ocorrencia extends DomainBase {
 
-     descricao: string;
-     observacao: string;
-     usuario: string;
-     dats: Date;
+
+  data: Date;
+  descricao: String;
+  usuario_id: number;
+  associado_id: number;
+  pessoaJuridica_id: number;
+
 }

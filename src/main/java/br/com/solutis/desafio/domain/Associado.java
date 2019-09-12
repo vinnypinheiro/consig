@@ -70,10 +70,6 @@ public class Associado implements Serializable {
     @OneToMany(mappedBy = "associado_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Mensalidade> mensalidadeList = new ArrayList<>();
 
-    @Transient
-    @JsonManagedReference(value="associado-ocorrencia")
-    @OneToMany(mappedBy = "associado_id", orphanRemoval = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Ocorrencia> ocorrenciaList = new ArrayList<>();
 
     public String getObs() {
         return obs;
@@ -105,14 +101,6 @@ public class Associado implements Serializable {
 
     public void setAssociacao2(Associacao associacao2) {
         this.associacao2 = associacao2;
-    }
-
-    public List<Ocorrencia> getOcorrenciaList() {
-        return ocorrenciaList;
-    }
-
-    public void setOcorrenciaList(List<Ocorrencia> ocorrenciaList) {
-        this.ocorrenciaList = ocorrenciaList;
     }
 
     public Double getVlrmensalidade() {

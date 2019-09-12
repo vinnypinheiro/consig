@@ -8,7 +8,6 @@ import {AssociacaoService} from './associacao.service';
 import {SharedModule} from '../../shared/shared.module';
 import { AssociacaoViewComponent } from './associacao-view/associacao-view.component';
 
-import { ChartistModule } from 'ng-chartist';
  
 const ROUTES  = [ 
         { 
@@ -35,8 +34,8 @@ const ROUTES  = [
  
         @NgModule({ 
                 imports: [RouterModule.forChild(ROUTES), 
-                SharedModule,
-                    ChartistModule
+                SharedModule
+                    
                 ], 
                 declarations: [ 
                 AssociacaoGridComponent, 

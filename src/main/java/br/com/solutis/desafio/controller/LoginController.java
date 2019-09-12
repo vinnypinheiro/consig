@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.Map;
 
 
 @RestController
@@ -43,13 +42,13 @@ public class LoginController {
 
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getCpf(),
+                        authenticationRequest.getLogin(),
                         authenticationRequest.getPassword()
 
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        final UserDetails userDetails = loginService.loadUserByUsername(authenticationRequest.getCpf());
+        final UserDetails userDetails = loginService.loadUserByUsername(authenticationRequest.getLogin());
         final String token = jwtTokenUtil.generateToken(userDetails);
         LoginResponse response = ((JwtUser)authentication.getPrincipal()).getLoginResponse();
         response.setToken(token);

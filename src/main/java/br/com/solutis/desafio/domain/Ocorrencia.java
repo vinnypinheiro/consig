@@ -20,17 +20,22 @@ public class Ocorrencia implements Serializable {
     private String descricao;
     private String observacao;
     private LocalDate data;
+    private Long associado_id;
+    private String login;
 
-    @JsonBackReference(value="associado-ocorrencia")
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "associado_id", nullable = true, foreignKey = @ForeignKey(name = "fk_mensalidade_associado"))    private Associado associado_id;
+    public String getLogin() {
+        return login;
+    }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-    public Associado getAssociado_id() {
+    public Long getAssociado_id() {
         return associado_id;
     }
 
-    public void setAssociado_id(Associado associado_id) {
+    public void setAssociado_id(Long associado_id) {
         this.associado_id = associado_id;
     }
 
