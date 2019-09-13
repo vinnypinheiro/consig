@@ -1,0 +1,52 @@
+<div class="page-heading">
+    <h1 class="page-title">Cadastro de setors</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="index.html"><i class="la la-home font-20"></i></a>
+        </li>
+        <li class="breadcrumb-item">Administrativo</li>
+        <li class="breadcrumb-item">setors</li>
+    </ol>
+  <div class="page-content fade-in-up">
+
+    <div class="ibox">
+      <div class="ibox-body">
+        <button data-toggle="modal" data-target="#new-mail-modal" href="javascript:;" class="btn btn-primary btn-labeled btn-labeled-left btn-icon">
+          <span class="btn-label"><i class="la la-user"></i></span>Novo setor</button>
+        <br>
+      </div>
+    </div>
+
+    <div class="ibox">
+        <div class="ibox-body">
+            <h5 class="font-strong mb-4">Profissionais</h5>
+
+            <div class="table-responsive row">
+                <table class="table table-bordered table-hover" id="profissioanl-table">
+                    <thead class="thead-default thead-lg">
+                        <tr>
+                            <th>Id</th>
+                            <th>Ano</th>
+                            <th>Mês</th>
+                            <th>Valor</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of this.setors "  style="cursor: pointer;"  [routerLink]="'/setor/'+p.id+'/'">
+                            <td>{{p.id}}</td>
+                            <td>{{p.ano}}</td>
+                            <td>{{p.mes}}</td>
+                            <td>{{p.valor}}</td>
+                            <td>
+                              <a class="text-muted font-16" routerLink="/profile"><i class="ti-edit"></i></a>
+                            </td>
+
+                        </tr>
+                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>

@@ -1,0 +1,42 @@
+<div class="page-heading">
+
+  <div class="page-content">
+
+    <div class="ibox">
+      <div class="ibox-body">
+        <h5 class="font-strong mb-4">Nova ocorrência</h5>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="ibox ibox-fullheight">
+              <div class="ibox-head">
+                <div class="ibox-title">Ocorrência </div>
+              </div>
+              <form name="profissionalForm" [formGroup]="ocorrenciaForm" (ngSubmit)="saveOcorrencia()" class="form-info" >
+                <div class="ibox-body">
+                  <div class="row">
+
+                    <div class="col-sm-10 form-group mb-10">
+
+                      <textarea  formControlName="descricao" class="form-control" > </textarea>
+                    </div>
+                </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-footer justify-content-between bg-primary-50">
+  <div>
+    <button type="button" (click)="saveOcorrencia()" class="btn btn-primary btn-rounded mr-3">Salvar</button>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancelar</button>
+  </div>
+</div>

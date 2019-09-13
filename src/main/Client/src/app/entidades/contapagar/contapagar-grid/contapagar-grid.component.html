@@ -1,0 +1,11 @@
+<div class="card" style="width: 18rem;" *ngFor="let row of activeBean">
+    <div class="card-body">
+      <h5 class="card-title">{{row.nomefantasia}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{row.cnpj}}</h6>
+      <p class="card-text">{{row.telefone}} <br>
+          {{row.email}}
+      </p>
+
+      <a href="#"  [routerLink]="'/contaPagar/view/'+row.id+'/'" class="card-link">Acessar</a>
+    </div>
+  </div>

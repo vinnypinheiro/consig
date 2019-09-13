@@ -1,0 +1,90 @@
+<div class="page-header">
+  <div class="ibox flex-1">
+    <div class="ibox-body">
+      <div class="flexbox">
+        <div class="flexbox-b">
+          <div>
+            <h4>{{activeUser.nome}}</h4>
+            <div class="text-muted font-13 mb-3">
+              <span><i class="ti-calendar mr-2"></i>{{activeBean.dataCadastro}}</span>
+            </div>
+            <div>
+            <span class="mr-3">
+                <span class="badge badge-primary badge-circle mr-2 font-14"
+                      style="height:30px;width:30px;"><i
+                  class="ti-briefcase"></i></span>{{activeBean.setor}}</span>
+
+            </div>
+          </div>
+        </div>
+        <div class="d-inline-flex">
+
+
+        </div>
+      </div>
+    </div>
+    <ul class="nav nav-tabs tabs-line m-0 pl-5 pr-3">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab">Visão Geral</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab">Perfil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab">Settings</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab">Activity</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="page-content fade-in-up">
+  <div class="row">
+    <div class="col-lg-">
+      <div class="ibox">
+        <form name="usuarioForm" [formGroup]="usuarioForm" class="ibox-body">
+
+        <h5 class="font-strong mb-4">Dados Cadastrais</h5>
+
+            <div class="col-sm-5 form-group mb-2">
+              <label>Nome</label>
+              <input formControlName="nome" class="form-control" type="text">
+            </div>
+
+            <div class="col-sm-8 form-group mb-2">
+              <label>E-mail</label>
+              <input formControlName="email" class="form-control" type="text">
+            </div>
+
+            <div class="col-sm-6 form-group mb-2">
+              <label>Login</label>
+              <input formControlName="login" class="form-control" type="text">
+            </div>
+
+          <div class="col-sm-6 form-group mb-2">
+            <label>Senha</label>
+            <input formControlName="senha" class="form-control" type="password">
+          </div>
+
+          <div class="col-sm-5 form-group mb-6">
+            <label>Setor</label>
+            <select  formControlName="setor" class="form-control">
+              <option value="REGISTRO">REGISTRO</option>
+              <option value="FINANCEIRO">FINANCEIRO</option>
+              <option value="DEFIS">DEFIS</option>
+              <option value="SECRETARIA">SECRETARIA</option>
+              <option value="RECEPCAO">RECEPÇÃO</option>
+              <option value="RECEPCAO">TI</option>
+
+            </select>
+          </div>
+
+          <button type="button" (click)="saveUsuario()" class="btn btn-primary btn-rounded mr-3">Atualizar
+          </button>
+        </form>
+  </div>
+</div>
+  </div>
+</div>
+

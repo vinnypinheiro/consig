@@ -1,0 +1,41 @@
+<div class="page-heading">
+
+  <div class="page-content">
+
+    <div class="ibox">
+      <div class="ibox-body">
+        <h5 class="font-strong mb-4">Ocorrência - {{ocorrenciaView.id}}</h5>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="ibox ibox-fullheight">
+              <div class="ibox-head">
+                <div>
+                  <h5>Data: {{ocorrenciaView.data | date:"dd/MM/yyyy" }}</h5>
+                  <h5>Usuário: {{ocorrenciaView.login}}</h5>
+                </div>
+              </div>
+              <form name="profissionalForm"  class="form-info" >
+                <div class="ibox-body">
+                  <div class="row">
+
+                    <div class="col-sm-10 form-group mb-10">
+                     <p>{{ocorrenciaView.descricao}}</p>
+                    </div>
+                </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-footer justify-content-between bg-primary-50">
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Fechar</button>
+  </div>
+</div>

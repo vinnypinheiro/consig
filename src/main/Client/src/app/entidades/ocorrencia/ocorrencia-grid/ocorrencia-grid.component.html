@@ -1,0 +1,46 @@
+<div class="page-heading">
+
+  <div class="page-content">
+
+    <div class="ibox">
+        <div class="ibox-body">
+            <h5 class="font-strong mb-4">{{activeEntity?.nome}} {{activeEntity?.razaosocial}} -  {{activeEntity?.inscricao}}</h5>
+
+            <div class="table-responsive row">
+                <table class="table table-bordered table-hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                    <thead class="thead-default thead-lg">
+                        <tr>
+                            <th>Data</th>
+                            <th>Ocorrência</th>
+                          <th>Usuário</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr (click)="openViewOcorrenciaModal(p)" *ngFor="let p of ocorrencias "  style="cursor: pointer;"  >
+                            <td>
+                               {{p.data | date:"dd/MM/yyyy"}}
+                            </td>
+                            <td>{{p.descricao}}</td>
+                            <td>
+                             <p style="overflow: hidden;display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{p.login}}</p>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-footer justify-content-between bg-primary-50">
+  <div>
+    <button type="button" (click)="openNovaOcorrenciaModal()" class="btn btn-primary btn-rounded mr-3">Nova ocorrência</button>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Fechar</button>
+  </div>
+</div>
